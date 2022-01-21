@@ -45,7 +45,7 @@ const ScheduleStaff = (props: any) => {
   const resourceId = localStorage.getItem("userId");
   const hostName = localStorage.getItem("businessUrl");
   const user = useSelector((state: any) => state.user);
-  const [title, setTitle] = useState("Staff Schedule");
+  const [title, setTitle] = useState("Schedule");
   const [calenderData, setCalenderData] = useState({
     title: "",
     startTime: "",
@@ -196,10 +196,8 @@ const ScheduleStaff = (props: any) => {
       ) {
         roleName.push("admin");
         value.building = "admin";
-        if (value.displayName) 
-        value.title = value.displayName;
-        else
-        value.title = value.firstName[0]+" "+value.lastName[0];
+        if (value.displayName) value.title = value.displayName;
+        else value.title = value.firstName[0] + " " + value.lastName[0];
         value.eventColor = value.color;
       }
       if (
