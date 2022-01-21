@@ -1,0 +1,87 @@
+#dashboard  .greenWhite {
+    background-color: #2db394;
+    color: white;
+}
+
+#dashboard .loader {
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid #233645;
+    border-bottom: 2px solid #233645;
+    width: 15px;
+    height: 15px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+#dashboard .customer_analysis {
+    margin: 10px 0 !important;
+}
+
+#dashboard .customer_analysis_content {
+    text-align: center;
+    padding: 20px 10px !important;
+    border-radius: 10px;
+}
+
+#dashboard .customer_analysis_content>p {
+    font-size: 18px;
+    margin-top: 10px;
+}
+
+#dashboard .customer_analysis_count {
+    font-size: 4.5rem;
+    /* font-weight: bold; */
+    word-break: break-all;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#dashboard .card {
+    border: 0;
+    border-radius: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.875rem;
+}
+
+#dashboard .card-body {
+    padding: 1.5rem;
+}
+
+#dashboard .card-header {
+    border-bottom: 1px solid #e6e6e6;
+    padding: 1rem 1.5rem;
+}
+
+#dashboard .card-footer {
+    background-color: #fff;
+    border-top: 1px solid #e6e6e6;
+    padding: 1rem 1.5rem;
+}
+
+#dashboard .card .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eaeaea;
+}
+
+#dashboard .card .card-header .card-title {
+    margin-bottom: 0;
+}

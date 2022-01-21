@@ -1,0 +1,191 @@
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+  border-color: #f44336;
+  padding-right: 1.9695rem;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23f44336' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23f44336' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 100% calc(0.375em + 0.1875rem);
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.form-horizontal .form-label {
+  padding-top: 7px;
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.m-1 {
+  margin: 1rem;
+}
+
+.m-2 {
+  margin: 2rem;
+}
+
+.m-3 {
+  margin: 3rem;
+}
+
+.m-4 {
+  margin: 4rem;
+}
+
+.m-5 {
+  margin: 5rem;
+}
+
+.m-6 {
+  margin: 6rem;
+}
+
+.p-1 {
+  padding: 1rem;
+}
+
+.p-2 {
+  padding: 2rem;
+}
+
+.p-3 {
+  padding: 3rem;
+}
+
+.p-4 {
+  padding: 4rem;
+}
+
+.p-5 {
+  padding: 5rem;
+}
+
+.p-6 {
+  padding: 6rem;
+}
+
+.modal-backdrop {
+  opacity: 0.5;
+}
+
+.fc-event-time {
+  color: white;
+}
+
+.fc-event-title {
+  color: white;
+}
+.fc-event a {
+  background-color: transparent;
+}
+.fc-event {
+  color: inherit;
+  background-color: transparent;
+  border-color: transparent;
+  font-weight: 600;
+}
+.fc-event:hover {
+  background-color: transparent;
+  color: #000000;
+  font-weight: 600;
+}
+.react-datepicker__input-container > input {
+  border: 1px solid rgb(223, 222, 222);
+  font-size: medium;
+  text-align: left;
+  margin: 2px -4px;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  width: 100%;
+}
+.react-time-input-picker-wrapper {
+  border: 1px solid rgb(223, 222, 222);
+}
+
+input.select-search__input {
+  border: 1px solid rgb(223, 222, 222);
+}
+
+.select-search__select {
+  border: 1px solid rgb(223, 222, 222);
+}
+.select-search__select > option {
+  border: 1px solid rgb(199, 199, 199);
+}
+.inputWrapper__dropdown {
+  position: absolute;
+  left: 0;
+  bottom: -205px;
+  border-radius: 5px;
+  height: 200px;
+  overflow: auto;
+  min-width: 150%;
+  width: 150%;
+  border: 1px solid #eeedee;
+  box-shadow: 0 0 6px 0.2px #a0a0a0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 5px 0;
+  z-index: 50 !important;
+}
+.tippy-box[data-theme~="success"] {
+  background-color: #5abb9e;
+  border-color: 2px solid #5abb9e;
+  color: #fff;
+}
+.form-control.is-valid,
+.form-control.is-invalid {
+  background-image: none;
+  padding-right: inherit;
+}
+
+.toastify-success {
+  background-color: #5abb9e;
+  border-color: 2px solid #5abb9e;
+  color: #fff;
+}
+.height {
+  min-height: 135px;
+}
+body.mini-navbar #page-wrapper {
+  margin-left: 90px;
+}
+
+body.mini-navbar .navbar-static-side {
+  width: 90px;
+}
+.react-calendar.hide {
+  display: none;
+}
+.form-horizontal .checkbox,
+.form-horizontal .radio {
+  min-height: 0;
+}
+
+.customer_analysis_content {
+  text-align: center;
+  padding: 20px 10px !important;
+  border-radius: 10px;
+}
+
+.videos.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #2db394;
+  color: white;
+}
+
+.tutorial {
+  font-size: 14px;
+  font-weight: 600;
+}
+.MuiInput-underline:before {
+  border-bottom: none !important;
+}
+
+.MuiInput-underline:after {
+  border-bottom: none !important;
+}
+
+.MuiInputBase-input {
+  font-size: 14px !important;
+  color: #555 !important;
+  padding: 6px 12px !important;
+}
