@@ -101,7 +101,7 @@ export default function reportReducers(state = initialState, action: any) {
     case SET_PRODUCT_ORDER:
       return {
         ...state,
-        getproductOrders: action.payload,
+        getproductOrders: _.orderBy(action.payload, ["createdAt"], ["desc"]),
       };
     case SET_SERVICE_ORDER:
       return {

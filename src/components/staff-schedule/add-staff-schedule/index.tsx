@@ -22,8 +22,6 @@ import { getRootServiceCategory } from "../../../redux/actions/serviceActions";
 import { AnyObject } from "yup/lib/types";
 import Tooltips from "../../core/Tooltips";
 import TimePicker from "react-time-picker-input";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import {
   Form,
   Col,
@@ -36,6 +34,11 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 const ScheduleStaff = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -45,7 +48,7 @@ const ScheduleStaff = (props: any) => {
   const resourceId = localStorage.getItem("userId");
   const hostName = localStorage.getItem("businessUrl");
   const user = useSelector((state: any) => state.user);
-  const [title, setTitle] = useState("Schedule");
+  const [title, setTitle] = useState("Staff Schedule");
   const [calenderData, setCalenderData] = useState({
     title: "",
     startTime: "",
@@ -474,17 +477,26 @@ const ScheduleStaff = (props: any) => {
                             </FormGroup>
                             <div className="form-group">
                               <div className="col-lg-12">
-                                <label className="control-label">Day</label>
-                                <DatePicker
-                                  selected={startDate}
-                                  showPopperArrow={false}
-                                  style={{
-                                    width: "100%",
-                                    border: "1px solid white",
-                                  }}
-                                  onChange={(date: any) => setStartDate(date)}
-                                  dateFormat="EEE MMMM d, yyyy"
-                                />
+                                <label className="control-label">Day</label>                                
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <KeyboardDatePicker
+                                className="form-control"
+                                value={moment(params.begin_time).format(
+                                  "YYYY-MM-DD"
+                                )}
+                                onChange={(e: any, date: any) => {
+                                  setStartDate(date)                                                                                                         
+                                }}
+                                format="yyyy-MM-dd"
+                                style={{
+                                  border: "1px solid #e5e6e7",
+                                }}
+                                showTodayButton={true}
+                                keyboardIcon={
+                                  <i className="glyphicon glyphicon-calendar"></i>
+                                }
+                              />
+                            </MuiPickersUtilsProvider>
                               </div>
                             </div>
                             <FormGroup>

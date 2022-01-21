@@ -32,7 +32,7 @@ import "tippy.js/dist/tippy.css";
 
 const StaffSchedule = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
-  const [title, setTitle] = useState("New Staff");
+  const [title, setTitle] = useState("New Staff Schedule");
   const history = useHistory();
   const user = useSelector((state: any) => state.user);
   const [validationShape, setValidationShape] = useState({});
@@ -54,7 +54,7 @@ const StaffSchedule = (props: any) => {
     repeatingStartDate: "",
     repeatingStartTime: "",
     resourceId: "",
-  };
+  }  
   const [occuranceValues, setOccuranceValues] = useState({
     montly: false,
     weekly: true,
@@ -95,7 +95,7 @@ const StaffSchedule = (props: any) => {
     props.getAllStaff(query);
   };
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = (values: any) => {    
     if (
       verifyDateTime &&
       values.resourceId != "" &&
@@ -112,7 +112,7 @@ const StaffSchedule = (props: any) => {
         "LT"
       );
       props.addSchedule(staffSchedule);
-    }
+    }    
   };
 
   //To Find The Occurence
@@ -220,6 +220,12 @@ const StaffSchedule = (props: any) => {
                                     value={values.resourceId}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
+                                    style={
+                                      values.resourceId &&
+                                      values.resourceId.length
+                                        ? {}
+                                        : { border: "1px solid red" }
+                                    }
                                   >
                                     <option value="">--Select Staff--</option>
                                     <optgroup label="Staff">

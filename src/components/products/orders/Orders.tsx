@@ -52,13 +52,13 @@ const ProductOrders = (props: any) => {
   const userDetails = localStorage.getItem("userDetails");
   const [getproductOrders, setGetProductOrders] = useState<any[]>([]);
   const [localUser, setLocalUser] = useState({
-    businessId: "", 
+    businessId: "",
     name: "1",
     id: "1",
-    email:"1",
+    email: "1",
     firstName: "1",
     lastName: "1",
-  })
+  });
   //For Filter
   let todayDate: any = moment(new Date()).format("YYYY-MM-DD");
   const [staffVal, setStaffVal] = useState("all");
@@ -292,7 +292,7 @@ const ProductOrders = (props: any) => {
                       <div className="row">
                         <div className="col-sm-3">
                           <div className="form-group">
-                            <label>Start Date</label>
+                            <label>Date</label>
                             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                               <KeyboardDatePicker
                                 className="form-control"
@@ -375,7 +375,7 @@ const ProductOrders = (props: any) => {
                               Date/Time
                             </th>
                             <th
-                              className={`text-center ${
+                              className={`${
                                 field !== "clientName"
                                   ? "sorting"
                                   : orderBy
@@ -474,7 +474,7 @@ const ProductOrders = (props: any) => {
                                     <tr className="gradeX">
                                       <td>
                                         {moment(value.createdAt).format(
-                                          "LL LT"
+                                          "ll LT"
                                         )}
                                       </td>
                                       <td>{value.clientName}</td>
@@ -506,53 +506,66 @@ const ProductOrders = (props: any) => {
                                       </td>
                                       <td>
                                         {value.status == "paid" && (
-                                          <span
-                                            className="btn btn-xs btn-primary"
-                                            style={{ width: "80px" }}
-                                          >
-                                            Paid
-                                          </span>
+                                          <center>
+                                            {" "}
+                                            <span
+                                              className="btn btn-xs btn-primary"
+                                              style={{ width: "80px" }}
+                                            >
+                                              Paid
+                                            </span>
+                                          </center>
                                         )}
                                         {value.status == "created" && (
-                                          <span
-                                            className="btn btn-xs btn-success"
-                                            style={{ width: "80px" }}
-                                          >
-                                            Created
-                                          </span>
+                                          <center>
+                                            {" "}
+                                            <span
+                                              className="btn btn-xs btn-success"
+                                              style={{ width: "80px" }}
+                                            >
+                                              Created
+                                            </span>
+                                          </center>
                                         )}
                                         {value.status == "canceled" && (
                                           <span
-                                            className="btn btn-xs btn-danger"
+                                            className="text-center btn btn-xs btn-danger"
                                             style={{ width: "80px" }}
                                           >
                                             Canceled
                                           </span>
                                         )}
                                         {value.status == "refund" && (
-                                          <span
-                                            className="btn btn-xs btn-danger"
-                                            style={{ width: "80px" }}
-                                          >
-                                            Refund
-                                          </span>
+                                          <center>
+                                            {" "}
+                                            <span
+                                              className="text-center btn btn-xs btn-danger"
+                                              style={{ width: "80px" }}
+                                            >
+                                              Refund
+                                            </span>
+                                          </center>
                                         )}
                                         {value.status == "voided" && (
-                                          <span
-                                            className="btn btn-xs btn-warning"
-                                            style={{ width: "80px" }}
-                                          >
-                                            Voided
-                                          </span>
+                                          <center>
+                                            <span
+                                              className="text-center btn btn-xs btn-warning"
+                                              style={{ width: "80px" }}
+                                            >
+                                              Voided
+                                            </span>
+                                          </center>
                                         )}
                                         {value.status ==
                                           "extra_service_request" && (
-                                          <span
-                                            className="btn btn-xs btn-warning"
-                                            style={{ width: "80px" }}
-                                          >
-                                            Requested
-                                          </span>
+                                          <center>
+                                            <span
+                                              className=" btn btn-xs btn-warning"
+                                              style={{ width: "80px" }}
+                                            >
+                                              Requested
+                                            </span>
+                                          </center>
                                         )}
                                       </td>
                                       {value.status == "canceled" ? (
@@ -581,7 +594,7 @@ const ProductOrders = (props: any) => {
                                               className="far fa-edit"
                                             ></i>
                                           </Link>
-                                          &nbsp;
+                                          &nbsp;&nbsp;&nbsp;
                                           <a
                                             style={{
                                               cursor: "pointer",

@@ -110,7 +110,7 @@ const Staff = (props: any) => {
     displayName: "",
     email: "",
     firstName: "",
-    gender: "male",
+    gender: "",
     lastName: "",
     order: "",
     address: {
@@ -598,7 +598,7 @@ const Staff = (props: any) => {
             <Col lg="12">
               <div className="wrapper wrapper-content animated fadeInRight">
                 <div className="ibox float-e-margins">
-                  <div className="ibox-content">                  
+                  <div className="ibox-content">
                     <Formik
                       initialValues={{ ...staff }}
                       validationSchema={basicFormSchema}
@@ -623,7 +623,6 @@ const Staff = (props: any) => {
                             autoComplete="off"
                             onSubmit={handleSubmit}
                           >
-                            
                             <Row>
                               <Col md="8">
                                 <div className="text-danger m-t-md m-b-md"></div>
@@ -636,6 +635,7 @@ const Staff = (props: any) => {
                                     First Name
                                   </FormLabel>
                                   <Col sm="9">
+                                    {console.log(values.firstName)}
                                     <FormControl
                                       type="text"
                                       name="firstName"
@@ -644,6 +644,12 @@ const Staff = (props: any) => {
                                       onBlur={handleBlur}
                                       isInvalid={
                                         errors.firstName && touched.firstName
+                                      }
+                                      style={
+                                        values.firstName &&
+                                        values.firstName.length
+                                          ? {}
+                                          : { border: "1px solid red" }
                                       }
                                     />
                                   </Col>
@@ -661,6 +667,12 @@ const Staff = (props: any) => {
                                       onBlur={handleBlur}
                                       isInvalid={
                                         errors.lastName && touched.lastName
+                                      }
+                                      style={
+                                        values.lastName &&
+                                        values.lastName.length
+                                          ? {}
+                                          : { border: "1px solid red" }
                                       }
                                     />
                                   </Col>
@@ -694,6 +706,12 @@ const Staff = (props: any) => {
                                       isInvalid={
                                         errors.displayName &&
                                         touched.displayName
+                                      }
+                                      style={
+                                        values.displayName &&
+                                        values.displayName.length
+                                          ? {}
+                                          : { border: "1px solid red" }
                                       }
                                     />
                                   </Col>
@@ -1357,6 +1375,12 @@ const Staff = (props: any) => {
                                         errors.phoneNumber &&
                                         touched.phoneNumber
                                       }
+                                      style={
+                                        values.phoneNumber &&
+                                        values.phoneNumber.length
+                                          ? {}
+                                          : { border: "1px solid red" }
+                                      }
                                     />
                                   </Col>
                                 </FormGroup>
@@ -1372,6 +1396,11 @@ const Staff = (props: any) => {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       isInvalid={errors.email && touched.email}
+                                      style={
+                                        values.email && values.email.length
+                                          ? {}
+                                          : { border: "1px solid red" }
+                                      }
                                     />
                                   </Col>
                                 </FormGroup>
@@ -1394,6 +1423,11 @@ const Staff = (props: any) => {
                                           handleParentChange(e);
                                         }}
                                         onBlur={handleBlur}
+                                        style={
+                                          pass && pass.length
+                                            ? {}
+                                            : { border: "1px solid red" }
+                                        }
                                       />
                                     </Col>
                                   </FormGroup>
@@ -1638,6 +1672,11 @@ const Staff = (props: any) => {
                                         isInvalid={
                                           errors.color && touched.color
                                         }
+                                        style={
+                                          values.color && values.color.length
+                                            ? {}
+                                            : { border: "1px solid red" }
+                                        }
                                       >
                                         <option value="white"></option>
                                         {ColorCode &&
@@ -1739,6 +1778,7 @@ const Staff = (props: any) => {
                                     Staff Type
                                   </FormLabel>
                                   <Col sm="9">
+                                    {console.log(staffRoleType)}
                                     <FormControl
                                       as="select"
                                       name="staffRoletype"
@@ -1754,6 +1794,11 @@ const Staff = (props: any) => {
                                         }
                                       }}
                                       onBlur={handleBlur}
+                                      style={
+                                        staffRoleType && staffRoleType.length
+                                          ? {}
+                                          : { border: "1px solid red" }
+                                      }
                                     >
                                       <option />
                                       <option
@@ -1805,6 +1850,12 @@ const Staff = (props: any) => {
                                         value={values.payrollAmountPaid}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
+                                        style={
+                                          values.payrollAmountPaid &&
+                                          values.payrollAmountPaid.length
+                                            ? {}
+                                            : { border: "1px solid red" }
+                                        }
                                       />
                                     </Col>
                                   </FormGroup>
@@ -1823,6 +1874,12 @@ const Staff = (props: any) => {
                                         value={values.salariedStaffType}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
+                                        style={
+                                          values.salariedStaffType &&
+                                          values.salariedStaffType.length
+                                            ? {}
+                                            : { border: "1px solid red" }
+                                        }
                                       >
                                         <option />
                                         <option
@@ -1866,6 +1923,12 @@ const Staff = (props: any) => {
                                         value={values.payrollAmountPaid}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
+                                        style={
+                                          values.payrollAmountPaid &&
+                                          values.payrollAmountPaid.length
+                                            ? {}
+                                            : { border: "1px solid red" }
+                                        }
                                       />
                                     </Col>
                                   </FormGroup>
@@ -2146,7 +2209,14 @@ const Staff = (props: any) => {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       isInvalid={errors.order && touched.order}
+                                      style={
+                                        values.order &&
+                                        values.order.toString().length
+                                          ? {}
+                                          : { border: "1px solid red" }
+                                      }
                                     />
+                                    {console.log(values.order)}
                                   </Col>
                                 </FormGroup>
                                 <FormGroup>
@@ -2330,7 +2400,7 @@ const Staff = (props: any) => {
                                             selectedMultiOptions.length
                                           ))
                                       }
-                                    >                                      
+                                    >
                                       Save Changes
                                       {UI.buttonLoading && (
                                         <i className="fa fa-spinner fa-spin"></i>
