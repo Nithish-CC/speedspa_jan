@@ -1,0 +1,67 @@
+#login .middle-box {
+    max-width: 400px;
+    z-index: 100;
+    margin: 0 auto;
+    padding-top: 40px
+}
+
+#login .lockscreen.middle-box {
+    width: 200px;
+    padding-top: 110px
+}
+
+#login .loginColumns, .passwordBox {
+    margin: 0 auto;
+    padding: 100px 20px 20px
+}
+
+#login .loginscreen.middle-box {
+    width: 300px
+}
+
+#login .loginColumns {
+    max-width: 800px
+}
+
+#login .passwordBox {
+    max-width: 460px
+}
+
+#login .logo-name {
+    color: #e6e6e6;
+    font-size: 180px;
+    font-weight: 800;
+    letter-spacing: -10px;
+    margin-bottom: 0
+}
+
+#login .middle-box h1 {
+    font-size: 170px
+}
+
+#login .wrapper .middle-box {
+    margin-top: 140px
+}
+
+#login .lock-word {
+    z-index: 10;
+    position: absolute;
+    top: 110px;
+    left: 50%;
+    margin-left: -470px
+}
+
+#login .lock-word span {
+    font-size: 100px;
+    font-weight: 600;
+    color: #e9e9e9;
+    display: inline-block
+}
+
+#login .lock-word .first-word {
+    margin-right: 160px
+}
+
+#login .form-control, #login .btn {
+    margin-top: 10px;
+}
