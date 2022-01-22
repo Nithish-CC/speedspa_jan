@@ -46,6 +46,8 @@ const Service = (props: any) => {
     variation: { duration: [], price: 0, resourceId: "", resourceName: "" },
     index: 0,
   });
+  console.log(addCostChangeVal);
+
   const [params, setParams] = useState({
     categoryId: "",
     description: "",
@@ -608,7 +610,7 @@ const Service = (props: any) => {
                           aria-controls="Staff"
                           aria-selected="false"
                         >
-                          Staff Based Cost &#38; Duration
+                          Staff Based Cost {"&"} Durations
                         </a>
                       </li>
                     </React.Fragment>
@@ -686,6 +688,12 @@ const Service = (props: any) => {
                                               onBlur={handleBlur}
                                               isInvalid={
                                                 errors.name && touched.name
+                                              }
+                                              style={
+                                                values.name &&
+                                                values.name.length
+                                                  ? {}
+                                                  : { border: "1px solid red" }
                                               }
                                             />
                                           </Col>
@@ -895,7 +903,7 @@ const Service = (props: any) => {
                                         </FormGroup>
                                         <FormGroup>
                                           <FormLabel className="col-sm-3 control-label">
-                                            Priority (1 is the lowest){" "}
+                                            Priority (1 is the highest){" "}
                                             <Tippy
                                               theme="success"
                                               maxWidth="225px"
@@ -927,6 +935,13 @@ const Service = (props: any) => {
                                               isInvalid={
                                                 errors.priority &&
                                                 touched.priority
+                                              }
+                                              style={
+                                                values.priority &&
+                                                values.priority.toString()
+                                                  .length
+                                                  ? {}
+                                                  : { border: "1px solid red" }
                                               }
                                             />
                                           </Col>
@@ -1076,6 +1091,12 @@ const Service = (props: any) => {
                                               isInvalid={
                                                 errors.categoryId &&
                                                 touched.categoryId
+                                              }
+                                              style={
+                                                values.categoryId &&
+                                                values.categoryId.length
+                                                  ? {}
+                                                  : { border: "1px solid red" }
                                               }
                                             >
                                               <option value="">Category</option>
@@ -1465,6 +1486,13 @@ const Service = (props: any) => {
                                                 handleAddCostChange(e);
                                               }}
                                               onBlur={handleBlur}
+                                              style={
+                                                !addCostChangeVal ||
+                                                addCostChangeVal.resourceId !=
+                                                  "addOns"
+                                                  ? {}
+                                                  : { border: "1px solid red" }
+                                              }
                                             >
                                               {categoryDetails &&
                                                 categoryDetails.length &&
@@ -1502,6 +1530,12 @@ const Service = (props: any) => {
                                             onChange={handleChange}
                                             placeholder="Price"
                                             onBlur={handleBlur}
+                                            style={
+                                              values.price &&
+                                              values.price.length
+                                                ? {}
+                                                : { border: "1px solid red" }
+                                            }
                                           />
                                         </Col>
                                         <Col sm="2">
@@ -1520,10 +1554,13 @@ const Service = (props: any) => {
                                               )
                                             }
                                             placeholder="Time"
-                                            /* onChange={(e: any) => {
-                                                                                        setLastName(e.target.value);
-                                                                                          }} */
                                             onBlur={handleBlur}
+                                            style={
+                                              activeAddTime.time &&
+                                              activeAddTime.time.length
+                                                ? {}
+                                                : { border: "1px solid red" }
+                                            }
                                           />
                                         </Col>
                                         <Col sm="2">

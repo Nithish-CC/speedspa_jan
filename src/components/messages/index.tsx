@@ -262,6 +262,11 @@ const Messages = (props: any) => {
                               onBlur={handleBlur}
                               isInvalid={errors.title && touched.title}
                               required
+                              style={
+                                values.title && values.title.length
+                                  ? {}
+                                  : { border: "1px solid red" }
+                              }
                             />
                           </div>
                         </div>
@@ -280,6 +285,11 @@ const Messages = (props: any) => {
                               onBlur={handleBlur}
                               isInvalid={errors.message && touched.message}
                               required
+                              style={
+                                values.message && values.message.length
+                                  ? {}
+                                  : { border: "1px solid red" }
+                              }
                             ></textarea>
                             <p ng-if="vm.message.clientId == 'ALL' || vm.message.clientId == '' || vm.message.clientId == null">
                               Your message will be sent to all customers.

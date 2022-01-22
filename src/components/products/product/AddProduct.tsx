@@ -21,7 +21,7 @@ import {
   Button,
 } from "react-bootstrap";
 import _ from "lodash";
-import TreeView from "deni-react-treeview";
+import DeniReactTreeView from "deni-react-treeview";
 import { uploadImage, getImageFile } from "../../../redux/actions/staffActions";
 import ProductImage from "./ProductImage";
 
@@ -95,7 +95,6 @@ const Product = (props: any) => {
       getProductProductView.price = priceVal;
       setActive(getProductProductView.active);
       SetExcludeInvCalc(getProductProductView.excludeInvCalc);
-      console.log(getProductProductView.images);
       setCheckUrl(getProductProductView.images);
       setParams(getProductProductView);
       if (
@@ -203,12 +202,13 @@ const Product = (props: any) => {
   const onChangeTreeSelect = async (currentNode: any) => {
     parentHasChild(currentNode, checkData);
   };
+
   const parentHasChild = async (parentValue: any, checkData: any) => {
     removeDuplicates(parentValue);
     if (parentValue.state == 1) {
       checkData.push(parentValue);
     }
-    if (parentValue.children && parentValue.children.length) {
+    if (parentValue.children && parentValue.children.length > 0) {
       childrenHasChild(parentValue, checkData);
     }
   };
@@ -218,9 +218,9 @@ const Product = (props: any) => {
       removeDuplicates(children);
       if (children.state == 1) {
         checkData.push(children);
-        if (children.children && children.children.length > 0) {
-          childrenHasChild(children, checkData);
-        }
+      }
+      if (children.children && children.children.length > 0) {
+        childrenHasChild(children, checkData);
       }
     });
   };
@@ -235,10 +235,7 @@ const Product = (props: any) => {
   // Image Tab
   const imgSortView = (e: any, key: any) => {
     const productData = [...imageSortUrl];
-    console.log(productData[key].index, Number(e.target.value));
     productData[key].index = Number(e.target.value);
-    console.log(productData[key]);
-    console.log(productData);
     setImageSortUrl(productData);
   };
 
@@ -264,7 +261,6 @@ const Product = (props: any) => {
 
   const imgPass = (image: any) => {
     imageSortUrl.push({ image: image, index: imageSortUrl.length + 1 });
-    console.log(imageSortUrl);
   };
 
   const _arrayBufferToBase64 = (buffer: any) => {
@@ -386,7 +382,6 @@ const Product = (props: any) => {
                     </a>
                   </li>
                 </ul>
-
                 <Formik
                   initialValues={{ ...params }}
                   validationSchema={basicFormSchema}
@@ -447,6 +442,12 @@ const Product = (props: any) => {
                                               isInvalid={
                                                 errors.name && touched.name
                                               }
+                                              style={
+                                                values.name &&
+                                                values.name.length
+                                                  ? {}
+                                                  : { border: "1px solid red" }
+                                              }
                                             />
                                           </Col>
                                         </FormGroup>
@@ -465,6 +466,12 @@ const Product = (props: any) => {
                                                 errors.caption &&
                                                 touched.caption
                                               }
+                                              style={
+                                                values.caption &&
+                                                values.caption.length
+                                                  ? {}
+                                                  : { border: "1px solid red" }
+                                              }
                                             />
                                           </Col>
                                         </FormGroup>
@@ -473,25 +480,16 @@ const Product = (props: any) => {
                                             Categories (at least 1):
                                           </FormLabel>
                                           <Col sm="8">
-                                            <TreeView
-                                              style={
-                                                checkData.length === 0
-                                                  ? {
-                                                      marginRight: "10px",
-                                                      marginBottom: "10px",
-                                                      border: "1px solid red",
-                                                    }
-                                                  : {
-                                                      marginRight: "10px",
-                                                      marginBottom: "10px",
-                                                    }
-                                              }
+                                            <DeniReactTreeView
+                                              style={{
+                                                marginRight: "10px",
+                                                marginBottom: "10px",
+                                              }}
                                               //key={index}
                                               showCheckbox={true}
                                               showIcon={false}
                                               onCheckItem={onChangeTreeSelect}
                                               theme="classic"
-                                              selectRow={false}
                                               items={data}
                                             />
                                           </Col>
@@ -543,6 +541,12 @@ const Product = (props: any) => {
                                               isInvalid={
                                                 errors.description &&
                                                 touched.description
+                                              }
+                                              style={
+                                                values.description &&
+                                                values.description.length
+                                                  ? {}
+                                                  : { border: "1px solid red" }
                                               }
                                             />
                                           </Col>
@@ -630,6 +634,19 @@ const Product = (props: any) => {
                                           <button
                                             className="btn btn-primary"
                                             type="submit"
+                                            disabled={
+                                              !(
+                                                values.name &&
+                                                values.name.length &&
+                                                checkData &&
+                                                checkData.length &&
+                                                values.caption &&
+                                                values.caption.length &&
+                                                values.price >= 0.2 &&
+                                                values.description &&
+                                                values.description.length
+                                              )
+                                            }
                                           >
                                             Save Changes
                                             {UI.buttonLoading && (
@@ -816,6 +833,19 @@ const Product = (props: any) => {
                                           <button
                                             className="btn btn-primary"
                                             type="submit"
+                                            disabled={
+                                              !(
+                                                values.name &&
+                                                values.name.length &&
+                                                checkData &&
+                                                checkData.length &&
+                                                values.caption &&
+                                                values.caption.length &&
+                                                values.price >= 0.2 &&
+                                                values.description &&
+                                                values.description.length
+                                              )
+                                            }
                                           >
                                             Save Changes
                                             {UI.buttonLoading && (
@@ -1067,6 +1097,19 @@ const Product = (props: any) => {
                                               Sortable(imageSortUrl);
                                               setButtonSubmit("submit");
                                             }}
+                                            disabled={
+                                              !(
+                                                values.name &&
+                                                values.name.length &&
+                                                checkData &&
+                                                checkData.length &&
+                                                values.caption &&
+                                                values.caption.length &&
+                                                values.price >= 0.2 &&
+                                                values.description &&
+                                                values.description.length
+                                              )
+                                            }
                                           >
                                             Save Changes
                                             {UI.buttonLoading &&

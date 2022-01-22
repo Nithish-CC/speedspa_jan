@@ -623,6 +623,19 @@ const Staff = (props: any) => {
                             autoComplete="off"
                             onSubmit={handleSubmit}
                           >
+                            {UI.errors && (
+                              <div className="row">
+                                <div className="col-sm-12">
+                                  <div
+                                    className="alert alert-danger"
+                                    role="alert"
+                                  >
+                                    {"Can not save your data."}{" "}
+                                    {UI.errors.message}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                             <Row>
                               <Col md="8">
                                 <div className="text-danger m-t-md m-b-md"></div>
@@ -1852,7 +1865,8 @@ const Staff = (props: any) => {
                                         onBlur={handleBlur}
                                         style={
                                           values.payrollAmountPaid &&
-                                          values.payrollAmountPaid.length
+                                          values.payrollAmountPaid.toString()
+                                            .length
                                             ? {}
                                             : { border: "1px solid red" }
                                         }
@@ -1925,7 +1939,8 @@ const Staff = (props: any) => {
                                         onBlur={handleBlur}
                                         style={
                                           values.payrollAmountPaid &&
-                                          values.payrollAmountPaid.length
+                                          values.payrollAmountPaid.toString()
+                                            .length
                                             ? {}
                                             : { border: "1px solid red" }
                                         }
