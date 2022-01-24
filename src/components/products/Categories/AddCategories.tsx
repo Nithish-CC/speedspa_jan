@@ -52,7 +52,7 @@ const Addcategories = (props: any) => {
       setproductCatergory(productCategory);
     }
   }, [productCategory]);
-  
+
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
     if (!values.parentId) {
@@ -128,6 +128,11 @@ const Addcategories = (props: any) => {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       isInvalid={errors.name && touched.name}
+                                      style={
+                                        values.name && values.name.length
+                                          ? {}
+                                          : { border: "1px solid red" }
+                                      }
                                     />
                                   </Col>
                                 </FormGroup>
@@ -148,7 +153,7 @@ const Addcategories = (props: any) => {
                                         float: "left",
                                       }}
                                     >
-                                      <option value="">--</option>
+                                      <option value="">- -</option>
                                       {product.productCategories &&
                                         product.productCategories.length &&
                                         product.productCategories.map(
@@ -182,6 +187,9 @@ const Addcategories = (props: any) => {
                                     <button
                                       className="btn btn-primary"
                                       type="submit"
+                                      disabled={
+                                        !(values.name && values.name.length)
+                                      }
                                     >
                                       Save Changes
                                       {UI.buttonLoading && (

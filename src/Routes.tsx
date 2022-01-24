@@ -47,8 +47,7 @@ import ScheduleStaff from "./components/staff-schedule/add-staff-schedule/index"
 
 const Routes = () => {
   return (
-    <Router>
-      
+    <Router basename={'/react'}> 
       <Switch>
         <GuestRoute exact path="/" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />

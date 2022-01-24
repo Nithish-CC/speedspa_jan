@@ -170,7 +170,7 @@ const Products = (props: any) => {
       return status;
     }
   };
-  
+
   const handleSortChange = (key: any) => {
     if (field === key) {
       setOrderBy(!orderBy);
@@ -434,7 +434,11 @@ const Products = (props: any) => {
                         <tbody>
                           {searchResults && searchResults.length ? (
                             <React.Fragment>
-                              {searchResults.map((product: any, index: any) => {
+                              {_.orderBy(
+                                searchResults,
+                                [(user) => user.name.toLowerCase()],
+                                ["asc"]
+                              ).map((product: any, index: any) => {
                                 return (
                                   <tr className="gradeX" key={index}>
                                     <td>{product.name}</td>

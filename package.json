@@ -2,10 +2,12 @@
   "name": "mothership-react-web",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/react",
   "scripts": {
     "dev": "webpack --env.API_URL=http://localhost:9007/ --config webpack.config.dev.js react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-stage": "PUBLIC_URL=/ react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:run": "node scripts/cypress-run",

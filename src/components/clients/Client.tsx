@@ -252,12 +252,11 @@ const Client = (props: any) => {
     query.businessId = localStorage.businessId;
     props.getAllStaff(query);
   };
+  console.log(dob.month);
 
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
-    values.dob = new Date(
-      values.dob.month + "/" + values.dob.day + "/" + "2000"
-    );
+    values.dob = new Date(dob.month + "/" + dob.day + "/");
     if (view) {
       props.updateClient(values, history);
     } else {
@@ -742,13 +741,11 @@ const Client = (props: any) => {
                                             <option value="27">27</option>
                                             <option value="28">28</option>
                                             <option value="29">29</option>
-                                            {values.dob.month !== "02" && (
+                                            {dob.month !== "02" && (
                                               <option value="30">30</option>
                                             )}
-                                            {values.dob.month != "02" &&
-                                              months.includes(
-                                                values.dob.month
-                                              ) && (
+                                            {dob.month != "02" &&
+                                              months.includes(dob.month) && (
                                                 <option value="31">31</option>
                                               )}
                                           </FormControl>
