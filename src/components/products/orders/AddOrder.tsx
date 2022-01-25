@@ -304,8 +304,8 @@ const ProductOrder = (props: any) => {
   //Get the use entered product data
   const optionsProductData = (productDetails: any) => {
     let tempArr: any[] = [];
-    if (productDetails && productDetails.data && productDetails.data.length) {
-      productDetails.data.forEach((element: any) => {
+    if (productDetails && productDetails && productDetails.length) {
+      productDetails.forEach((element: any) => {
         tempArr.push({
           name: element.name,
           value: element.id,
@@ -329,7 +329,7 @@ const ProductOrder = (props: any) => {
 
   //Adds all product data
   const addProductOrder = (products: any) => {
-    const newFirstFliterJob: any = productDetails.data.filter((data: any) => {
+    const newFirstFliterJob: any = productDetails.filter((data: any) => {
       return Object.values(data)
         .join(" ")
         .toLocaleLowerCase()
@@ -358,6 +358,8 @@ const ProductOrder = (props: any) => {
   const handleChangeStaff = (...args: any) => {
     setchangeStaff(args[1]);
   };
+
+  console.log(products);
 
   const handleChangeQuantity = (e: any, quantity: any) => {};
 

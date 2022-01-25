@@ -77,11 +77,7 @@ export default function reportReducers(state = initialState, action: any) {
 
       return {
         ...state,
-        reportProductSales: _.orderBy(
-          action.payload[0].data,
-          ["inverntoryValue"],
-          ["desc"]
-        ),
+        reportProductSales: action.payload[0].data,
       };
     case SET_REPORT_CLIENT_REPORT:
       return {

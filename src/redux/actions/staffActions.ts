@@ -58,9 +58,7 @@ export const addStaff = (params: any, callback: any) => (dispatch: any) => {
       dispatch({ type: LOADING_CLEAR });
     })
     .catch((err) => {
-      callback(false, null);
-      toast(err.response.data);
-      console.log(err.response.data);
+      callback(false, err.response.data.message);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data,
@@ -171,8 +169,8 @@ export const staffService = (params: any) => (dispatch: any) => {
         type: SET_STAFF_SERVICE,
         payload: res.data,
       });
-      dispatch({ type: CLEAR_ERRORS });    
-      dispatch({ type: LOADING_CLEAR });  
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: LOADING_CLEAR });
     })
     .catch((err) => {
       console.log(err);
@@ -194,7 +192,7 @@ export const uploadImage =
           const key = res.data.key;
           const url = res.data.url;
           callback(true, key, url);
-        }        
+        }
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {

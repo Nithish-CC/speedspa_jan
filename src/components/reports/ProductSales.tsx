@@ -56,10 +56,7 @@ const ProductSales = (props: any) => {
   const filterData = () => {
     if (brand) {
       const newFliterJob: any = productSalesReport.filter((data: any) => {
-        return Object.values(data)
-          .join(" ")
-          .toLocaleLowerCase()
-          .includes(brand.toLocaleLowerCase());
+        return data.brand.includes(brand);
       });
       setSearchResults(newFliterJob);
     } else if (productSalesReport && productSalesReport.length) {
@@ -78,11 +75,9 @@ const ProductSales = (props: any) => {
     return status;
   };
 
- 
-
   const handleSortChange = (key: any) => {
     if (field === key) {
-      setOrderBy(!orderBy);      
+      setOrderBy(!orderBy);
     } else {
       setOrderBy(true);
       setField(key);

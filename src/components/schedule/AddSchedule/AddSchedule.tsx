@@ -38,6 +38,8 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import { AnyObject } from "yup/lib/types";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddSchedule = (props: any) => {
   const [title] = useState("New Appointment");
@@ -176,6 +178,12 @@ const AddSchedule = (props: any) => {
     props.staffService(query);
   };
 
+  const notify = (data: any) => {    
+    toast.error(data, {
+      theme: "colored",
+    });
+  };
+
   const handleStaffFilter = (items: any) => {
     return (searchValue: any) => {
       if (searchValue.length === 0) {
@@ -308,7 +316,13 @@ const AddSchedule = (props: any) => {
     values.services = [staffMainService[0]];
     values.timeStart = setDateTime;
     repeatAppointments(values);
-    props.addAppointments(values, queryString);
+    props.addAppointments(values, queryString, (success: any, data: any) => {
+      if (success) {
+        history.push("/schedule");
+      } else {
+        notify(data);
+      }
+    });
   };
 
   const selectedValue = (value: any) => {
@@ -789,6 +803,16 @@ const AddSchedule = (props: any) => {
                                 </FormControl>
                               </Col>
                             </FormGroup>
+                            <ToastContainer
+                              position="bottom-right"
+                              autoClose={2000}
+                              toastStyle={{
+                                backgroundColor: "#ED5565",
+                                color: "#fff",
+                              }}
+                              closeButton={false}
+                              hideProgressBar={true}
+                            />
                             <FormGroup>
                               <Col sm="6">
                                 <FormLabel className="control-label">

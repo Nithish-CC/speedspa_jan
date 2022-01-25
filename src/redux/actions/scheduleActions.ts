@@ -95,22 +95,25 @@ export const deleteSchedule = (id: any, params: any) => (dispatch: any) => {
 };
 
 export const addAppointments =
-  (params: any, query: any, history: any) => (dispatch: any) => {
+  (params: any, query: any, callback: any) => (dispatch: any) => {
     axios.defaults.headers.common["x-populate"] = "clientId,resourceId";
     dispatch({ type: BUTTON_LOADING });
     axios
       .post(`/appointments?${query}`, params)
       .then((res) => {
-        history.push("/schedule");
+        console.log(res);
+        //history.push('/schedule')
+        callback(true, res);
         dispatch({ type: LOADING_CLEAR });
         delete axios.defaults.headers.common["x-populate"];
       })
       .catch((err) => {
-        console.log(err);
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response,
         });
+        console.log(err.response);
         dispatch({ type: LOADING_CLEAR });
       });
   };

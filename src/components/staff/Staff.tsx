@@ -37,6 +37,8 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import PageHeader from "../core/PageHeader";
 import NumberFormat from "react-number-format";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Staff = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -296,6 +298,12 @@ const Staff = (props: any) => {
     }
   };
 
+  const notify = (data: any) => {    
+    toast.error(data, {
+      theme: "colored",
+    });
+  };
+
   const selectAllItems = () => {
     const serviceIds: any = [];
     resultFilterCategory.forEach((value: any) => {
@@ -337,6 +345,9 @@ const Staff = (props: any) => {
   };
 
   const handleSubmit = (values: any) => {
+    if (UI.errors) {
+      console.log("1");
+    }
     values.businessId = bussinessId;
     values.serviceIds = editedMultiParent;
     values.staffRoleType = staffRoleType;
@@ -428,7 +439,7 @@ const Staff = (props: any) => {
       if (uniques.length > 0 && pass != "") {
         values.roles = uniques;
         avatarImg != "" ? (values.avatar = imgValKeys) : (values.avatar = "");
-        props.addStaff(values, (success: any, id: any) => {
+        props.addStaff(values, (success: any, data: any) => {
           if (success) {
             const params: any = {
               businessId: bussinessId,
@@ -437,6 +448,11 @@ const Staff = (props: any) => {
               _id: id,
             };
             props.addResourceServices(params);
+          }
+          if (success) {
+            history.push("/staff");
+          } else {
+            notify(data);
           }
           if (success) {
             values.profileCategoryId.forEach((element: any) => {
@@ -648,7 +664,6 @@ const Staff = (props: any) => {
                                     First Name
                                   </FormLabel>
                                   <Col sm="9">
-                                    {console.log(values.firstName)}
                                     <FormControl
                                       type="text"
                                       name="firstName"
@@ -1791,7 +1806,6 @@ const Staff = (props: any) => {
                                     Staff Type
                                   </FormLabel>
                                   <Col sm="9">
-                                    {console.log(staffRoleType)}
                                     <FormControl
                                       as="select"
                                       name="staffRoletype"
@@ -2231,7 +2245,6 @@ const Staff = (props: any) => {
                                           : { border: "1px solid red" }
                                       }
                                     />
-                                    {console.log(values.order)}
                                   </Col>
                                 </FormGroup>
                                 <FormGroup>
@@ -2350,6 +2363,16 @@ const Staff = (props: any) => {
                                 </div>
                               </React.Fragment>
                             )}
+                            <ToastContainer
+                              position="bottom-right"
+                              autoClose={2000}
+                              toastStyle={{
+                                backgroundColor: "#ED5565",
+                                color: "#fff",
+                              }}
+                              closeButton={false}
+                              hideProgressBar={true}
+                            />
                             <div className="hr-line-dashed" />
                             <Row>
                               <Col md="8">
