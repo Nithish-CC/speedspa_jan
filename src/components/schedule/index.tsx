@@ -153,8 +153,7 @@ const Schedule = (props: any) => {
   const allStaffDetail = () => {
     if (allStaff && allStaff.length) {
       allStaff.forEach((value: any, index: any) => {
-        if (value.status == "active") 
-        getRole(value, index);
+        if (value.status == "active") getRole(value, index);
       });
     }
   };
@@ -168,7 +167,7 @@ const Schedule = (props: any) => {
         value.title = value.displayName
           ? value.displayName
           : value.firstName + " " + value.lastName[0];
-        value.eventColor = value.color;        
+        value.eventColor = value.color;
       }
       if (
         _.findIndex(value.roles, function (role) {
@@ -347,8 +346,7 @@ const Schedule = (props: any) => {
       }
     });
     setCalenderDates(tempArr);
-  };
-  console.log(resourseDataVal);
+  };  
 
   return (
     <React.Fragment>

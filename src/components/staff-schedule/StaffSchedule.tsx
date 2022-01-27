@@ -54,7 +54,7 @@ const StaffSchedule = (props: any) => {
     repeatingStartDate: "",
     repeatingStartTime: "",
     resourceId: "",
-  }  
+  };
   const [occuranceValues, setOccuranceValues] = useState({
     montly: false,
     weekly: true,
@@ -71,7 +71,7 @@ const StaffSchedule = (props: any) => {
     moment(endDate).format("YYYY-MM-DD")
       ? false
       : true;
-  console.log(verifyDateTime);
+
   //intial call
   useEffect(() => {
     getAllStaff();
@@ -95,7 +95,7 @@ const StaffSchedule = (props: any) => {
     props.getAllStaff(query);
   };
 
-  const handleSubmit = (values: any) => {    
+  const handleSubmit = (values: any) => {
     if (
       verifyDateTime &&
       values.resourceId != "" &&
@@ -112,7 +112,7 @@ const StaffSchedule = (props: any) => {
         "LT"
       );
       props.addSchedule(staffSchedule);
-    }    
+    }
   };
 
   //To Find The Occurence
@@ -492,20 +492,19 @@ const StaffSchedule = (props: any) => {
                                 <Col sm="3">
                                   <FormLabel className="control-label">
                                     End Date
-                                  </FormLabel>
+                                  </FormLabel>                                  
                                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
                                       className="form-control"
                                       value={endDate}
-                                      onChange={(e: any) => {
-                                        setEndDate(e);
+                                      onChange={(e: any, date: any) => {
+                                        setEndDate(date);
                                       }}
                                       style={{
                                         border: "1px solid #e5e6e7",
                                       }}
                                       helperText={null}
                                       format="EEEE MMMM d, yyyy"
-                                      minDate={startDate}
                                       showTodayButton={true}
                                       keyboardIcon={
                                         <i className="glyphicon glyphicon-calendar"></i>

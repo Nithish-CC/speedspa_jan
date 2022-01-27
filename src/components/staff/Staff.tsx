@@ -39,6 +39,7 @@ import PageHeader from "../core/PageHeader";
 import NumberFormat from "react-number-format";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Staff = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -100,7 +101,7 @@ const Staff = (props: any) => {
   });
   const [initialValidationShape] = useState({ ...validationShape });
   const [pctService, setPctService] = useState({});
-  const [staffRoleType, setStaffRoleType] = useState("");
+  const [staffRoletype, setstaffRoletype] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [passErrorMsg, setPassErrorMsg] = useState("");
   let uniques = Array.from(new Set(selectedRole));
@@ -122,7 +123,7 @@ const Staff = (props: any) => {
       state: "",
       postal_code: "",
     },
-    staffRoleType: "",
+    staffRoletype: "",
     avatar: "",
     payrollAmountPaid: "",
     salariedStaffType: "",
@@ -151,9 +152,9 @@ const Staff = (props: any) => {
   const bussinessId = localStorage.getItem("businessId");
   const basicFormSchema = yup.object().shape(validationShape);
   const newObj = serviceTemp || {};
-
   useEffect(() => {
     handlePctOfSerivce();
+    setstaffRoletype(staff.staffRoletype);
   }, [serviceTemp, selectedMultiParent]);
 
   useEffect(() => {
@@ -298,9 +299,20 @@ const Staff = (props: any) => {
     }
   };
 
-  const notify = (data: any) => {    
-    toast.error(data, {
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: ({ theme, type }) => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
       theme: "colored",
+      icon: ({ theme, type }) => <GppMaybeRoundedIcon fontSize="large" />,
     });
   };
 
@@ -345,12 +357,9 @@ const Staff = (props: any) => {
   };
 
   const handleSubmit = (values: any) => {
-    if (UI.errors) {
-      console.log("1");
-    }
     values.businessId = bussinessId;
     values.serviceIds = editedMultiParent;
-    values.staffRoleType = staffRoleType;
+    values.staffRoletype = staffRoletype;
 
     if (submitProfileCategoryId.length > 0 && editedMultiParent.length > 0) {
       values.profileCategoryId = submitProfileCategoryId;
@@ -363,7 +372,6 @@ const Staff = (props: any) => {
       if (!values.password) {
         delete values.password;
       }
-
       if (values.changePassword && !values.retypePassword) {
         alert("Type Retype Password");
       } else if (!values.changePassword && values.retypePassword) {
@@ -1500,57 +1508,59 @@ const Staff = (props: any) => {
                                   <FormLabel className="col-sm-3 control-label">
                                     Staff Role
                                   </FormLabel>
-
                                   <Col sm="9">
                                     <Form.Check
                                       type="checkbox"
                                       name="admin"
                                       label="Admin"
+                                      checked={
+                                        uniques.includes("admin")
+                                          ? "checked"
+                                          : ""
+                                      }
                                       value={selectedRole}
                                       onChange={(e) => {
-                                        e.target.checked
-                                          ? handleRole(
-                                              e.target.name,
-                                              e.target.checked
-                                            )
-                                          : handleRole(
-                                              e.target.name,
-                                              e.target.checked
-                                            );
+                                        e.target.checked &&
+                                          handleRole(
+                                            e.target.name,
+                                            e.target.checked
+                                          );
                                       }}
                                     />
                                     <Form.Check
                                       type="checkbox"
                                       name="support"
                                       label="Support"
+                                      checked={
+                                        uniques.includes("support")
+                                          ? "checked"
+                                          : ""
+                                      }
                                       value={selectedRole}
                                       onChange={(e) => {
-                                        e.target.checked
-                                          ? handleRole(
-                                              e.target.name,
-                                              e.target.checked
-                                            )
-                                          : handleRole(
-                                              e.target.name,
-                                              e.target.checked
-                                            );
+                                        e.target.checked &&
+                                          handleRole(
+                                            e.target.name,
+                                            e.target.checked
+                                          );
                                       }}
                                     />
                                     <Form.Check
                                       type="checkbox"
                                       name="stylist"
                                       label="Stylist"
+                                      checked={
+                                        uniques.includes("stylist")
+                                          ? "checked"
+                                          : ""
+                                      }
                                       value={selectedRole}
                                       onChange={(e) => {
-                                        e.target.checked
-                                          ? handleRole(
-                                              e.target.name,
-                                              e.target.checked
-                                            )
-                                          : handleRole(
-                                              e.target.name,
-                                              e.target.checked
-                                            );
+                                        e.target.checked &&
+                                          handleRole(
+                                            e.target.name,
+                                            e.target.checked
+                                          );
                                       }}
                                     />
                                   </Col>
@@ -1809,10 +1819,9 @@ const Staff = (props: any) => {
                                     <FormControl
                                       as="select"
                                       name="staffRoletype"
-                                      value={staffRoleType}
+                                      value={staffRoletype}
                                       onChange={(e) => {
-                                        setStaffRoleType(e.target.value);
-
+                                        setstaffRoletype(e.target.value);
                                         if (
                                           e.target.value == "hourly" ||
                                           "salaried"
@@ -1822,7 +1831,7 @@ const Staff = (props: any) => {
                                       }}
                                       onBlur={handleBlur}
                                       style={
-                                        staffRoleType && staffRoleType.length
+                                        staffRoletype && staffRoletype.length
                                           ? {}
                                           : { border: "1px solid red" }
                                       }
@@ -1830,7 +1839,7 @@ const Staff = (props: any) => {
                                       <option />
                                       <option
                                         selected={
-                                          staffRoleType == "hourly"
+                                          staffRoletype == "hourly"
                                             ? "selected"
                                             : ""
                                         }
@@ -1840,7 +1849,7 @@ const Staff = (props: any) => {
                                       </option>
                                       <option
                                         selected={
-                                          staffRoleType == "salaried"
+                                          staffRoletype == "salaried"
                                             ? "selected"
                                             : ""
                                         }
@@ -1851,7 +1860,7 @@ const Staff = (props: any) => {
                                       {selectedRole.includes("stylist") && (
                                         <option
                                           selected={
-                                            staffRoleType == "commission"
+                                            staffRoletype == "commission"
                                               ? "selected"
                                               : ""
                                           }
@@ -1864,7 +1873,7 @@ const Staff = (props: any) => {
                                   </Col>
                                 </FormGroup>
                               </Col>
-                              {staffRoleType == "hourly" && (
+                              {staffRoletype == "hourly" && (
                                 <div className="col-md-8">
                                   <FormGroup>
                                     <FormLabel className="col-sm-3 control-label">
@@ -1889,7 +1898,7 @@ const Staff = (props: any) => {
                                   </FormGroup>
                                 </div>
                               )}
-                              {staffRoleType == "salaried" && (
+                              {staffRoletype == "salaried" && (
                                 <div className="col-md-8">
                                   <FormGroup>
                                     <FormLabel className="col-sm-3 control-label">
@@ -1936,7 +1945,7 @@ const Staff = (props: any) => {
                                   </FormGroup>
                                 </div>
                               )}
-                              {staffRoleType == "salaried" && (
+                              {staffRoletype == "salaried" && (
                                 <div className="col-md-8">
                                   <FormGroup>
                                     <FormLabel className="col-sm-3 control-label">
@@ -1965,7 +1974,7 @@ const Staff = (props: any) => {
                               )}
                               {serviceParentPercentage &&
                                 serviceParentPercentage.length > 0 &&
-                                staffRoleType == "commission" &&
+                                staffRoletype == "commission" &&
                                 serviceParentPercentage.map((value: any) => {
                                   return (
                                     <div className="col-md-8">
@@ -2365,13 +2374,20 @@ const Staff = (props: any) => {
                             )}
                             <ToastContainer
                               position="bottom-right"
-                              autoClose={2000}
+                              autoClose={5000}
+                              hideProgressBar={true}
+                              newestOnTop={true}
+                              closeOnClick
+                              rtl={false}
                               toastStyle={{
                                 backgroundColor: "#ED5565",
                                 color: "#fff",
+                                fontSize: "13px",
                               }}
                               closeButton={false}
-                              hideProgressBar={true}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
                             />
                             <div className="hr-line-dashed" />
                             <Row>
@@ -2409,21 +2425,21 @@ const Staff = (props: any) => {
                                           values.displayName.length &&
                                           values.email.length >= 5 &&
                                           values.email.includes(("@", ".")) &&
-                                          staffRoleType &&
-                                          staffRoleType.length &&
+                                          staffRoletype &&
+                                          staffRoletype.length &&
                                           pass.length > 0 &&
                                           values.countryCode &&
                                           values.countryCode.length &&
                                           values.order > 0 &&
                                           values.color &&
                                           values.color.length == 7 &&
-                                          ((staffRoleType == "hourly" &&
+                                          ((staffRoletype == "hourly" &&
                                           values.payrollAmountPaid.toString()
                                             .length > 0 &&
                                           values.payrollAmountPaid > 0
                                             ? true
                                             : false) ||
-                                            (staffRoleType == "salaried" &&
+                                            (staffRoletype == "salaried" &&
                                             values.payrollAmountPaid.toString() >
                                               0 &&
                                             values.payrollAmountPaid > 0 &&

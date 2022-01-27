@@ -178,7 +178,7 @@ const AddSchedule = (props: any) => {
     props.staffService(query);
   };
 
-  const notify = (data: any) => {    
+  const notify = (data: any) => {
     toast.error(data, {
       theme: "colored",
     });
@@ -287,11 +287,21 @@ const AddSchedule = (props: any) => {
       }
     return str.join("&");
   };
+  const i = startDate.toISOString().split("T")[0] + " " + value;
+  console.log(i);
+
+  console.log(
+    `${moment(i).format("YYYY-MM-DD")}T${moment(i).format("h:mm:ss")}Z`
+  );
 
   const handleSubmit = (values: any) => {
     let setDate = startDate.toISOString().split("T")[0];
     let m = moment(`${setDate} ${value}`, "YYYY-MM-DD HH:mm");
-    let setDateTime = m.toISOString();
+    let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${moment(i).format(
+      "hh:mm:ss"
+    )}Z`;
+    console.log(setDateTime);
+
     let check = {
       checkFreeTime: 1,
       checkResourceSchedule: 1,
@@ -315,7 +325,9 @@ const AddSchedule = (props: any) => {
     values.resourceId = String(changeStaff.value);
     values.services = [staffMainService[0]];
     values.timeStart = setDateTime;
+
     repeatAppointments(values);
+
     props.addAppointments(values, queryString, (success: any, data: any) => {
       if (success) {
         history.push("/schedule");
@@ -623,7 +635,6 @@ const AddSchedule = (props: any) => {
                                 />
                               </Col>
                             </FormGroup>
-
                             {addOnServiceData && addOnServiceData.length > 0 && (
                               <FormGroup>
                                 <div

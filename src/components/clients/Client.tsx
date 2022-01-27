@@ -30,6 +30,9 @@ import {
 import DeleteModal from "../core/DeleteModal";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Client = (props: any) => {
   const [title, setTitle] = useState("New Client");
@@ -252,15 +255,37 @@ const Client = (props: any) => {
     query.businessId = localStorage.businessId;
     props.getAllStaff(query);
   };
-  console.log(dob.month);
+
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: ({ theme, type }) => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: ({ theme, type }) => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
 
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
     values.dob = new Date(dob.month + "/" + dob.day + "/");
     if (view) {
-      props.updateClient(values, history);
-    } else {
-      props.addClient(values, history);
+      props.updateClient(values);
+    } else {      
+      props.addClient(values, (success: any, data: any) => {        ;        
+        if (success) {                   
+          history.push("/clients");
+        } else {
+          notify(data);
+        }
+      });
     }
   };
 
@@ -1742,6 +1767,23 @@ const Client = (props: any) => {
                                             <i className="fa fa-spinner fa-spin"></i>
                                           )}
                                         </button>
+                                        <ToastContainer
+                                          position="bottom-right"
+                                          autoClose={5000}
+                                          hideProgressBar={true}
+                                          newestOnTop={true}
+                                          closeOnClick
+                                          rtl={false}
+                                          toastStyle={{
+                                            backgroundColor: "#ED5565",
+                                            color: "#fff",
+                                            fontSize: "13px",
+                                          }}
+                                          closeButton={false}
+                                          pauseOnFocusLoss
+                                          draggable
+                                          pauseOnHover
+                                        />
                                       </div>
                                     </div>
                                   </div>

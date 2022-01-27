@@ -93,7 +93,7 @@ const ScheduleStaff = (props: any) => {
   const [staffSelected, setStaffSelected] = useState("all");
   const [buttons] = useState([
     {
-      title: "Add New Staff Schedule",
+      title: "Add New Staff Schedule Item",
       url: "/staff-schedule/add-staff-schedule",
     },
   ]);
@@ -350,17 +350,19 @@ const ScheduleStaff = (props: any) => {
           resourseDataVal,
           (resourseDataVal) => resourseDataVal.id === values.resourceId
         );
-        values.title = title[0].name;
-        values.backgroundColor = title[0].eventColor;
-        values.eventColor = title[0].eventColor;
-        values.description = "description" + key;
-        values.start = values.timeStart;
-        values.end = values.timeEnd;
-        values.startDate = values.timeStart;
-        values.startTime = values.timeStart;
-        values.endTime = values.timeEnd;
-        values.allDay = false;
-        tempArr.push(values);
+        if (title && title.length > 0) {
+          values.title = title[0].name;
+          values.backgroundColor = title[0].eventColor;
+          values.eventColor = title[0].eventColor;
+          values.description = "description" + key;
+          values.start = values.timeStart;
+          values.end = values.timeEnd;
+          values.startDate = values.timeStart;
+          values.startTime = values.timeStart;
+          values.endTime = values.timeEnd;
+          values.allDay = false;
+          tempArr.push(values);
+        }
       }
       //     resourceId: timeslot.resourceId,
       //     resource: resource ? (resource.firstName + ' ' + resource.lastName) : 'Deleted Staff',
@@ -411,7 +413,7 @@ const ScheduleStaff = (props: any) => {
   };
   const handleUpdate = () => {
     loaderr();
-    let setDate = startDate.toISOString().split("T")[0];
+    let setDate = moment(startDate).format("YYYY-MM-DD");
     let mStartDate = moment(`${setDate} ${startValue}`, "YYYY-MM-DD HH:mm");
     let setStartDateTime = moment.parseZone(mStartDate).utc().format();
     let mEndDate = moment(`${setDate} ${endValue}`, "YYYY-MM-DD HH:mm");
@@ -477,26 +479,25 @@ const ScheduleStaff = (props: any) => {
                             </FormGroup>
                             <div className="form-group">
                               <div className="col-lg-12">
-                                <label className="control-label">Day</label>                                
+                                <label className="control-label">Day</label>
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                              <KeyboardDatePicker
-                                className="form-control"
-                                value={moment(params.begin_time).format(
-                                  "YYYY-MM-DD"
-                                )}
-                                onChange={(e: any, date: any) => {
-                                  setStartDate(date)                                                                                                         
-                                }}
-                                format="yyyy-MM-dd"
-                                style={{
-                                  border: "1px solid #e5e6e7",
-                                }}
-                                showTodayButton={true}
-                                keyboardIcon={
-                                  <i className="glyphicon glyphicon-calendar"></i>
-                                }
-                              />
-                            </MuiPickersUtilsProvider>
+                                  <KeyboardDatePicker
+                                    className="form-control"
+                                    value={startDate}
+                                    onChange={(e: any, date: any) => {
+                                      setStartDate(date);
+                                    }}
+                                    helperText={null}
+                                    format="EEEE MMMM d, yyyy"
+                                    style={{
+                                      border: "1px solid #e5e6e7",
+                                    }}
+                                    showTodayButton={true}
+                                    keyboardIcon={
+                                      <i className="glyphicon glyphicon-calendar"></i>
+                                    }
+                                  />
+                                </MuiPickersUtilsProvider>
                               </div>
                             </div>
                             <FormGroup>

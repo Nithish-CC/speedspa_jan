@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
+    "@emotion/react": "^11.7.1",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@fullcalendar/core": "^5.10.1",
     "@fullcalendar/daygrid": "^5.9.0",
@@ -35,6 +36,7 @@
     "@fullcalendar/timegrid": "^5.9.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/pickers": "^3.3.10",
+    "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.2.5",
     "@popperjs/core": "^2.10.2",
     "@testing-library/jest-dom": "^5.11.4",
