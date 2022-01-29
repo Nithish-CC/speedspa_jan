@@ -278,9 +278,9 @@ const Client = (props: any) => {
     values.dob = new Date(dob.month + "/" + dob.day + "/");
     if (view) {
       props.updateClient(values);
-    } else {      
-      props.addClient(values, (success: any, data: any) => {        ;        
-        if (success) {                   
+    } else {
+      props.addClient(values, (success: any, data: any) => {
+        if (success) {
           history.push("/clients");
         } else {
           notify(data);
@@ -1694,7 +1694,7 @@ const Client = (props: any) => {
                                       </FormGroup>
                                       <FormGroup>
                                         <FormLabel className="col-sm-4 control-label">
-                                          Notes
+                                          Notes {" "}
                                           <Tippy
                                             theme={"success"}
                                             maxWidth="225px"
@@ -1729,11 +1729,8 @@ const Client = (props: any) => {
                                 </div>
                               </div>
                             </div>
-                            <div
-                              className="ibox float-e-margins"
-                              key="vm.activeTab == 1 || vm.activeTab == 2 || vm.activeTab == 3"
-                            >
-                              <div className="ibox-content">
+                            <div className="ibox float-e-margins">
+                              <div className="ibox-content no-border">
                                 <div className="row">
                                   <div className="col-md-8">
                                     <div className="form-group">
@@ -1868,7 +1865,6 @@ const Client = (props: any) => {
                             </div>
                             <div className="col-md-12">
                               <div className="hr-line-dashed"></div>
-
                               <div className="table-responsive">
                                 <table className="table table-bordered table-striped table-hover dataTables-example">
                                   <thead>
@@ -2005,15 +2001,9 @@ const Client = (props: any) => {
                                                 <td>
                                                   {moment
                                                     .utc(order.timeStart)
-                                                    .format("lll")}
+                                                    .format("ll h:mmA")}
                                                 </td>
-                                                <td
-                                                  style={{
-                                                    textTransform: "capitalize",
-                                                  }}
-                                                >
-                                                  {order.staffName}
-                                                </td>
+                                                <td>{order.staffName}</td>
                                                 <td>{order.categoryName}</td>
                                                 <td>{order.itemNames}</td>
                                                 <td>
@@ -2040,7 +2030,7 @@ const Client = (props: any) => {
                                                     <center>
                                                       {" "}
                                                       <span
-                                                        className="btn btn-xs btn-success"
+                                                        className="btn btn-xs btn-primary"
                                                         style={{
                                                           width: "80px",
                                                         }}
@@ -2118,7 +2108,7 @@ const Client = (props: any) => {
                                                   <React.Fragment>
                                                     {order.status ==
                                                       "created" && (
-                                                      <td className="text-center">
+                                                      <React.Fragment>
                                                         <Link
                                                           style={{
                                                             cursor: "pointer",
@@ -2132,7 +2122,7 @@ const Client = (props: any) => {
                                                             className="far fa-edit"
                                                           ></i>
                                                         </Link>
-                                                        &nbsp;
+                                                        &nbsp;&nbsp;&nbsp;
                                                         <a
                                                           style={{
                                                             cursor: "pointer",
@@ -2150,22 +2140,24 @@ const Client = (props: any) => {
                                                             className="far fa-trash-alt"
                                                           ></i>
                                                         </a>
-                                                      </td>
+                                                      </React.Fragment>
                                                     )}
                                                     {order.status ==
                                                       "canceled" && (
-                                                      <Link
-                                                        style={{
-                                                          cursor: "pointer",
-                                                          color: "#2a6954",
-                                                        }}
-                                                        to={`/services/payments/view/${order.id}`}
-                                                      >
-                                                        <i
-                                                          title="Delete"
-                                                          className="far fa-eye"
-                                                        ></i>
-                                                      </Link>
+                                                      <React.Fragment>
+                                                        <Link
+                                                          style={{
+                                                            cursor: "pointer",
+                                                            color: "#2a6954",
+                                                          }}
+                                                          to={`/services/payments/view/${order.id}`}
+                                                        >
+                                                          <i
+                                                            title="view"
+                                                            className="far fa-eye"
+                                                          ></i>
+                                                        </Link>
+                                                      </React.Fragment>
                                                     )}
                                                   </React.Fragment>
                                                 </td>
@@ -2384,215 +2376,208 @@ const Client = (props: any) => {
                                   </thead>
                                   <tbody>
                                     {getproductOrders &&
-                                      getproductOrders.length && (
-                                        <React.Fragment>
-                                          {_.orderBy(
-                                            getproductOrders,
-                                            ["createdAt"],
-                                            ["asc"]
-                                          ).map((value: any, index: any) => {
-                                            return (
-                                              <tr className="gradeX">
-                                                <td>
-                                                  {moment(
-                                                    value.createdAt
-                                                  ).format("ll LT")}
-                                                </td>
-                                                <td>{value.staffName}</td>
-                                                <td>{value.itemNames}</td>
-                                                <td>
-                                                  $
-                                                  {commafy(
-                                                    value.amount.toFixed(2)
-                                                  )}
-                                                </td>
-                                                <td>
-                                                  $
-                                                  {commafy(
-                                                    value.tax.toFixed(2)
-                                                  )}
-                                                </td>
-                                                <td>
-                                                  $
-                                                  {commafy(
-                                                    value.total.toFixed(2)
-                                                  )}
-                                                </td>
-                                                <td>
-                                                  {value.status == "paid" && (
+                                    getproductOrders.length ? (
+                                      <React.Fragment>
+                                        {_.orderBy(
+                                          getproductOrders,
+                                          ["createdAt"],
+                                          ["asc"]
+                                        ).map((value: any, index: any) => {
+                                          return (
+                                            <tr className="gradeX">
+                                              <td>
+                                                {moment(value.createdAt).format(
+                                                  "ll h:mmA"
+                                                )}
+                                              </td>
+                                              <td>{value.staffName}</td>
+                                              <td>{value.itemNames}</td>
+                                              <td>
+                                                $
+                                                {commafy(
+                                                  value.amount.toFixed(2)
+                                                )}
+                                              </td>
+                                              <td>
+                                                ${commafy(value.tax.toFixed(2))}
+                                              </td>
+                                              <td>
+                                                $
+                                                {commafy(
+                                                  value.total.toFixed(2)
+                                                )}
+                                              </td>
+                                              <td>
+                                                {value.status == "paid" && (
+                                                  <span
+                                                    className="btn btn-xs btn-primary"
+                                                    style={{
+                                                      width: "80px",
+                                                    }}
+                                                  >
+                                                    Paid
+                                                  </span>
+                                                )}
+                                                {value.status == "created" && (
+                                                  <center>
                                                     <span
-                                                      className="btn btn-xs btn-primary"
+                                                      className="btn btn-xs btn-success"
                                                       style={{
                                                         width: "80px",
                                                       }}
                                                     >
-                                                      Paid
+                                                      Created
                                                     </span>
-                                                  )}
-                                                  {value.status ==
-                                                    "created" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-success"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Created
-                                                      </span>
-                                                    </center>
-                                                  )}
+                                                  </center>
+                                                )}
 
-                                                  {value.status ==
-                                                    "canceled" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-danger"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Canceled
-                                                      </span>
-                                                    </center>
-                                                  )}
-                                                  {value.status == "refund" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-danger"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Refund
-                                                      </span>
-                                                    </center>
-                                                  )}
-                                                  {value.status == "voided" && (
-                                                    <center>
-                                                      {" "}
-                                                      <span
-                                                        className="btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Voided
-                                                      </span>
-                                                    </center>
-                                                  )}
-                                                  {value.status ==
-                                                    "extra_service_request" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Requested
-                                                      </span>
-                                                    </center>
-                                                  )}
-                                                </td>
-                                                {value.status == "canceled" ? (
+                                                {value.status == "canceled" && (
+                                                  <center>
+                                                    <span
+                                                      className="btn btn-xs btn-danger"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Canceled
+                                                    </span>
+                                                  </center>
+                                                )}
+                                                {value.status == "refund" && (
+                                                  <center>
+                                                    <span
+                                                      className="btn btn-xs btn-danger"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Refund
+                                                    </span>
+                                                  </center>
+                                                )}
+                                                {value.status == "voided" && (
+                                                  <center>
+                                                    {" "}
+                                                    <span
+                                                      className="btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Voided
+                                                    </span>
+                                                  </center>
+                                                )}
+                                                {value.status ==
+                                                  "extra_service_request" && (
+                                                  <center>
+                                                    <span
+                                                      className="btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Requested
+                                                    </span>
+                                                  </center>
+                                                )}
+                                              </td>
+                                              {value.status == "canceled" ? (
+                                                <React.Fragment>
+                                                  {viewOnPage(value.id, index)}
+                                                </React.Fragment>
+                                              ) : (
+                                                value.status == "paid" && (
                                                   <React.Fragment>
                                                     {viewOnPage(
                                                       value.id,
                                                       index
                                                     )}
                                                   </React.Fragment>
-                                                ) : (
-                                                  value.status == "paid" && (
-                                                    <React.Fragment>
-                                                      {viewOnPage(
-                                                        value.id,
-                                                        index
-                                                      )}
-                                                    </React.Fragment>
-                                                  )
-                                                )}
-                                                {value.status == "created" && (
-                                                  <td className="text-center">
-                                                    <Link
-                                                      style={{
-                                                        cursor: "pointer",
-                                                        color: "#2a6954",
-                                                      }}
-                                                      key={index}
-                                                      to={`/products/orders/view/${value.id}`}
-                                                    >
-                                                      <i
-                                                        title="View | Edit"
-                                                        className="far fa-edit"
-                                                      ></i>
-                                                    </Link>
-                                                    &nbsp;&nbsp;&nbsp;
-                                                    <a
-                                                      style={{
-                                                        cursor: "pointer",
-                                                        color: "#2a6954",
-                                                      }}
-                                                      onClick={() =>
-                                                        deletePopup(
-                                                          value,
-                                                          index
-                                                        )
-                                                      }
-                                                    >
-                                                      <i
-                                                        title="Delete"
-                                                        className="far fa-trash-alt"
-                                                      ></i>
-                                                    </a>
-                                                  </td>
-                                                )}
-                                              </tr>
-                                            );
-                                          })}
-                                          <tr>
-                                            <td colSpan={3}>
-                                              <strong>Summary: </strong>
-                                              <small>
-                                                (Canceled order quantity and its
-                                                values are excluded in this
-                                                total summary count calculation)
-                                              </small>
-                                            </td>
-                                            <th>
-                                              $
-                                              {commafy(
-                                                (
-                                                  Math.round(
-                                                    price(getproductOrders)
-                                                  ) / 100
-                                                ).toFixed(2)
+                                                )
                                               )}
-                                            </th>
-                                            <th>
-                                              $
-                                              {commafy(
-                                                (
-                                                  Math.round(
-                                                    tax(getproductOrders)
-                                                  ) / 100
-                                                ).toFixed(2)
+                                              {value.status == "created" && (
+                                                <td className="text-center">
+                                                  <Link
+                                                    style={{
+                                                      cursor: "pointer",
+                                                      color: "#2a6954",
+                                                    }}
+                                                    key={index}
+                                                    to={`/products/orders/view/${value.id}`}
+                                                  >
+                                                    <i
+                                                      title="View | Edit"
+                                                      className="far fa-edit"
+                                                    ></i>
+                                                  </Link>
+                                                  &nbsp;&nbsp;&nbsp;
+                                                  <a
+                                                    style={{
+                                                      cursor: "pointer",
+                                                      color: "#2a6954",
+                                                    }}
+                                                    onClick={() =>
+                                                      deletePopup(value, index)
+                                                    }
+                                                  >
+                                                    <i
+                                                      title="Delete"
+                                                      className="far fa-trash-alt"
+                                                    ></i>
+                                                  </a>
+                                                </td>
                                               )}
-                                            </th>
-                                            <th>
-                                              $
-                                              {commafy(
-                                                (
-                                                  Math.round(
-                                                    total(getproductOrders)
-                                                  ) / 100
-                                                ).toFixed(2)
-                                              )}
-                                            </th>
-                                            <th colSpan={2}></th>
-                                          </tr>
-                                        </React.Fragment>
-                                      )}
+                                            </tr>
+                                          );
+                                        })}
+                                        <tr>
+                                          <td colSpan={3}>
+                                            <strong>Summary: </strong>                                         
+                                          </td>
+                                          <th>
+                                            $
+                                            {commafy(
+                                              (
+                                                Math.round(
+                                                  price(getproductOrders)
+                                                ) / 100
+                                              ).toFixed(2)
+                                            )}
+                                          </th>
+                                          <th>
+                                            $
+                                            {commafy(
+                                              (
+                                                Math.round(
+                                                  tax(getproductOrders)
+                                                ) / 100
+                                              ).toFixed(2)
+                                            )}
+                                          </th>
+                                          <th>
+                                            $
+                                            {commafy(
+                                              (
+                                                Math.round(
+                                                  total(getproductOrders)
+                                                ) / 100
+                                              ).toFixed(2)
+                                            )}
+                                          </th>
+                                          <th></th>
+                                        </tr>
+                                      </React.Fragment>
+                                    ) : (
+                                      <tr>
+                                        <td
+                                          colSpan={10}
+                                          className="text-center"
+                                        >
+                                          No Product Purchased
+                                        </td>
+                                      </tr>
+                                    )}
                                   </tbody>
                                 </table>
                                 {getproductOrders &&

@@ -27,11 +27,11 @@ const Staffs = (props: any) => {
       text: "Stylist",
     },
     {
-      value: "Admin",
+      value: "admin",
       text: "Admin",
     },
     {
-      value: "Support",
+      value: "support",
       text: "Support",
     },
   ]);
@@ -133,6 +133,7 @@ const Staffs = (props: any) => {
     }
     sorting(allStaff, key, orderBy);
   };
+  console.log(allStaff);
 
   const deletePopup = (staff: any, index: any) => {
     setModalPopup({

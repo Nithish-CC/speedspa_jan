@@ -41,6 +41,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
+
 const Staff = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title, setTitle] = useState("New Staff");
@@ -662,11 +663,6 @@ const Staff = (props: any) => {
                             )}
                             <Row>
                               <Col md="8">
-                                <div className="text-danger m-t-md m-b-md"></div>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col md="8">
                                 <FormGroup>
                                   <FormLabel className="col-sm-3 control-label">
                                     First Name
@@ -715,7 +711,7 @@ const Staff = (props: any) => {
                                 </FormGroup>
                                 <FormGroup>
                                   <FormLabel className="col-sm-3 control-label">
-                                    Display Name
+                                    Display Name{" "}
                                     <Tippy
                                       theme={"success"}
                                       maxWidth="225px"
@@ -1568,7 +1564,7 @@ const Staff = (props: any) => {
                                 {selectedRole.includes("stylist") && (
                                   <FormGroup>
                                     <FormLabel className="col-sm-3 control-label">
-                                      Stylist Types
+                                      Stylist Types{" "}
                                       <Tippy
                                         theme={"success"}
                                         maxWidth="225px"
@@ -1622,7 +1618,7 @@ const Staff = (props: any) => {
                                   selectedRole.includes("stylist") && (
                                     <FormGroup>
                                       <FormLabel className="col-sm-3 control-label">
-                                        Services
+                                        Services{" "}
                                         <Tippy
                                           theme={"success"}
                                           maxWidth="225px"
@@ -1773,7 +1769,7 @@ const Staff = (props: any) => {
                                 ) : (
                                   <div className="form-group">
                                     <label className="col-md-4">
-                                      Add Avatar
+                                      Add Avatar{" "}
                                       <Tippy
                                         theme={"success"}
                                         maxWidth="225px"
@@ -2219,7 +2215,7 @@ const Staff = (props: any) => {
                                 )} */}
                                 <FormGroup>
                                   <FormLabel className="col-sm-3 control-label">
-                                    Order
+                                    Order{" "}
                                     <Tippy
                                       theme={"success"}
                                       maxWidth="225px"
@@ -2393,7 +2389,7 @@ const Staff = (props: any) => {
                             <Row>
                               <Col md="8">
                                 <FormGroup>
-                                  <Col sm="8" className="col-sm-offset-4">
+                                  <Col sm="9" className="col-sm-offset-3">
                                     <Button
                                       variant="white"
                                       type="button"

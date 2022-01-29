@@ -4,11 +4,14 @@ import { useSelector, connect } from "react-redux";
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { getData } from "../../redux/actions/reportActions";
 import _ from "lodash";
+import { sorting, commafy, buildFilter } from "../../utils/common";
 import moment from "moment";
 
 const NewClientsRebooking = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("New Clients: Rebookings");
+  const [field, setField] = useState("");
+  const [orderBy, setOrderBy] = useState(false);
   const [dropdownMonth, setDropdownMonth] = useState(6);
   const [params] = useState({
     begin_time: moment().format("YYYY-MM-DD"),
@@ -46,7 +49,18 @@ const NewClientsRebooking = (props: any) => {
       .utc()
       .format();
     props.getData(params);
-  };  
+  };
+
+  const handleSortChange = (key: any) => {
+    if (field === key) {
+      setOrderBy(!orderBy);
+    } else {
+      setOrderBy(true);
+      setField(key);
+    }
+    sorting(reporting, key, orderBy);
+  };
+  console.log(reportData);
 
   //filtering the datas from the array
   const filteringData = () => {
@@ -68,8 +82,8 @@ const NewClientsRebooking = (props: any) => {
         setReporting(filters);
       }
     });
-  };  
-  
+  };
+
   //Excel Export
   const ExportToExcel = (e: any, data: any) => {
     let jsonData: any = [];
@@ -197,21 +211,31 @@ const NewClientsRebooking = (props: any) => {
                               <th>Total Clients : {reporting.length} </th>
                             </tr>
                             <tr className="align-middle">
-                              <th className="sorting sorting_desc">
+                              <th
+                                className={
+                                  field !== "firstName"
+                                    ? "sorting"
+                                    : orderBy
+                                    ? "sorting_asc"
+                                    : "sorting_desc"
+                                }
+                                onClick={(e) => handleSortChange("firstName")}
+                              >
                                 Client Name
                               </th>
                               <th className="text-center">First Appt. Date</th>
                               <th className="text-center">Last Appt. Date </th>
                               <th className="text-center">Future Appt. Date</th>
                               <th className="text-center">
-                              Total Future Appts
+                                Total Future Appts
                               </th>
                             </tr>
+                            {console.log(reporting)}
                           </thead>
-                          <tbody>                                              
+                          <tbody>
                             {!UI.buttonLoading &&
                             reporting &&
-                            reporting.length > 0? (
+                            reporting.length > 0 ? (
                               reporting.map((item: any) => {
                                 return (
                                   <tr key={params.businessId}>

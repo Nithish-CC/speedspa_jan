@@ -572,7 +572,7 @@ const ServiceOrders = (props: any) => {
                                           <td>
                                             {moment
                                               .utc(order.timeStart)
-                                              .format("lll")}
+                                              .format("ll h:mmA")}
                                           </td>
                                           <td
                                             style={{
@@ -686,7 +686,7 @@ const ServiceOrders = (props: any) => {
                                                   to={`/schedule/edit-appointment/view/${order.id}`}
                                                 >
                                                   <i
-                                                    title="View | Edit"
+                                                    title="Edit"
                                                     className="far fa-edit"
                                                   ></i>
                                                   &nbsp;&nbsp;
@@ -700,7 +700,7 @@ const ServiceOrders = (props: any) => {
                                                   to={`/services/payments/view/${order.id}`}
                                                 >
                                                   <i
-                                                    title="View | Edit"
+                                                    title="View"
                                                     className="far fa-money-bill-alt"
                                                   ></i>
                                                   &nbsp;&nbsp;

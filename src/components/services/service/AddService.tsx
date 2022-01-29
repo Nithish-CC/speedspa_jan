@@ -865,7 +865,7 @@ const Service = (props: any) => {
                                             <FormControl
                                               type="number"
                                               name="price"
-                                              value={values.price}
+                                              value={values.price/100}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                             />

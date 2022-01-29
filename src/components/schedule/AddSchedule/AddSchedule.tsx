@@ -290,16 +290,12 @@ const AddSchedule = (props: any) => {
   const i = startDate.toISOString().split("T")[0] + " " + value;
   console.log(i);
 
-  console.log(
-    `${moment(i).format("YYYY-MM-DD")}T${moment(i).format("h:mm:ss")}Z`
-  );
+  console.log(`${moment(i).format("YYYY-MM-DD")}T${value}:00Z`);
 
   const handleSubmit = (values: any) => {
     let setDate = startDate.toISOString().split("T")[0];
     let m = moment(`${setDate} ${value}`, "YYYY-MM-DD HH:mm");
-    let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${moment(i).format(
-      "hh:mm:ss"
-    )}Z`;
+    let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${value}:00Z`;
     console.log(setDateTime);
 
     let check = {

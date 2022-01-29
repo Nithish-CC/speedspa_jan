@@ -918,7 +918,7 @@ const ServiceOrder = (props: any) => {
                                           Cancel
                                         </Button>
                                         &nbsp;
-                                        {serviceOrderView &&
+                                        {/* {serviceOrderView &&
                                           serviceOrderView.status ==
                                             "created" && (
                                             <React.Fragment>
@@ -939,7 +939,7 @@ const ServiceOrder = (props: any) => {
                                                 Pay with EMV
                                               </Button>
                                             </React.Fragment>
-                                          )}
+                                          )} */}
                                       </div>
                                     </div>
                                   </div>

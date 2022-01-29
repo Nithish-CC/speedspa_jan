@@ -12,11 +12,11 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { getUserBusinessDetails } from "../../redux/actions/businessActions";
 import { timeSlots, schedule } from "../../redux/actions/scheduleActions";
 import { getAllStaff } from "../../redux/actions/staffActions";
-
 import {
   getAllCategory,
   getAllService,
 } from "../../redux/actions/serviceActions";
+import "../../scss/style.scss";
 import { buildFilter } from "../../utils/common";
 import moment from "moment";
 import Tooltips from "../core/Tooltips";
@@ -332,6 +332,7 @@ const Schedule = (props: any) => {
           resourseDataVal,
           (resourseDataVal) => resourseDataVal.id === values.resourceId
         );
+
         values.title = values.serviceName + " [" + values.clientName + "]";
         values.description = "description" + key;
         values.backgroundColor = title[0].eventColor;
@@ -346,7 +347,7 @@ const Schedule = (props: any) => {
       }
     });
     setCalenderDates(tempArr);
-  };  
+  };
 
   return (
     <React.Fragment>
@@ -575,6 +576,7 @@ const Schedule = (props: any) => {
                             interactionPlugin,
                             resourceTimelinePlugin,
                           ]}
+                          selectable="true"
                           timeZone="UTC"
                           datesSet={(paypload) => {
                             setDate(
@@ -584,6 +586,7 @@ const Schedule = (props: any) => {
                                 .format()
                             );
                           }}
+                          eventOverlap="true"
                           initialView="resourceTimeline"
                           schedulerLicenseKey="0116820732-fcs-1622120977"
                           resourceGroupField="building"
@@ -649,6 +652,8 @@ const Schedule = (props: any) => {
                           eventMouseLeave={handleMouseLeave}
                           eventClick={handleMouseClick}
                           eventDisplay="block"
+                          expandRows="true"
+                          overlap="true"
                           events={
                             calenderDates && calenderDates.length
                               ? calenderDates
@@ -686,7 +691,7 @@ const Schedule = (props: any) => {
                       </div>
                     </div>
                     <Accordion defaultActiveKey="0">
-                      <div className="ibox float-e-margins">
+                      <div>
                         <div className="ibox-title">
                           <h5>Staff Members</h5>
                           <div className="ibox-tools">
@@ -766,7 +771,7 @@ const Schedule = (props: any) => {
                       </div>
                     </Accordion>
                     <Accordion defaultActiveKey="1">
-                      <div className="ibox float-e-margins">
+                      <div>
                         <div className="ibox-title">
                           <h5>Admin/Support Members</h5>
                           <div className="ibox-tools">

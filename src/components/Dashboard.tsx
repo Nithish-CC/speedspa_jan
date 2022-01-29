@@ -124,6 +124,10 @@ const Dashboard = (props: any) => {
           <div id="dashboard" className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
+                <h1
+                  style={{ marginTop: "0px", marginBottom: "30px" }}
+                  className="ng-binding"
+                ></h1>
                 <h2> Today's Total Sales </h2>
                 <div className="row" style={{ textTransform: "uppercase" }}>
                   {/* total customers */}
@@ -160,8 +164,21 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
-                        <span className="customer_analysis_count">
+                      <div
+                        className="ibox-content customer_analysis_content greenWhite"
+                        style={{ height: "150px" }}
+                      >
+                        <span
+                          className="customer_analysis_count"
+                          style={{
+                            fontSize: "2.5rem",
+                            textTransform: "capitalize",
+                            width: "200px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden ",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           {(serviceCompleted &&
                             serviceCompleted.length &&
                             _.maxBy(
@@ -170,12 +187,12 @@ const Dashboard = (props: any) => {
                             )) ||
                             "-"}
                           <br />
-                          {topCategory && topCategory.length && (
-                            <span>
-                              {/* {topSalesService.serviceAmountCompleted  ||
-                                " "} */}
-                            </span>
-                          )}
+                          {topCategory &&
+                            topCategory.length &&
+                            {
+                              /* {topSalesService.serviceAmountCompleted  ||
+                                " "} */
+                            }}
                         </span>
                         <p>TOP CATEGORY</p>
                       </div>
@@ -193,8 +210,21 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
-                        <span className="customer_analysis_count">
+                      <div
+                        className="ibox-content customer_analysis_content greenWhite"
+                        style={{ height: "150px" }}
+                      >
+                        <span
+                          className="customer_analysis_count"
+                          style={{
+                            fontSize: "2.5rem",
+                            textTransform: "capitalize",
+                            width: "200px",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden !important",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
                           {(serviceCompleted &&
                             serviceCompleted.length &&
                             _.maxBy(
@@ -225,9 +255,9 @@ const Dashboard = (props: any) => {
                       <div className="ibox-content customer_analysis_content greenWhite">
                         <i
                           className="fa fa-user"
-                          style={{ fontSize: "4.5rem" }}
+                          style={{ fontSize: "4.75rem" }}
                         ></i>
-                        &nbsp;
+                        &nbsp;&nbsp;
                         <span className="customer_analysis_count">
                           {thirtyDaySnapshot.customerCount}
                         </span>
@@ -241,9 +271,9 @@ const Dashboard = (props: any) => {
                       <div className="ibox-content customer_analysis_content greenWhite">
                         <i
                           className="fa fa-user-plus"
-                          style={{ fontSize: "4.5rem" }}
+                          style={{ fontSize: "4.75rem" }}
                         ></i>
-                        &nbsp;
+                        &nbsp;&nbsp;
                         <span className="customer_analysis_count">
                           {thirtyDaySnapshot.newCustomerCount}
                         </span>
@@ -257,13 +287,13 @@ const Dashboard = (props: any) => {
                       <div className="ibox-content customer_analysis_content greenWhite">
                         <i
                           className="fa fa-users"
-                          style={{ fontSize: "4.5rem" }}
+                          style={{ fontSize: "4.75rem" }}
                         ></i>
-                        &nbsp;
+                        &nbsp;&nbsp;
                         <span className="customer_analysis_count">
                           {thirtyDaySnapshot.returningCustomerCount}
                         </span>
-                        <p>RETURNING CUSTOMERS</p>
+                        <p>REPEAT CUSTOMERS</p>
                       </div>
                     </div>
                   </div>
@@ -273,7 +303,7 @@ const Dashboard = (props: any) => {
                       <div className="ibox-content customer_analysis_content greenWhite">
                         <span className="customer_analysis_count">
                           {"\u0024"}
-                          {thirtyDaySnapshot.averageAmount}
+                          {thirtyDaySnapshot.averageAmount || 0}
                         </span>
                         <p>AVG $ per VISIT</p>
                       </div>
@@ -285,9 +315,9 @@ const Dashboard = (props: any) => {
                       <div className="ibox-content customer_analysis_content greenWhite">
                         <i
                           className="fa fa-user"
-                          style={{ fontSize: "4.5rem" }}
+                          style={{ fontSize: "4.75rem" }}
                         ></i>
-                        &nbsp;
+                        &nbsp;&nbsp;
                         <span className="customer_analysis_count">
                           {thirtyDaySnapshot.averageVisitCount}x
                         </span>
@@ -300,139 +330,144 @@ const Dashboard = (props: any) => {
                     <div className="ibox float-e-margins m-b-none">
                       <div className="ibox-content customer_analysis_content greenWhite">
                         <span className="customer_analysis_count">
-                        {"\u0024"}
+                          {"\u0024"}
                           {thirtyDaySnapshot.avgTotalSales || 0}
                         </span>
-                        &nbsp;                        
                         <p>AVG SALES / DAY</p>
                       </div>
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <div className="wrapper wrapper-content animated fadeInRight">
-                        <h2 className="text-center">Daily Sales Trend</h2>
-                        <div className="row">
-                          <div className="col-md-8">
-                            {dashboardChart && (
-                              <Line
-                                data={{
-                                  labels: [
-                                    "7:00 AM",
-                                    "8:00 AM",
-                                    "9:00 AM",
-                                    "10:00 AM",
-                                    "11:00 AM",
-                                    "12:00 PM",
-                                    "01:00 PM",
-                                    "02:00 PM",
-                                    "03:00 PM",
-                                    "04:00 PM",
-                                    "05:00 PM",
-                                    "06:00 PM",
-                                    "07:00 PM",
-                                    "8:00 PM",
-                                    "9:00 PM",
-                                  ],
-                                  datasets: [
-                                    {
-                                      data: dashboardChart.dayView,
-                                      borderColor: "#454a43",
-                                    },
-                                  ],
-                                }}
-                                options={{
-                                  scales: {
-                                    y: {
-                                      suggestedMin: -1.0,
-                                      suggestedMax: 1.0,
-                                    },
+                </div>
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="wrapper wrapper-content animated fadeInRight">
+                      <h2 className="text-center">Daily Sales Trend</h2>
+                      <div className="row">
+                        <div className="col-md-8">                          
+                          {dashboardChart && (
+                            <Line
+                              data={{
+                                labels: [
+                                  "7:00 AM",
+                                  "8:00 AM",
+                                  "9:00 AM",
+                                  "10:00 AM",
+                                  "11:00 AM",
+                                  "12:00 PM",
+                                  "01:00 PM",
+                                  "02:00 PM",
+                                  "03:00 PM",
+                                  "04:00 PM",
+                                  "05:00 PM",
+                                  "06:00 PM",
+                                  "07:00 PM",
+                                  "8:00 PM",
+                                  "9:00 PM",
+                                ],
+                                datasets: [
+                                  {
+                                    data: dashboardChart.dayView,
+                                    borderColor: "#454a43",
                                   },
-                                }}
-                                height={400}
-                                width={600}
-                              />
-                            )}
-                          </div>
-                        </div>
-                        <h2 className="text-center">Weekly Sales Trend</h2>
-                        <div className="row">
-                          <div className="col-md-8">
-                            {dashboardChart && (
-                              <Bar
-                                data={{
-                                  labels: [
-                                    "Sunday",
-                                    "Monday",
-                                    "Tuesday",
-                                    "Wednesday",
-                                    "Thursday",
-                                    "Friday",
-                                    "Saturday",
-                                  ],
-                                  datasets: [
-                                    {
-                                      data: dashboardChart.weekView,
-                                    },
-                                  ],
-                                }}
-                                options={{
-                                  scales: {
-                                    y: {
-                                      suggestedMin: -1.0,
-                                      suggestedMax: 1.0,
-                                    },
-                                  },
+                                ],
+                              }}
+                              options={{
+                                plugins: {
                                   legend: {
                                     display: false,
                                   },
-                                }}
-                                height={400}
-                                width={600}
-                              />
-                            )}
-                          </div>
-                        </div>
-                        <h2 className="text-center">Monthly Sales Trend</h2>
-                        <div className="row">
-                          <div className="col-md-8">
-                            {dashboardChart && (
-                              <Bar
-                                data={{
-                                  labels: [
-                                    "Jan",
-                                    "Feb",
-                                    "Mar",
-                                    "Apr",
-                                    "May",
-                                    "Jun",
-                                    "Jul",
-                                    "Aug",
-                                    "Sep",
-                                    "Oct",
-                                    "Nov",
-                                    "Dec",
-                                  ],
-                                  datasets: [
-                                    {
-                                      data: dashboardChart.monthView,
-                                      borderColor: "#454a43",
-                                    },
-                                  ],
-                                }}
-                                options={{
-                                  scales: {
-                                    y: {
-                                      suggestedMin: -1.0,
-                                      suggestedMax: 1.0,
-                                    },
+                                },
+                                scales: {
+                                  y: {
+                                    suggestedMin: -1.0,
+                                    suggestedMax: 1.0,
                                   },
-                                }}
-                                height={400}
-                                width={600}
-                              />
-                            )}
-                          </div>
+                                },
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <h2 className="text-center">Weekly Sales Trend</h2>
+                      <div className="row">
+                        <div className="col-md-8">
+                          {dashboardChart && (
+                            <Bar
+                              data={{
+                                labels: [
+                                  "Sunday",
+                                  "Monday",
+                                  "Tuesday",
+                                  "Wednesday",
+                                  "Thursday",
+                                  "Friday",
+                                  "Saturday",
+                                ],
+                                datasets: [
+                                  {
+                                    data: dashboardChart.weekView,
+                                  },
+                                ],
+                              }}
+                              options={{
+                                plugins: {
+                                  legend: {
+                                    display: false,
+                                  },
+                                },
+                                scales: {
+                                  y: {
+                                    suggestedMin: -1.0,
+                                    suggestedMax: 1.0,
+                                  },
+                                },
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <h2 className="text-center">Monthly Sales Trend</h2>
+                      <div className="row">
+                        <div className="col-md-8">
+                          {dashboardChart && (
+                            <Bar
+                              data={{
+                                labels: [
+                                  "Jan",
+                                  "Feb",
+                                  "Mar",
+                                  "Apr",
+                                  "May",
+                                  "Jun",
+                                  "Jul",
+                                  "Aug",
+                                  "Sep",
+                                  "Oct",
+                                  "Nov",
+                                  "Dec",
+                                ],
+                                datasets: [
+                                  {
+                                    data: dashboardChart.monthView,
+                                    borderColor: "#454a43",
+                                  },
+                                ],
+                              }}
+                              options={{
+                                plugins: {
+                                  legend: {
+                                    display: false,
+                                  },
+                                },
+                                scales: {
+                                  y: {
+                                    suggestedMin: -1.0,
+                                    suggestedMax: 1.0,
+                                  },
+                                },
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>

@@ -210,7 +210,6 @@ const Clients = (props: any) => {
                       </div>
                     </form>
                     <div className="hr-line-dashed"></div>
-                    {console.log(allClients)}
                     {allClients && allClients.length > 0 && (
                       <div className="row">
                         <div
@@ -221,6 +220,7 @@ const Clients = (props: any) => {
                             className="btn btn-sm btn-default"
                             style={{
                               fontWeight: "600",
+                              marginBottom: "10px",
                               background: "#EFEFEF",
                               borderColor: "#dddddd",
                             }}
@@ -231,6 +231,7 @@ const Clients = (props: any) => {
                         </div>
                       </div>
                     )}
+                    <div></div>
                     <div className="table-responsive">
                       <table className="table table-bordered table-striped table-hover dataTables-example">
                         <thead>
@@ -308,7 +309,7 @@ const Clients = (props: any) => {
                               .map((client: any, index: any) => {
                                 return (
                                   <tr className="gradeX" key={index}>
-                                    <td>
+                                    <td className="text-capitalize">
                                       {client.firstName} {client.lastName}
                                     </td>
                                     <td className="text-center">
