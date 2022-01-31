@@ -1528,7 +1528,8 @@ const ProductOrder = (props: any) => {
                                                       addProductOrderData[0]
                                                         .minQuantity)
                                                     ? {
-                                                        border: "1px solid red",
+                                                        border:
+                                                          "1px solid #e5e6e7",
                                                       }
                                                     : {}
                                                 }

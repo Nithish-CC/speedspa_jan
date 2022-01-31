@@ -661,7 +661,7 @@ const Client = (props: any) => {
                                               values.firstName &&
                                               values.firstName.length
                                                 ? {}
-                                                : { border: "1px solid red" }
+                                                : { border: "1px solid #ed5565" }
                                             }
                                             disabled={disable}
                                           />
@@ -687,7 +687,7 @@ const Client = (props: any) => {
                                               values.lastName &&
                                               values.lastName.length
                                                 ? {}
-                                                : { border: "1px solid red" }
+                                                : { border: "1px solid #ed5565" }
                                             }
                                           />
                                         </Col>
@@ -769,7 +769,7 @@ const Client = (props: any) => {
                                             {dob.month !== "02" && (
                                               <option value="30">30</option>
                                             )}
-                                            {dob.month != "02" &&
+                                            {dob.month !== "02" &&
                                               months.includes(dob.month) && (
                                                 <option value="31">31</option>
                                               )}
@@ -796,7 +796,7 @@ const Client = (props: any) => {
                                               values.countryCode &&
                                               values.countryCode.length
                                                 ? {}
-                                                : { border: "1px solid red" }
+                                                : { border: "1px solid #ed5565" }
                                             }
                                           >
                                             <option value="">Select</option>
@@ -1473,7 +1473,7 @@ const Client = (props: any) => {
                                             }
                                             style={
                                               values.phoneNumber == ""
-                                                ? { border: "1px solid red" }
+                                                ? { border: "1px solid #ed5565" }
                                                 : {}
                                             }
                                           />
@@ -1694,7 +1694,7 @@ const Client = (props: any) => {
                                       </FormGroup>
                                       <FormGroup>
                                         <FormLabel className="col-sm-4 control-label">
-                                          Notes {" "}
+                                          Notes{" "}
                                           <Tippy
                                             theme={"success"}
                                             maxWidth="225px"
@@ -2533,7 +2533,7 @@ const Client = (props: any) => {
                                         })}
                                         <tr>
                                           <td colSpan={3}>
-                                            <strong>Summary: </strong>                                         
+                                            <strong>Summary: </strong>
                                           </td>
                                           <th>
                                             $

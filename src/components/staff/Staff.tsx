@@ -41,7 +41,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
-
 const Staff = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title, setTitle] = useState("New Staff");
@@ -681,7 +680,7 @@ const Staff = (props: any) => {
                                         values.firstName &&
                                         values.firstName.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>
@@ -704,7 +703,7 @@ const Staff = (props: any) => {
                                         values.lastName &&
                                         values.lastName.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>
@@ -743,7 +742,7 @@ const Staff = (props: any) => {
                                         values.displayName &&
                                         values.displayName.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>
@@ -1411,7 +1410,7 @@ const Staff = (props: any) => {
                                         values.phoneNumber &&
                                         values.phoneNumber.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>
@@ -1431,7 +1430,7 @@ const Staff = (props: any) => {
                                       style={
                                         values.email && values.email.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>
@@ -1458,7 +1457,7 @@ const Staff = (props: any) => {
                                         style={
                                           pass && pass.length
                                             ? {}
-                                            : { border: "1px solid red" }
+                                            : { border: "1px solid #e5e6e7" }
                                         }
                                       />
                                     </Col>
@@ -1709,7 +1708,7 @@ const Staff = (props: any) => {
                                         style={
                                           values.color && values.color.length
                                             ? {}
-                                            : { border: "1px solid red" }
+                                            : { border: "1px solid #e5e6e7" }
                                         }
                                       >
                                         <option value="white"></option>
@@ -1829,7 +1828,7 @@ const Staff = (props: any) => {
                                       style={
                                         staffRoletype && staffRoletype.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     >
                                       <option />
@@ -1887,7 +1886,7 @@ const Staff = (props: any) => {
                                           values.payrollAmountPaid.toString()
                                             .length
                                             ? {}
-                                            : { border: "1px solid red" }
+                                            : { border: "1px solid #e5e6e7" }
                                         }
                                       />
                                     </Col>
@@ -1911,7 +1910,7 @@ const Staff = (props: any) => {
                                           values.salariedStaffType &&
                                           values.salariedStaffType.length
                                             ? {}
-                                            : { border: "1px solid red" }
+                                            : { border: "1px solid #e5e6e7" }
                                         }
                                       >
                                         <option />
@@ -1961,7 +1960,7 @@ const Staff = (props: any) => {
                                           values.payrollAmountPaid.toString()
                                             .length
                                             ? {}
-                                            : { border: "1px solid red" }
+                                            : { border: "1px solid #e5e6e7" }
                                         }
                                       />
                                     </Col>
@@ -1986,7 +1985,7 @@ const Staff = (props: any) => {
                                               errorMsg == "error" &&
                                               newObj[value.id] <= 0
                                                 ? {
-                                                    border: "1px solid red",
+                                                    border: "1px solid #e5e6e7",
                                                   }
                                                 : {
                                                     border: "1px solid #e5e6e7",
@@ -2247,7 +2246,7 @@ const Staff = (props: any) => {
                                         values.order &&
                                         values.order.toString().length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>

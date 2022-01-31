@@ -265,7 +265,7 @@ const Messages = (props: any) => {
                               style={
                                 values.title && values.title.length
                                   ? {}
-                                  : { border: "1px solid red" }
+                                  : { border: "1px solid #e5e6e7" }
                               }
                             />
                           </div>
@@ -288,7 +288,7 @@ const Messages = (props: any) => {
                               style={
                                 values.message && values.message.length
                                   ? {}
-                                  : { border: "1px solid red" }
+                                  : { border: "1px solid #e5e6e7" }
                               }
                             ></textarea>
                             <p ng-if="vm.message.clientId == 'ALL' || vm.message.clientId == '' || vm.message.clientId == null">

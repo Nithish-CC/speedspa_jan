@@ -446,7 +446,10 @@ const Product = (props: any) => {
                                                 values.name &&
                                                 values.name.length
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             />
                                           </Col>
@@ -470,7 +473,10 @@ const Product = (props: any) => {
                                                 values.caption &&
                                                 values.caption.length
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             />
                                           </Col>
@@ -546,7 +552,10 @@ const Product = (props: any) => {
                                                 values.description &&
                                                 values.description.length
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             />
                                           </Col>

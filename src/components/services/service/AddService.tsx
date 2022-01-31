@@ -693,7 +693,10 @@ const Service = (props: any) => {
                                                 values.name &&
                                                 values.name.length
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             />
                                           </Col>
@@ -865,7 +868,7 @@ const Service = (props: any) => {
                                             <FormControl
                                               type="number"
                                               name="price"
-                                              value={values.price/100}
+                                              value={values.price / 100}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                             />
@@ -938,10 +941,12 @@ const Service = (props: any) => {
                                               }
                                               style={
                                                 values.priority &&
-                                                values.priority.toString()
-                                                  .length
+                                                values.priority.length
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             />
                                           </Col>
@@ -1096,7 +1101,10 @@ const Service = (props: any) => {
                                                 values.categoryId &&
                                                 values.categoryId.length
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             >
                                               <option value="">Category</option>
@@ -1491,7 +1499,10 @@ const Service = (props: any) => {
                                                 addCostChangeVal.resourceId !=
                                                   "addOns"
                                                   ? {}
-                                                  : { border: "1px solid red" }
+                                                  : {
+                                                      border:
+                                                        "1px solid #e5e6e7",
+                                                    }
                                               }
                                             >
                                               {categoryDetails &&
@@ -1534,7 +1545,9 @@ const Service = (props: any) => {
                                               values.price &&
                                               values.price.length
                                                 ? {}
-                                                : { border: "1px solid red" }
+                                                : {
+                                                    border: "1px solid #e5e6e7",
+                                                  }
                                             }
                                           />
                                         </Col>
@@ -1559,7 +1572,9 @@ const Service = (props: any) => {
                                               activeAddTime.time &&
                                               activeAddTime.time.length
                                                 ? {}
-                                                : { border: "1px solid red" }
+                                                : {
+                                                    border: "1px solid #e5e6e7",
+                                                  }
                                             }
                                           />
                                         </Col>

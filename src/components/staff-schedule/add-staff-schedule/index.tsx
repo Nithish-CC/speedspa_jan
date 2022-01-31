@@ -56,8 +56,8 @@ const ScheduleStaff = (props: any) => {
     show: false,
   });
   const [toggle, setToggle] = useState({
-    stylist: false,
-    support: true,
+    stylist: true,
+    support: false,
   });
   const [initialTooltip] = useState({ ...calenderData });
   const [modalPopup, setModalPopup] = useState({
@@ -683,160 +683,131 @@ const ScheduleStaff = (props: any) => {
                         </Button>
                       </div>
                     </div>
-                    <Accordion defaultActiveKey="0">
-                      <div className="ibox float-e-margins">
-                        <div className="ibox-title">
-                          <h5>Staff Members</h5>
-                          <div className="ibox-tools">
-                            <Card>
-                              <Card.Header>
-                                <Accordion.Toggle
-                                  onClick={() => {
-                                    if (toggle.stylist == false)
-                                      setToggle({
-                                        stylist: true,
-                                        support: toggle.support,
-                                      });
-                                    else
-                                      setToggle({
-                                        stylist: false,
-                                        support: toggle.support,
-                                      });
-                                  }}
-                                  style={{
-                                    background: "transparent",
-                                    color: "#c4c4c4",
-                                    border: "#c4c4c4",
-                                  }}
-                                  eventKey="0"
-                                >
-                                  {toggle.stylist ? (
-                                    <i className="fa fa-chevron-down" />
-                                  ) : (
-                                    <i className="fa fa-chevron-up" />
-                                  )}
-                                </Accordion.Toggle>
-                              </Card.Header>
-                              <Accordion.Collapse eventKey="0">
-                                <div
-                                  className="ibox-content m-b-sm border-bottom"
-                                  style={{
-                                    maxHeight: "525px",
-                                    overflow: "scroll",
-                                  }}
-                                >
-                                  {allStaff &&
-                                    allStaff.length &&
-                                    allStaff.map((values: any, index: any) => {
-                                      return (
-                                        values.roles.includes("stylist") && (
-                                          <Button
-                                            className="btn m-t-xs m-b-xs "
-                                            style={{
-                                              width: "100%",
-                                              maxWidth: "400px",
-                                              backgroundColor: `${values.color}`,
-                                              borderColor: `${values.color}`,
-                                            }}
-                                            onClick={(e: any) =>
-                                              setStaffSelected(e.target.value)
-                                            }
-                                            value={values.id}
-                                          >
-                                            {/* {getRole(values,index)} */}
-                                            {values.name}
-                                          </Button>
-                                        )
-                                      );
-                                    })}
-                                </div>
-                              </Accordion.Collapse>
-                            </Card>
-                          </div>
+                    <div className="ibox float-e-margins">
+                      <div className="ibox-title">
+                        <h5>Staff Members</h5>
+                        <div className="ibox-tools">
+                          <a className="collapse-link" href="#/">
+                            <i
+                              className={
+                                toggle.stylist
+                                  ? "fa fa-chevron-up"
+                                  : "fa fa-chevron-down"
+                              }
+                              onClick={() => {
+                                if (toggle.stylist == false)
+                                  setToggle({
+                                    stylist: true,
+                                    support: toggle.support,
+                                  });
+                                else
+                                  setToggle({
+                                    stylist: false,
+                                    support: toggle.support,
+                                  });
+                              }}
+                            ></i>
+                          </a>
                         </div>
                       </div>
-                    </Accordion>
-
-                    <Accordion>
+                      {toggle.stylist && (
+                        <div
+                          className="ibox-content m-b-sm border-bottom"
+                          style={{ maxHeight: "525px", overflow: "scroll" }}
+                        >
+                          <div className="row">
+                            <div className="col-md-12 text-truncate">
+                              {allStaff &&
+                                allStaff.length &&
+                                allStaff.map((values: any, index: any) => {
+                                  return (
+                                    values.roles.includes("stylist") && (
+                                      <Button
+                                        className="btn btn-primary m-t-xs m-b-xs text-truncate"
+                                        style={{
+                                          width: "100%",
+                                          maxWidth: "400px",
+                                          backgroundColor: `${values.color}`,
+                                          borderColor: `${values.color}`,
+                                        }}
+                                        onClick={(e: any) =>
+                                          setStaffSelected(e.target.value)
+                                        }
+                                        value={values.id}
+                                      >
+                                        {/* {getRole(values,index)} */}
+                                        {values.name}
+                                      </Button>
+                                    )
+                                  );
+                                })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                       <div className="ibox float-e-margins">
                         <div className="ibox-title">
                           <h5>Admin/Support Members</h5>
                           <div className="ibox-tools">
-                            <Card>
-                              <Card.Header>
-                                <Accordion.Toggle
-                                  onClick={() => {
-                                    if (toggle.support == false)
-                                      setToggle({
-                                        stylist: toggle.stylist,
-                                        support: true,
-                                      });
-                                    else
-                                      setToggle({
-                                        stylist: toggle.stylist,
-                                        support: false,
-                                      });
-                                  }}
-                                  style={{
-                                    background: "transparent",
-                                    color: "#c4c4c4",
-                                    border: "#c4c4c4",
-                                  }}
-                                  eventKey="1"
-                                >
-                                  {toggle.support ? (
-                                    <i className="fa fa-chevron-down" />
-                                  ) : (
-                                    <i className="fa fa-chevron-up" />
-                                  )}
-                                </Accordion.Toggle>
-                              </Card.Header>
-                              <Accordion.Collapse eventKey="1">
-                                <div
-                                  className="ibox-content m-b-sm border-bottom"
-                                  style={{
-                                    maxHeight: "525px",
-                                    overflow: "scroll",
-                                  }}
-                                >
-                                  <div className="row">
-                                    <div className="col-md-12 text-truncate">
-                                      {allStaff &&
-                                        allStaff.length &&
-                                        allStaff.map((values: any) => {
-                                          return (
-                                            !values.roles.includes(
-                                              "stylist"
-                                            ) && (
-                                              <Button
-                                                className="btn m-t-xs m-b-xs text-truncate"
-                                                style={{
-                                                  width: "100%",
-                                                  maxWidth: "400px",
-                                                  backgroundColor: `${values.color}`,
-                                                  borderColor: `${values.color}`,
-                                                }}
-                                                onClick={(e: any) =>
-                                                  setStaffSelected(
-                                                    e.target.value
-                                                  )
-                                                }
-                                                value={values.id}
-                                              >
-                                                {values.name}
-                                              </Button>
-                                            )
-                                          );
-                                        })}
-                                    </div>
-                                  </div>
-                                </div>
-                              </Accordion.Collapse>
-                            </Card>
+                            <a className="collapse-link" href="#/">
+                              <i
+                                className={
+                                  toggle.support
+                                    ? "fa fa-chevron-up"
+                                    : "fa fa-chevron-down"
+                                }
+                                onClick={() => {
+                                  if (toggle.support == false)
+                                    setToggle({
+                                      stylist: toggle.stylist,
+                                      support: true,
+                                    });
+                                  else
+                                    setToggle({
+                                      stylist: toggle.stylist,
+                                      support: false,
+                                    });
+                                }}
+                              ></i>
+                            </a>
                           </div>
                         </div>
+                        {toggle.support && (
+                          <div
+                            className="ibox-content m-b-sm border-bottom"
+                            style={{ maxHeight: "525px", overflow: "scroll" }}
+                          >
+                            <div className="row">
+                              <div className="col-md-12 text-truncate">
+                                {allStaff &&
+                                  allStaff.length &&
+                                  allStaff.map((values: any, index: any) => {
+                                    return (
+                                      !values.roles.includes("stylist") && (
+                                        <Button
+                                          className="btn btn-primary m-t-xs m-b-xs text-truncate"
+                                          style={{
+                                            width: "100%",
+                                            maxWidth: "400px",
+                                            backgroundColor: `${values.color}`,
+                                            borderColor: `${values.color}`,
+                                          }}
+                                          onClick={(e: any) =>
+                                            setStaffSelected(e.target.value)
+                                          }
+                                          value={values.id}
+                                        >
+                                          {values.name}
+                                        </Button>
+                                      )
+                                    );
+                                  })}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </Accordion>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -131,7 +131,7 @@ const Addcategories = (props: any) => {
                                       style={
                                         values.name && values.name.length
                                           ? {}
-                                          : { border: "1px solid red" }
+                                          : { border: "1px solid #e5e6e7" }
                                       }
                                     />
                                   </Col>

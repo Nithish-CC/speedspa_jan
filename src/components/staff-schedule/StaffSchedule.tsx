@@ -208,7 +208,6 @@ const StaffSchedule = (props: any) => {
                             onSubmit={handleSubmit}
                           >
                             <React.Fragment>
-                              <div className="text-danger m-t-md m-b-md"></div>
                               <FormGroup>
                                 <Col sm="6">
                                   <FormLabel className="control-label">
@@ -224,10 +223,10 @@ const StaffSchedule = (props: any) => {
                                       values.resourceId &&
                                       values.resourceId.length
                                         ? {}
-                                        : { border: "1px solid red" }
+                                        : { border: "1px solid #ed5565" }
                                     }
                                   >
-                                    <option value="">--Select Staff--</option>
+                                    <option value="">-- Select Staff --</option>
                                     <optgroup label="Staff">
                                       {staff.map((staff: any) => {
                                         return (
@@ -268,7 +267,7 @@ const StaffSchedule = (props: any) => {
                               <FormGroup>
                                 <Col sm="6">
                                   <FormLabel className="control-label">
-                                    Occurence
+                                    Occurence{" "}
                                     <Tippy
                                       theme={"success"}
                                       placement="right"
@@ -313,7 +312,7 @@ const StaffSchedule = (props: any) => {
                               </FormGroup>
                               {occuranceValues.montly && (
                                 <FormGroup>
-                                  <Col sm="4">
+                                  <Col lg="12">
                                     <FormLabel className="control-label">
                                       Repeats on:
                                     </FormLabel>
@@ -334,13 +333,17 @@ const StaffSchedule = (props: any) => {
                                                 type="checkbox"
                                                 name="repeats"
                                                 value={date}
+                                                style={{
+                                                  marginTop: "0",
+                                                  verticalAlign: " middle",
+                                                }}
                                                 onClick={(e) => {
                                                   monthlyRepeat(e);
                                                 }}
-                                              />
-                                              &nbsp; &nbsp;
+                                              />{" "}
                                               <strong>{date}</strong>
                                             </span>
+                                            {date % 7 == 0 && <br />}
                                           </React.Fragment>
                                         );
                                       })}
@@ -443,7 +446,7 @@ const StaffSchedule = (props: any) => {
                               )}
                               {occuranceValues.daily && (
                                 <FormGroup>
-                                  <Col sm="6">
+                                  <Col sm="3">
                                     <FormLabel className="control-label">
                                       Repeats every:&emsp;
                                     </FormLabel>
@@ -480,7 +483,7 @@ const StaffSchedule = (props: any) => {
                                       style={{
                                         border: "1px solid #e5e6e7",
                                       }}
-                                      format="EEEE MMMM d, yyyy"
+                                      format="EEEE, MMMM d, yyyy"
                                       minDate={todaysDate}
                                       showTodayButton={true}
                                       keyboardIcon={
@@ -492,7 +495,7 @@ const StaffSchedule = (props: any) => {
                                 <Col sm="3">
                                   <FormLabel className="control-label">
                                     End Date
-                                  </FormLabel>                                  
+                                  </FormLabel>
                                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
                                       className="form-control"
@@ -504,7 +507,7 @@ const StaffSchedule = (props: any) => {
                                         border: "1px solid #e5e6e7",
                                       }}
                                       helperText={null}
-                                      format="EEEE MMMM d, yyyy"
+                                      format="EEEE, MMMM d, yyyy"
                                       showTodayButton={true}
                                       keyboardIcon={
                                         <i className="glyphicon glyphicon-calendar"></i>
@@ -516,7 +519,7 @@ const StaffSchedule = (props: any) => {
                               <FormGroup>
                                 <div className="col-lg-2">
                                   <label className="control-label">
-                                    Start Time
+                                    Start Time {" "}
                                     <Tippy
                                       theme={"success"}
                                       placement="top"
@@ -543,7 +546,7 @@ const StaffSchedule = (props: any) => {
                                 </div>
                                 <div className="col-lg-2">
                                   <label className="control-label">
-                                    End Time
+                                    End Time{" "}
                                     <Tippy
                                       theme={"success"}
                                       placement="top"

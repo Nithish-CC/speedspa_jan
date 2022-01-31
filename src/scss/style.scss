@@ -191,7 +191,7 @@ body.mini-navbar .navbar-static-side {
   background-color: #fff !important;
   background-color: var(--fc-button-bg-color, #fff !important);
   border-color: 1px solid #e7eaec !important;
-  border-color: var(--fc-button-border-color, #e7eaec ) !important;
+  border-color: var(--fc-button-border-color, #e7eaec) !important;
 }
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
@@ -201,4 +201,14 @@ body.mini-navbar .navbar-static-side {
   background-color: var(--fc-button-bg-color, #1ab394 !important);
   border-color: #1ab394 !important;
   border-color: var(--fc-button-border-color, #1ab394 !important);
+}
+
+.control-label {
+  margin-bottom: 10px !important;
+  margin-top: 5px !important;
+}
+
+.MuiInputBase-input {
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  color: #555;
 }
