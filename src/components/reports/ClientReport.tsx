@@ -13,12 +13,13 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { Col, Button } from "react-bootstrap";
 
 const ClientReport = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Client Report");
   const [orderBy, setOrderBy] = useState(false);
-  const [field, setField] = useState("clientName");
+  const [field, setField] = useState("totalGrossServiceRevenue");
   const [params, setParams] = useState({
     begin_time: moment(new Date()).startOf("day").utc().format(),
     end_time: moment(new Date()).endOf("day").utc().format(),
@@ -87,9 +88,16 @@ const ClientReport = (props: any) => {
       );
       setSearchResults(newFliterJob);
     } else if (clientReportFetch && clientReportFetch.length) {
-      setSearchResults(clientReportFetch[0].data);
+      setSearchResults(
+        _.orderBy(
+          clientReportFetch[0].data,
+          ["totalGrossServiceRevenue"],
+          ["desc"]
+        )
+      );
     }
   };
+  console.log(clientReportFetch);
 
   const handleSearch = () => {
     const input = {
@@ -152,12 +160,23 @@ const ClientReport = (props: any) => {
         centered={true}
         animation={false}
       >
-        <ModalHeader>
+        <ModalBody className="text-center">
+          <button
+            class="btn btn-sm btn-default ng-isolate-scope"
+            style={{
+              marginBottom: "10px",
+              fontWeight: "600",
+              background: "#EFEFEF",
+              borderColor: "#dddddd",
+            }}
+            name="specificClientReportPrintDiv"
+            id="printBtn"
+          >
+            Print <i class="fa fa-print"></i>
+          </button>
           <button type="button" className="close" onClick={() => closeModal()}>
             <span aria-hidden="true">×</span>
           </button>
-        </ModalHeader>
-        <ModalBody>
           <h3 className="text-center">
             {/*<print-html name='specificClientReportPrintDiv' id='printBtn'></print-html>&nbsp; <span id='staff-detail-modal-close' aria-hidden='true' class='close' data-dismiss='modal'
                         aria-label='Close'>&times;</span>*/}
@@ -180,8 +199,9 @@ const ClientReport = (props: any) => {
                         </th>
                         <th className="text-center" style={{ width: "40%" }}>
                           <i>
-                            {moment(params.begin_time).format("LL")} - &nbsp;
-                            {moment(params.end_time).format("LL")}
+                            {moment(params.begin_time).format("MMM DD, YYYY")} -
+                            &nbsp;
+                            {moment(params.end_time).format("MMM DD, YYYY")}
                           </i>
                         </th>
                       </tr>
@@ -190,12 +210,13 @@ const ClientReport = (props: any) => {
                   <table className="table table-striped table-bordered table-condensed align-middle">
                     <thead>
                       <tr>
-                        <th colSpan={5} className="text-center text-uppercase">
+                        <th colSpan={6} className="text-center text-uppercase">
                           {modalPopup.name.clientName}
                         </th>
                       </tr>
                       <tr>
                         <th className="text-center">Phone Number</th>
+                        <th className="text-center">No Show Count</th>
                         <th className="text-center">Flexible Count</th>
                         <th className="text-center">Specific Count</th>
                         <th className="text-center">Total Count</th>
@@ -205,20 +226,28 @@ const ClientReport = (props: any) => {
                     <tbody>
                       <tr className="text-center">
                         <td>{modalPopup.name.clientPhoneNumber}</td>
+                        <td>{modalPopup.name.noShowCount}</td>
                         <td>{modalPopup.name.flexibleCount}</td>
                         <td>{modalPopup.name.specificCount}</td>
                         <td>
                           <strong>{modalPopup.name.totalCount}</strong>
                         </td>
-                        <td>
-                          <strong>
-                            ${modalPopup.name.totalGrossServiceRevenue}
-                          </strong>
-                        </td>
+                        {modalPopup.name.totalGrossServiceRevenue &&
+                          modalPopup.name.totalGrossServiceRevenue.toString()
+                            .length && (
+                            <td>
+                              <strong>
+                                $
+                                {modalPopup.name.totalGrossServiceRevenue.toFixed(
+                                  2
+                                )}
+                              </strong>
+                            </td>
+                          )}
                       </tr>
                     </tbody>
                   </table>
-                  <p>
+                  <p style={{ textAlign: "left" }}>
                     <b>Services Details</b>
                   </p>
                   <table className="table table-striped table-bordered table-condensed align-middle">
@@ -241,12 +270,6 @@ const ClientReport = (props: any) => {
                             <tr>
                               <td className="text-capitalize text-left">
                                 <strong>{value.staffName}</strong>
-                                <br />
-                                <small>
-                                  <i>
-                                    {moment(value.updatedAt).format("LL LT")}
-                                  </i>
-                                </small>
                               </td>
                               <td className="text-center text-capitalize">
                                 {value.itemNames}
@@ -372,7 +395,7 @@ const ClientReport = (props: any) => {
                             <label>Search</label>
                             <input
                               type="text"
-                              placeholder="Search by Name"
+                              placeholder="Search by Client Name"
                               className="form-control ng-pristine ng-valid ng-empty ng-touched"
                               onChange={(e) => trim1(e.target.value)}
                             />
@@ -396,6 +419,37 @@ const ClientReport = (props: any) => {
                     </form>
                     <div className="hr-line-dashed"></div>
                     <div className="row">
+                      <Col sm="12" className="text-right">
+                        <Button
+                          size="sm"
+                          className="btn-default"
+                          onClick={(e) => printContent(e)}
+                          style={{
+                            marginBottom: "10px",
+                            background: "#EFEFEF",
+                            borderColor: "#dddddd",
+                            fontWeight: "600",
+                          }}
+                          name="clientReportPrintDiv"
+                          id="printBtn"
+                        >
+                          Print <i className="fa fa-print "></i>
+                        </Button>
+                        &nbsp;
+                        <Button
+                          size="sm"
+                          className="btn-default"
+                          style={{
+                            marginBottom: "10px",
+                            fontWeight: "600",
+                            background: "#EFEFEF",
+                            borderColor: "#dddddd",
+                          }}
+                          onClick={(e) => ExportToExcel(e, estimatedPay.data)}
+                        >
+                          Export to Excel <i className="fa fa-download"></i>
+                        </Button>
+                      </Col>
                       <div className="col-sm-12 table-responsive">
                         <table className="table table-striped table-bordered table-condensed align-middle dataTables-example">
                           <thead>
@@ -411,13 +465,24 @@ const ClientReport = (props: any) => {
                                     >
                                       {title}
                                     </th>
-                                    <th colSpan={3} className="text-center">
-                                      {moment(params.begin_time).format("LL")} -{" "}
-                                      {moment(params.end_time).format("LL LT")}
+                                    <th colSpan={4} className="text-center">
+                                      {moment(params.begin_time).format(
+                                        "MMM DD, YYYY"
+                                      )}{" "}
+                                      -{" "}
+                                      {moment(params.end_time).format(
+                                        "MMM DD, YYYY"
+                                      )}
                                     </th>
                                   </tr>
                                   <tr className="ignore font-weight-bold">
-                                    <th>Summary</th>
+                                    <th>Summary:</th>
+                                    <th className="text-center">
+                                      {
+                                        clientReportFetch[0]
+                                          .summaryOfNoShowCount
+                                      }
+                                    </th>
                                     <th className="text-center">
                                       {commafy(addFlexibleCount(searchResults))}
                                     </th>
@@ -455,6 +520,19 @@ const ClientReport = (props: any) => {
                                 onClick={(e) => handleSortChange("clientName")}
                               >
                                 Client Name
+                              </th>
+                              <th
+                                style={{ textAlign: "center" }}
+                                className={
+                                  field != "flexibleCount"
+                                    ? "sorting"
+                                    : orderBy
+                                    ? "sorting_asc"
+                                    : "sorting_desc"
+                                }
+                                onClick={(e) => handleSortChange("noShowCount")}
+                              >
+                                No Show Count
                               </th>
                               <th
                                 style={{ textAlign: "center" }}
@@ -529,8 +607,14 @@ const ClientReport = (props: any) => {
                               <React.Fragment>
                                 {searchResults.map((value: any, index: any) => {
                                   return (
-                                    <tr className="gradeX" key={index}>
+                                    <tr
+                                      className="gradeX text-capitalize"
+                                      key={index}
+                                    >
                                       <td>{value.clientName}</td>
+                                      <td className="text-center">
+                                        {value.noShowCount}
+                                      </td>
                                       <td className="text-center">
                                         {value.flexibleCount}
                                       </td>
@@ -541,16 +625,7 @@ const ClientReport = (props: any) => {
                                         {value.totalCount}
                                       </td>
                                       <td className="text-center">
-                                        $
-                                        {commafy(
-                                          (
-                                            Math.round(
-                                              totalGrossServiceRevenue(
-                                                searchResults
-                                              ) * 100
-                                            ) / 100
-                                          ).toFixed(2)
-                                        )}
+                                        ${value.totalGrossServiceRevenue.toFixed(2)}
                                       </td>
                                       <td className="text-center">
                                         <a
@@ -561,15 +636,19 @@ const ClientReport = (props: any) => {
                                             handleModalPopup(value, index)
                                           }
                                         >
-                                          <i className="glyphicon glyphicon-eye-open"></i>
+                                          <i className="glyphicon glyphicon-eye-open"></i>{" "}
                                           Show
                                         </a>
                                       </td>
                                     </tr>
                                   );
                                 })}
+                                {console.log()}
                                 <tr className="ignore font-weight-bold">
-                                  <th>Summary</th>
+                                  <th>Summary:</th>
+                                  <th className="text-center">
+                                    {clientReportFetch[0].summaryOfNoShowCount}
+                                  </th>
                                   <th className="text-center">
                                     {commafy(addFlexibleCount(searchResults))}
                                   </th>

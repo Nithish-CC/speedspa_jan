@@ -82,7 +82,11 @@ export default function reportReducers(state = initialState, action: any) {
     case SET_REPORT_CLIENT_REPORT:
       return {
         ...state,
-        reportClientReport: action.payload,
+        reportClientReport: _.orderBy(
+          action.payload,
+          ["totalGrossServiceRevenue"],
+          ["desc"]
+        ),
       };
     case SET_STAFF_BOOKING_ANALYSIS:
       return {
