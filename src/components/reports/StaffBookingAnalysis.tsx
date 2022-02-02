@@ -395,7 +395,7 @@ const StaffBokkingAnalysis = (props: any) => {
                             <label>Search</label>
                             <input
                               type="text"
-                              placeholder="Search by Name"
+                              placeholder="Search by Staff Name"
                               className="form-control"
                               onChange={(e) => trim(e.target.value)}
                             />

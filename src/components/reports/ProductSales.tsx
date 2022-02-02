@@ -124,7 +124,7 @@ const ProductSales = (props: any) => {
     );
     WindowPrt.document.write("<html><head>");
     WindowPrt.document.write(
-      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />'
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous"> <style>.ignore{display: none}</style>'
     );
     WindowPrt.document.write("</head><body >");
     WindowPrt.document.write(printContents.innerHTML);

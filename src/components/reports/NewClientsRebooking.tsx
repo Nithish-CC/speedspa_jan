@@ -4,7 +4,7 @@ import { useSelector, connect } from "react-redux";
 import { Row, Col, Table, Button } from "react-bootstrap";
 import { getData } from "../../redux/actions/reportActions";
 import _ from "lodash";
-import { sorting, commafy, buildFilter } from "../../utils/common";
+import { sortingNewClients, commafy, buildFilter } from "../../utils/common";
 import moment from "moment";
 
 const NewClientsRebooking = (props: any) => {
@@ -58,9 +58,8 @@ const NewClientsRebooking = (props: any) => {
       setOrderBy(true);
       setField(key);
     }
-    sorting(reporting, key, orderBy);
+    sortingNewClients(reporting, key, orderBy);    
   };
-  console.log(reportData);
 
   //filtering the datas from the array
   const filteringData = () => {
@@ -116,7 +115,7 @@ const NewClientsRebooking = (props: any) => {
     );
     WindowPrt.document.write("<html><head>");
     WindowPrt.document.write(
-      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />'
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous"> <style>.ignore{display: none}</style>'
     );
     WindowPrt.document.write("</head><body >");
     WindowPrt.document.write(printContents.innerHTML);
@@ -230,7 +229,6 @@ const NewClientsRebooking = (props: any) => {
                                 Total Future Appts
                               </th>
                             </tr>
-                            {console.log(reporting)}
                           </thead>
                           <tbody>
                             {!UI.buttonLoading &&
@@ -238,7 +236,7 @@ const NewClientsRebooking = (props: any) => {
                             reporting.length > 0 ? (
                               reporting.map((item: any) => {
                                 return (
-                                  <tr key={params.businessId}>
+                                  <tr>
                                     <td className="sorting sorting_desc">
                                       {item[0].client.firstName}{" "}
                                       {item[0].client.lastName}

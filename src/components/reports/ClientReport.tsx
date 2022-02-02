@@ -75,6 +75,92 @@ const ClientReport = (props: any) => {
   function trim1(str: any) {
     return setName(str.replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
   }
+  const printModal = (e: any) => {
+    const printContents: any = document.getElementById(
+      "clientReportModalPrint"
+    );
+    const WindowPrt: any = window.open(
+      "",
+      "",
+      "left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0"
+    );
+    WindowPrt.document.write("<html><head>");
+    WindowPrt.document.write(
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous"> <style>.ignore{display: none}</style>'
+    );
+    WindowPrt.document.write("</head><body>");
+    WindowPrt.document.write(printContents.innerHTML);
+    WindowPrt.document.write("</body></html>");
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    setTimeout(() => {
+      WindowPrt.print();
+      WindowPrt.close();
+    }, 500);
+  };
+
+  const printContent = (e: any) => {
+    const printContents: any = document.getElementById("clientReportPrint");
+    const WindowPrt: any = window.open(
+      "",
+      "",
+      "left=0,top=0,width=2000,height=1000,toolbar=0,scrollbars=0,status=0"
+    );
+    WindowPrt.document.write("<html><head>");
+    WindowPrt.document.write(
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous"> <style>.ignore{display: none}</style>'
+    );
+    WindowPrt.document.write("</head><body>");
+    WindowPrt.document.write(printContents.innerHTML);
+    WindowPrt.document.write("</body></html>");
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    setTimeout(() => {
+      WindowPrt.print();
+      WindowPrt.close();
+    }, 500);
+  };
+
+  const ExportToExcel = (e: any, data: any) => {
+    let jsonData: any = [];
+    let pathName =
+      params.begin_time === params.end_time
+        ? "ClientReport_" + moment(params.end_time).format("MM_DD_YYYY")
+        : "ClientReport_" +
+          moment(params.begin_time).format("MM_DD_YYYY") +
+          "_to_" +
+          moment(params.end_time).format("MM_DD_YYYY");
+    data.data.forEach((report: any) => {
+      jsonData.push({
+        "Client Name": report.clientName,
+        "NoShow Count": report.noShowCount,
+        "Flexible Count": report.flexibleCount,
+        "Specific Count": report.specificCount,
+        "Total Count": report.totalCount,
+        "Total Amount ($)": "$" + report.totalGrossServiceRevenue.toFixed(2),
+      });
+    });
+    const ws = XLSX.utils.json_to_sheet(jsonData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.sheet_add_aoa(
+      ws,
+      [
+        [
+          "Summary:",
+          data.summaryOfNoShowCount,
+          data.summaryOfFlexibleCount,
+          data.summaryOfSpecificCount,
+          data.summaryOfTotalCount,
+          "$" + data.summaryOfTotalGrossServiceRevenue.toFixed(2),
+        ],
+      ],
+      {
+        origin: -1,
+      }
+    );
+    XLSX.utils.book_append_sheet(wb, ws, "data");
+    XLSX.writeFile(wb, pathName + ".xlsx");
+  };
 
   const filterData = () => {
     if (name) {
@@ -97,7 +183,6 @@ const ClientReport = (props: any) => {
       );
     }
   };
-  console.log(clientReportFetch);
 
   const handleSearch = () => {
     const input = {
@@ -171,6 +256,9 @@ const ClientReport = (props: any) => {
             }}
             name="specificClientReportPrintDiv"
             id="printBtn"
+            onClick={(e) => {
+              printModal(e);
+            }}
           >
             Print <i class="fa fa-print"></i>
           </button>
@@ -183,7 +271,7 @@ const ClientReport = (props: any) => {
           </h3>
           <div className="container-fluid">
             <div className="row">
-              <div className="col-sm-12">
+              <div className="col-sm-12" id="clientReportModalPrint">
                 <div
                   className="table-responsive"
                   id="specificClientReportPrintDiv"
@@ -274,10 +362,18 @@ const ClientReport = (props: any) => {
                               <td className="text-center text-capitalize">
                                 {value.itemNames}
                               </td>
-                              <td className="text-center">${value.amount}</td>
-                              <td className="text-center">${value.tip}</td>
-                              <td className="text-center">${value.tax}</td>
-                              <td className="text-center">${value.total}</td>
+                              <td className="text-center">
+                                ${value.amount.toFixed(2)}
+                              </td>
+                              <td className="text-center">
+                                ${value.tip.toFixed(2)}
+                              </td>
+                              <td className="text-center">
+                                ${value.tax.toFixed(2)}
+                              </td>
+                              <td className="text-center">
+                                ${value.total.toFixed(2)}
+                              </td>
                               <td className="text-center">
                                 {value &&
                                   value.requestType.length &&
@@ -419,38 +515,47 @@ const ClientReport = (props: any) => {
                     </form>
                     <div className="hr-line-dashed"></div>
                     <div className="row">
-                      <Col sm="12" className="text-right">
-                        <Button
-                          size="sm"
-                          className="btn-default"
-                          onClick={(e) => printContent(e)}
-                          style={{
-                            marginBottom: "10px",
-                            background: "#EFEFEF",
-                            borderColor: "#dddddd",
-                            fontWeight: "600",
-                          }}
-                          name="clientReportPrintDiv"
-                          id="printBtn"
-                        >
-                          Print <i className="fa fa-print "></i>
-                        </Button>
-                        &nbsp;
-                        <Button
-                          size="sm"
-                          className="btn-default"
-                          style={{
-                            marginBottom: "10px",
-                            fontWeight: "600",
-                            background: "#EFEFEF",
-                            borderColor: "#dddddd",
-                          }}
-                          onClick={(e) => ExportToExcel(e, estimatedPay.data)}
-                        >
-                          Export to Excel <i className="fa fa-download"></i>
-                        </Button>
-                      </Col>
-                      <div className="col-sm-12 table-responsive">
+                      {searchResults && searchResults.length ? (
+                        <Col sm="12" className="text-right">
+                          <Button
+                            size="sm"
+                            className="btn-default"
+                            onClick={(e) => printContent(e)}
+                            style={{
+                              marginBottom: "10px",
+                              background: "#EFEFEF",
+                              borderColor: "#dddddd",
+                              fontWeight: "600",
+                            }}
+                            name="clientReportPrintDiv"
+                            id="printBtn"
+                          >
+                            Print <i className="fa fa-print "></i>
+                          </Button>
+                          &nbsp;
+                          <Button
+                            size="sm"
+                            className="btn-default"
+                            style={{
+                              marginBottom: "10px",
+                              fontWeight: "600",
+                              background: "#EFEFEF",
+                              borderColor: "#dddddd",
+                            }}
+                            onClick={(e) =>
+                              ExportToExcel(e, clientReportFetch[0])
+                            }
+                          >
+                            Export to Excel <i className="fa fa-download"></i>
+                          </Button>
+                        </Col>
+                      ) : (
+                        <></>
+                      )}
+                      <div
+                        className="col-sm-12 table-responsive"
+                        id="clientReportPrint"
+                      >
                         <table className="table table-striped table-bordered table-condensed align-middle dataTables-example">
                           <thead>
                             {!UI.buttonLoading &&
@@ -625,9 +730,12 @@ const ClientReport = (props: any) => {
                                         {value.totalCount}
                                       </td>
                                       <td className="text-center">
-                                        ${value.totalGrossServiceRevenue.toFixed(2)}
+                                        $
+                                        {value.totalGrossServiceRevenue.toFixed(
+                                          2
+                                        )}
                                       </td>
-                                      <td className="text-center">
+                                      <td className="text-center ignore">
                                         <a
                                           href=""
                                           data-toggle="modal"
@@ -643,7 +751,6 @@ const ClientReport = (props: any) => {
                                     </tr>
                                   );
                                 })}
-                                {console.log()}
                                 <tr className="ignore font-weight-bold">
                                   <th>Summary:</th>
                                   <th className="text-center">
@@ -675,7 +782,7 @@ const ClientReport = (props: any) => {
                               </React.Fragment>
                             ) : (
                               <tr>
-                                <td colSpan={6} className="text-center">
+                                <td colSpan={7} className="text-center">
                                   {!UI.buttonLoading ? (
                                     "No Reports"
                                   ) : (

@@ -181,8 +181,9 @@ body.mini-navbar .navbar-static-side {
 
 .MuiInputBase-input {
   font-size: 14px !important;
-  color: #555 !important;
-  padding: 6px 12px !important;
+  padding: 8px 12px !important;
+  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  color: #676a6c !important;
 }
 
 .fc .fc-button-primary {
@@ -208,7 +209,18 @@ body.mini-navbar .navbar-static-side {
   margin-top: 5px !important;
 }
 
-.MuiInputBase-input {
-  font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  color: #555;
+.ibox-content {
+  border-width: 0;
+  border-radius: 5px;
 }
+
+.MuiInputAdornment-root {
+  border-left: 1px solid #e7eaec !important;
+  padding: 16px 0 !important;
+}
+
+.MuiFormControl-root {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+

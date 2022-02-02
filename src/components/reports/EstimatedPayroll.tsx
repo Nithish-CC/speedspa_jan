@@ -118,7 +118,7 @@ const EstimatedPayroll = (props: any) => {
     );
     WindowPrt.document.write("<html><head>");
     WindowPrt.document.write(
-      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />'
+      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous"> <style>.ignore{display: none}</style>'
     );
     WindowPrt.document.write("</head><body >");
     WindowPrt.document.write(printContents.innerHTML);
@@ -139,7 +139,7 @@ const EstimatedPayroll = (props: any) => {
           moment(params.end_time).format("MM_DD_YYYY")
         : "EstimatedPayrollReport_" +
           moment(params.begin_time).format("MM_DD_YYYY") +
-          "to" +
+          "_to_" +
           moment(params.end_time).format("MM_DD_YYYY");
 
     data.forEach((eachPayRoll: any) => {
@@ -747,7 +747,7 @@ const EstimatedPayroll = (props: any) => {
                                         <td className="text-center">
                                           {eachPayRoll.totalHours}
                                         </td>
-                                        <td className="text-center">
+                                        <td className="text-center ignore">
                                           {eachPayRoll.serviceRevenue > 0 &&
                                             eachPayRoll.servicePayout > 0 &&
                                             eachPayRoll.tipRevenue > 0 &&
@@ -776,7 +776,7 @@ const EstimatedPayroll = (props: any) => {
                                     );
                                   }
                                 )}
-                                <tr className="ignore font-weight-bold">
+                                <tr className="font-weight-bold">
                                   <th>Summary</th>
                                   <th className="text-center">
                                     $
