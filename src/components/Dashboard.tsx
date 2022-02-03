@@ -37,6 +37,7 @@ const Dashboard = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [topSalesService, setTopSalesService] = useState([]);
   const [topCategory, setTopCategory] = useState([]);
+  const demo = [-1, 0.5, 0.2, 1, -0.2];
   // From Reducer
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
@@ -133,7 +134,7 @@ const Dashboard = (props: any) => {
                   {/* total customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <span className="customer_analysis_count">
                           ${totalSales.summaryOfAmount}
                         </span>
@@ -143,7 +144,7 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <span className="customer_analysis_count">
                           ${totalSales.summaryOfTip}
                         </span>
@@ -153,7 +154,7 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <span className="customer_analysis_count">
                           {"\u0024"}
                           {totalSales.summaryOfTotal}
@@ -165,7 +166,7 @@ const Dashboard = (props: any) => {
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
                       <div
-                        className="ibox-content customer_analysis_content greenWhite"
+                        className="ibox-content customer-analysis-content greenWhite"
                         style={{ height: "150px" }}
                       >
                         <span
@@ -200,7 +201,7 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <span className="customer_analysis_count">
                           {totalSales.total}
                         </span>
@@ -211,7 +212,7 @@ const Dashboard = (props: any) => {
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
                       <div
-                        className="ibox-content customer_analysis_content greenWhite"
+                        className="ibox-content customer-analysis-content greenWhite"
                         style={{ height: "150px" }}
                       >
                         <span
@@ -252,7 +253,7 @@ const Dashboard = (props: any) => {
                   {/* total customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <i
                           className="fa fa-user"
                           style={{ fontSize: "4.75rem" }}
@@ -268,7 +269,7 @@ const Dashboard = (props: any) => {
                   {/* new customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <i
                           className="fa fa-user-plus"
                           style={{ fontSize: "4.75rem" }}
@@ -284,7 +285,7 @@ const Dashboard = (props: any) => {
                   {/* returning customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <i
                           className="fa fa-users"
                           style={{ fontSize: "4.75rem" }}
@@ -300,7 +301,7 @@ const Dashboard = (props: any) => {
                   {/* average $ per visit */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <span className="customer_analysis_count">
                           {"\u0024"}
                           {thirtyDaySnapshot.averageAmount || 0}
@@ -312,7 +313,7 @@ const Dashboard = (props: any) => {
                   {/* average visit per customer */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <i
                           className="fa fa-user"
                           style={{ fontSize: "4.75rem" }}
@@ -328,7 +329,7 @@ const Dashboard = (props: any) => {
                   {/* % of rebooking */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content greenWhite">
+                      <div className="ibox-content customer-analysis-content greenWhite">
                         <span className="customer_analysis_count">
                           {"\u0024"}
                           {thirtyDaySnapshot.avgTotalSales || 0}
@@ -343,7 +344,7 @@ const Dashboard = (props: any) => {
                     <div className="wrapper wrapper-content animated fadeInRight">
                       <h2 className="text-center">Daily Sales Trend</h2>
                       <div className="row">
-                        <div className="col-md-8">                          
+                        <div className="col-md-8">
                           {dashboardChart && (
                             <Line
                               data={{
@@ -366,8 +367,24 @@ const Dashboard = (props: any) => {
                                 ],
                                 datasets: [
                                   {
-                                    data: dashboardChart.dayView,
-                                    borderColor: "#454a43",
+                                    data:
+                                      dashboardChart &&
+                                      dashboardChart.data &&
+                                      dashboardChart.data.dayView !== undefined
+                                        ? [dashboardChart.data.dayView]
+                                        : [
+                                            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                            0, 0, 0, 0,
+                                          ],
+
+                                    series: [
+                                      "Day -" +
+                                        moment()
+                                          .subtract(1, "years")
+                                          .format("MMMM DD, YYYY"),
+                                      "Day -" +
+                                        moment().format("MMMM DD, YYYY"),
+                                    ],
                                   },
                                 ],
                               }}
@@ -405,7 +422,12 @@ const Dashboard = (props: any) => {
                                 ],
                                 datasets: [
                                   {
-                                    data: dashboardChart.weekView,
+                                    data:
+                                      dashboardChart &&
+                                      dashboardChart.data &&
+                                      dashboardChart.data.weekView !== undefined
+                                        ? [dashboardChart.data.weekView]
+                                        : [0, 0, 0, 0, 0, 0, 0],
                                   },
                                 ],
                               }}
@@ -448,8 +470,20 @@ const Dashboard = (props: any) => {
                                 ],
                                 datasets: [
                                   {
-                                    data: dashboardChart.monthView,
-                                    borderColor: "#454a43",
+                                    data:
+                                      dashboardChart &&
+                                      dashboardChart.data &&
+                                      dashboardChart.data.monthView !==
+                                        undefined
+                                        ? [dashboardChart.data.monthView]
+                                        : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                    series: [
+                                      "Year -" +
+                                        moment()
+                                          .subtract(1, "years")
+                                          .format("YYYY"),
+                                      "Year -" + moment().format("YYYY"),
+                                    ],
                                   },
                                 ],
                               }}

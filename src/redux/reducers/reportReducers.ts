@@ -23,7 +23,7 @@ export type State = Readonly<{
   reportClientReport: [];
   reportStaffBookingAnalysis: [];
   getproductOrders: [];
-  getData: [];
+  getNewClientRebookingData: [];
   getServiceOrders: {};
   dashboardChart: [];
 }>;
@@ -38,7 +38,7 @@ const initialState: State = {
   reportClientReport: [],
   reportStaffBookingAnalysis: [],
   getproductOrders: [],
-  getData: [],
+  getNewClientRebookingData: [],
   getServiceOrders: {},
   dashboardChart: [],
 };
@@ -96,7 +96,7 @@ export default function reportReducers(state = initialState, action: any) {
     case SET_REPORT_CLIENT_REBOOKINGS:
       return {
         ...state,
-        getData: action.payload,
+        getNewClientRebookingData: action.payload,
       };
     case SET_PRODUCT_ORDER:
       return {

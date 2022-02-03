@@ -207,7 +207,7 @@ export const getServiceOrders = (id: any, params: any) => (dispatch: any) => {
     });
 };
 
-export const getData = (params: any) => (dispatch: any) => {
+export const getNewClientRebookingData = (params: any) => (dispatch: any) => {
   dispatch({ type: BUTTON_LOADING });
   axios
     .get(`/reports/new_client_report`, { params })

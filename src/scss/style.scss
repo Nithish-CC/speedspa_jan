@@ -224,3 +224,13 @@ body.mini-navbar .navbar-static-side {
   border-bottom-right-radius: 3px;
 }
 
+#dashboard .customer-analysis-content {
+  text-align: center;
+  padding: 20px 10px !important;
+  border-radius: 10px;
+}
+
+#dashboard .customer-analysis-content > p {
+  font-size: 15px;
+  margin-top: 10px;
+}

@@ -296,7 +296,6 @@ const AddSchedule = (props: any) => {
     let setDate = startDate.toISOString().split("T")[0];
     let m = moment(`${setDate} ${value}`, "YYYY-MM-DD HH:mm");
     let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${value}:00Z`;
-    console.log(setDateTime);
 
     let check = {
       checkFreeTime: 1,
@@ -323,14 +322,17 @@ const AddSchedule = (props: any) => {
     values.timeStart = setDateTime;
 
     repeatAppointments(values);
-
-    props.addAppointments(values, queryString, (success: any, data: any) => {
-      if (success) {
-        history.push("/schedule");
-      } else {
-        notify(data);
-      }
-    });
+    if (view) {
+    }
+    {      
+      props.addAppointments(values, queryString, (success: any, data: any) => {
+        if (success) {
+          history.push("/schedule");
+        } else {
+          notify(data);
+        }
+      });
+    }
   };
 
   const selectedValue = (value: any) => {
