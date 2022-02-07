@@ -3,12 +3,10 @@ import { connect, useSelector } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { Calendar } from "@fullcalendar/core";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
-import interactionPlugin from "@fullcalendar/interaction";
 import { getUserBusinessDetails } from "../../redux/actions/businessActions";
 import { timeSlots, schedule } from "../../redux/actions/scheduleActions";
 import { getAllStaff } from "../../redux/actions/staffActions";
@@ -332,8 +330,6 @@ const Schedule = (props: any) => {
           resourseDataVal,
           (resourseDataVal) => resourseDataVal.id === values.resourceId
         );
-        console.log(resourseDataVal);
-
         values.title = values.serviceName + " [" + values.clientName + "]";
         values.description = "description" + key;
         values.backgroundColor = title[0].eventColor;
@@ -574,10 +570,8 @@ const Schedule = (props: any) => {
                             dayGridPlugin,
                             resourceTimeGridPlugin,
                             listPlugin,
-                            interactionPlugin,
                             resourceTimelinePlugin,
-                          ]}                          
-                          timeZone="UTC"
+                          ]}
                           datesSet={(paypload) => {
                             setDate(
                               moment(paypload.view.currentStart)
@@ -585,8 +579,10 @@ const Schedule = (props: any) => {
                                 .utc()
                                 .format()
                             );
-                          }}                          
-                          initialView="resourceTimeline"                          
+                          }}
+                          timeZone="UTC"
+                          schedulerLicenseKey="0116820732-fcs-1622120977"
+                          initialView="resourceTimeline"
                           resourceGroupField="building"
                           resources={_.orderBy(
                             resourseDataVal,

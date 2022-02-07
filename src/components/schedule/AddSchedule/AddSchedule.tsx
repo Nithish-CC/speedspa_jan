@@ -21,6 +21,7 @@ import {
   addAppointments,
   getAppointment,
   getAppointmentOrder,
+  deleteAppointment,
 } from "../../../redux/actions/scheduleActions";
 import { Formik } from "formik";
 import SelectSearch from "react-select-search";
@@ -40,6 +41,11 @@ import {
 import { AnyObject } from "yup/lib/types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 const AddSchedule = (props: any) => {
   const [title] = useState("New Appointment");
@@ -94,6 +100,7 @@ const AddSchedule = (props: any) => {
     firstName: "1",
     lastName: "1",
   });
+
   const [mainServiceCategory, setMainServiceCategory] = useState<any[]>([]);
   const [value, setValue] = useState("00:00");
   const [startDate, setStartDate] = useState(new Date());
@@ -288,9 +295,6 @@ const AddSchedule = (props: any) => {
     return str.join("&");
   };
   const i = startDate.toISOString().split("T")[0] + " " + value;
-  console.log(i);
-
-  console.log(`${moment(i).format("YYYY-MM-DD")}T${value}:00Z`);
 
   const handleSubmit = (values: any) => {
     let setDate = startDate.toISOString().split("T")[0];
@@ -323,8 +327,24 @@ const AddSchedule = (props: any) => {
 
     repeatAppointments(values);
     if (view) {
-    }
-    {      
+      let params = {
+        businessId: localStorage.getItem("businessId"),
+        canceledBy: {
+          name: localUser.firstName + " " + localUser.lastName,
+          firstName: localUser.firstName,
+          lastName: localUser.lastName,
+          email: localUser.id,
+        },
+      };
+      props.deleteAppointment(id, params);
+      props.addAppointments(values, queryString, (success: any, data: any) => {
+        if (success) {
+          history.push("/schedule");
+        } else {
+          notify(data);
+        }
+      });
+    } else {
       props.addAppointments(values, queryString, (success: any, data: any) => {
         if (success) {
           history.push("/schedule");
@@ -792,7 +812,7 @@ const AddSchedule = (props: any) => {
                                 </div>
                               </div>
                             </div>
-                            <FormGroup>
+                            <FormGroup style={{ marginBottom: "20px" }}>
                               <Col sm="6">
                                 <FormLabel className="control-label">
                                   Repeat
@@ -822,11 +842,36 @@ const AddSchedule = (props: any) => {
                               closeButton={false}
                               hideProgressBar={true}
                             />
-                            <FormGroup>
+                            <FormGroup style={{ marginBottom: "20px" }}>
                               <Col sm="6">
                                 <FormLabel className="control-label">
-                                  Repeat
+                                  Repeat Appointment End Date
                                 </FormLabel>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                  <KeyboardDatePicker
+                                    className="form-control"
+                                    value={moment(params.begin_time).format(
+                                      "YYYY-MM-DD"
+                                    )}
+                                    onChange={(e: any, date: any) => {
+                                      setParams({
+                                        begin_time: moment(date)
+                                          .startOf("day")
+                                          .utc()
+                                          .format(),
+                                        end_time: params.end_time,
+                                      });
+                                    }}
+                                    format="yyyy-MM-dd"
+                                    style={{
+                                      border: "1px solid #e5e6e7",
+                                    }}
+                                    showTodayButton={true}
+                                    keyboardIcon={
+                                      <i className="glyphicon glyphicon-calendar"></i>
+                                    }
+                                  />
+                                </MuiPickersUtilsProvider>
                               </Col>
                             </FormGroup>
                             <FormGroup>
@@ -893,6 +938,7 @@ const mapActionsToProps = {
   addAppointments,
   getAppointment,
   getAppointmentOrder,
+  deleteAppointment,
 };
 
 export default connect(null, mapActionsToProps)(AddSchedule);

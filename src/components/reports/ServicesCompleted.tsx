@@ -108,7 +108,10 @@ const ServicesCompleted = (props: any) => {
                                 }}
                                 showTodayButton={true}
                                 keyboardIcon={
-                                  <i className="glyphicon glyphicon-calendar"></i>
+                                  <i
+                                    className="glyphicon glyphicon-calendar"
+                                    style={{ fontSize: "14px" }}
+                                  ></i>
                                 }
                               />
                             </MuiPickersUtilsProvider>
