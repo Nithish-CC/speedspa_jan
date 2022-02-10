@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
-import Select from "@material-ui/core/Select";
-import InputLabel from "@material-ui/core/InputLabel";
 import { FormControl, Form } from "react-bootstrap";
-import MenuItem from "@material-ui/core/MenuItem";
 import { sendMessage, createURL } from "../../redux/actions/messageAction";
 import { uploadImage, getImageFile } from "../../redux/actions/staffActions";
 import * as yup from "yup";
@@ -317,9 +314,11 @@ const Messages = (props: any) => {
                               className="btn btn-white"
                               type="button"
                               onClick={() => {
-                                setType("");
-                                setTitle("");
-                                setMessage("");
+                                setMessages({
+                                  type: "",
+                                  title: "",
+                                  message: "",
+                                });
                                 setImage();
                               }}
                             >

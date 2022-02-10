@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect, useSelector } from "react-redux";
 import moment from "moment";
-import { Link } from "react-router-dom";
-import Pagination from "react-js-pagination";
 import { sorting, buildFilter } from "../../../utils/common";
 import { useHistory, useParams } from "react-router-dom";
 import _ from "lodash";
@@ -111,7 +109,7 @@ const AddSchedule = (props: any) => {
     [userDetails]
   );
 
-  function getRandomStr(length) {
+  function getRandomStr(length: any) {
     var result = "";
     var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     var charactersLength = characters.length;
@@ -604,7 +602,10 @@ const AddSchedule = (props: any) => {
                             )}
                             <FormGroup>
                               <Col sm="12">
-                                <FormLabel className="control-label">
+                                <FormLabel
+                                  className="control-label"
+                                  style={{ marginBottom: "10px" }}
+                                >
                                   Service Category
                                 </FormLabel>
                                 <FormControl
@@ -633,12 +634,15 @@ const AddSchedule = (props: any) => {
                             </FormGroup>
                             <FormGroup>
                               <Col sm="12">
-                                <FormLabel className="control-label">
+                                <FormLabel
+                                  className="control-label"
+                                  style={{ marginBottom: "10px" }}
+                                >
                                   Main Service
                                 </FormLabel>
                                 <SelectSearch
                                   ref={searchInput}
-                                  options={serviceOption}
+                                  options={serviceOption}                                  
                                   value={
                                     staffMainService &&
                                     staffMainService.length &&
@@ -664,7 +668,10 @@ const AddSchedule = (props: any) => {
                                 ></div>
                                 <div className="col-xs-11 col-xs-push-1">
                                   <div style={{ height: "60px;" }}>
-                                    <FormLabel className="control-label">
+                                    <FormLabel
+                                      className="control-label"
+                                      style={{ marginBottom: "10px" }}
+                                    >
                                       Add On Service
                                     </FormLabel>
                                     <FormControl
@@ -708,7 +715,10 @@ const AddSchedule = (props: any) => {
                                 ></div>
                                 <div className="col-xs-10 col-xs-push-2">
                                   <div style={{ height: "60px;" }}>
-                                    <FormLabel className="control-label">
+                                    <FormLabel
+                                      className="control-label"
+                                      style={{ marginBottom: "10px" }}
+                                    >
                                       Do you want also choose one of these?
                                     </FormLabel>
                                     <FormControl
@@ -740,7 +750,10 @@ const AddSchedule = (props: any) => {
                             )}
                             <FormGroup>
                               <Col sm="12">
-                                <FormLabel className="control-label">
+                                <FormLabel
+                                  className="control-label"
+                                  style={{ marginBottom: "10px" }}
+                                >
                                   Staff
                                 </FormLabel>
                                 <SelectSearch
@@ -757,7 +770,10 @@ const AddSchedule = (props: any) => {
                             </FormGroup>
                             <FormGroup>
                               <Col sm="12">
-                                <FormLabel className="control-label">
+                                <FormLabel
+                                  className="control-label"
+                                  style={{ marginBottom: "10px" }}
+                                >
                                   Client
                                 </FormLabel>
                                 <SelectSearch
@@ -773,21 +789,30 @@ const AddSchedule = (props: any) => {
                               </Col>
                             </FormGroup>
                             <div className="form-group">
-                              <div className="col-lg-6">
-                                <label className="control-label">
+                              <div className="col-lg-5">
+                                <label
+                                  className="control-label"
+                                  style={{ marginBottom: "10px" }}
+                                >
                                   Appointment Time
                                 </label>
-
-                                <DatePicker
-                                  selected={startDate}
-                                  showPopperArrow={false}
-                                  style={{
-                                    width: "100%",
-                                    border: "1px solid white",
-                                  }}
-                                  onChange={(date: any) => setStartDate(date)}
-                                  dateFormat="EEEE, MMMM d, yyyy"
-                                />
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                  <KeyboardDatePicker
+                                    className="form-control"
+                                    value={startDate}
+                                    onChange={(e: any, date: any) => {
+                                      setStartDate(date);
+                                    }}
+                                    format="EEEE, MMMM d, yyyy"
+                                    style={{
+                                      border: "1px solid #e5e6e7",
+                                    }}
+                                    showTodayButton={true}
+                                    keyboardIcon={
+                                      <i className="glyphicon glyphicon-calendar"></i>
+                                    }
+                                  />
+                                </MuiPickersUtilsProvider>
                               </div>
                               {/* <div className="col-lg-5">
 																<label className="control-label">
@@ -814,7 +839,10 @@ const AddSchedule = (props: any) => {
                             </div>
                             <FormGroup style={{ marginBottom: "20px" }}>
                               <Col sm="6">
-                                <FormLabel className="control-label">
+                                <FormLabel
+                                  className="control-label"
+                                  style={{ marginBottom: "10px" }}
+                                >
                                   Repeat
                                 </FormLabel>
                                 <FormControl
@@ -842,38 +870,43 @@ const AddSchedule = (props: any) => {
                               closeButton={false}
                               hideProgressBar={true}
                             />
-                            <FormGroup style={{ marginBottom: "20px" }}>
-                              <Col sm="6">
-                                <FormLabel className="control-label">
-                                  Repeat Appointment End Date
-                                </FormLabel>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                  <KeyboardDatePicker
-                                    className="form-control"
-                                    value={moment(params.begin_time).format(
-                                      "YYYY-MM-DD"
-                                    )}
-                                    onChange={(e: any, date: any) => {
-                                      setParams({
-                                        begin_time: moment(date)
-                                          .startOf("day")
-                                          .utc()
-                                          .format(),
-                                        end_time: params.end_time,
-                                      });
-                                    }}
-                                    format="yyyy-MM-dd"
-                                    style={{
-                                      border: "1px solid #e5e6e7",
-                                    }}
-                                    showTodayButton={true}
-                                    keyboardIcon={
-                                      <i className="glyphicon glyphicon-calendar"></i>
-                                    }
-                                  />
-                                </MuiPickersUtilsProvider>
-                              </Col>
-                            </FormGroup>
+                            {weeklyRepeat && (
+                              <FormGroup style={{ marginBottom: "20px" }}>
+                                <Col sm="6">
+                                  <FormLabel
+                                    className="control-label"
+                                    style={{ marginBottom: "10px" }}
+                                  >
+                                    Repeat Appointment End Date
+                                  </FormLabel>
+                                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <KeyboardDatePicker
+                                      className="form-control"
+                                      value={moment(params.begin_time).format(
+                                        "YYYY-MM-DD"
+                                      )}
+                                      onChange={(e: any, date: any) => {
+                                        setParams({
+                                          begin_time: moment(date)
+                                            .startOf("day")
+                                            .utc()
+                                            .format(),
+                                          end_time: params.end_time,
+                                        });
+                                      }}
+                                      format="EEEE, MMMM d, yyyy"
+                                      style={{
+                                        border: "1px solid #e5e6e7",
+                                      }}
+                                      showTodayButton={true}
+                                      keyboardIcon={
+                                        <i className="glyphicon glyphicon-calendar"></i>
+                                      }
+                                    />
+                                  </MuiPickersUtilsProvider>
+                                </Col>
+                              </FormGroup>
+                            )}
                             <FormGroup>
                               <Col lg="12">
                                 <Button

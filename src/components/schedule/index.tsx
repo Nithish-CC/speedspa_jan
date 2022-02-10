@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import { getUserBusinessDetails } from "../../redux/actions/businessActions";
 import { timeSlots, schedule } from "../../redux/actions/scheduleActions";
 import { getAllStaff } from "../../redux/actions/staffActions";
+import "@fullcalendar/list/main.css";
 import {
   getAllCategory,
   getAllService,
@@ -20,7 +20,7 @@ import moment from "moment";
 import Tooltips from "../core/Tooltips";
 import PageHeader from "../core/PageHeader";
 import _ from "lodash";
-import { Modal, Button, Accordion, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 const Schedule = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -64,6 +64,7 @@ const Schedule = (props: any) => {
     stylist: true,
     support: true,
   });
+
   //To fetch date on load
   let dates = {
     loaded: {
@@ -76,6 +77,7 @@ const Schedule = (props: any) => {
     },
   };
 
+  //useEffect
   useEffect(() => {
     let paramsPass = {
       businessId: businessId,
@@ -93,6 +95,10 @@ const Schedule = (props: any) => {
   useEffect(() => {
     schedules();
   }, [date]);
+
+  useEffect(() => {
+    allStaffDetail();
+  }, [allStaff]);
 
   const schedules = () => {
     let start = date;
@@ -143,10 +149,6 @@ const Schedule = (props: any) => {
     query.businessId = localStorage.businessId;
     props.getAllStaff(query);
   };
-
-  useEffect(() => {
-    allStaffDetail();
-  }, [allStaff]);
 
   const allStaffDetail = () => {
     if (allStaff && allStaff.length) {

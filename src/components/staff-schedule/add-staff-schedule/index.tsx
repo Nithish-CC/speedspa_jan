@@ -488,7 +488,7 @@ const ScheduleStaff = (props: any) => {
                                     helperText={null}
                                     format="EEEE MMMM d, yyyy"
                                     style={{
-                                      border: "1px solid #ed5565",
+                                      border: "1px solid #e5e6e7",
                                     }}
                                     showTodayButton={true}
                                     keyboardIcon={
@@ -506,6 +506,7 @@ const ScheduleStaff = (props: any) => {
                                 <FormGroup>
                                   <div className="col-lg-5">
                                     <TimePicker
+                                      eachInputDropdown
                                       onChange={(newValue: any) =>
                                         setStartValue(newValue)
                                       }
@@ -591,7 +592,7 @@ const ScheduleStaff = (props: any) => {
                             dayGridPlugin,
                             timeGridPlugin,
                             resourceTimeGridPlugin,
-                            listPlugin,                            
+                            listPlugin,
                             resourceTimelinePlugin,
                           ]}
                           datesSet={(paypload) => {
