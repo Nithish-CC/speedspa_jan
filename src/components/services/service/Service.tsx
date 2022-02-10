@@ -14,7 +14,7 @@ import DeleteModal from "../../core/DeleteModal";
 const Services = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Services");
-  const [orderBy, setOrderBy] = useState(false);
+  const [orderBy, setOrderBy] = useState(true);
   const [field, setField] = useState("name");
   const [activePage, setActivePage] = useState(1);
   const [perPage] = useState(10);
@@ -44,6 +44,7 @@ const Services = (props: any) => {
   const allCategories = service.categoryDetails;
   const allServices = service.serviceDetails;
 
+  //useEffect
   useEffect(() => {
     getAllCategory();
     getAllService(params);

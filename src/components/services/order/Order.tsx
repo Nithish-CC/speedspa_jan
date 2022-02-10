@@ -10,7 +10,6 @@ import {
   noShowAppointments,
 } from "../../../redux/actions/scheduleActions";
 import { Link } from "react-router-dom";
-import Pagination from "react-js-pagination";
 import DeleteModal from "../../core/DeleteModal";
 import { Button } from "react-bootstrap";
 import moment from "moment";
@@ -331,6 +330,7 @@ const ServiceOrders = (props: any) => {
                                 format="yyyy-MM-dd"
                                 style={{
                                   border: "1px solid #e5e6e7",
+                                  marginBottom: "5px",
                                 }}
                                 showTodayButton={true}
                                 keyboardIcon={
@@ -630,13 +630,15 @@ const ServiceOrders = (props: any) => {
                                               </Button>
                                             ) : order.status === "canceled" &&
                                               order.noShow == true ? (
-                                              <Button
-                                                className="btn-xs"
-                                                variant="warning"
-                                                style={{ width: "80px" }}
-                                              >
-                                                No Show
-                                              </Button>
+                                              <center>
+                                                <Button
+                                                  className="btn-xs"
+                                                  variant="warning"
+                                                  style={{ width: "80px" }}
+                                                >
+                                                  No Show
+                                                </Button>
+                                              </center>
                                             ) : order.status === "canceled" ? (
                                               <Button
                                                 className="btn-xs"
@@ -674,16 +676,18 @@ const ServiceOrders = (props: any) => {
                                               <></>
                                             )}
                                           </td>
-                                          <td className="text-center">
+                                          <td
+                                            style={{
+                                              cursor: "pointer",
+                                              width: "80px",
+                                            }}
+                                          >
                                             {order.status === "created" && (
                                               <React.Fragment>
                                                 <Link
-                                                  style={{
-                                                    cursor: "pointer",
-                                                    color: "#2a6954",
-                                                  }}
                                                   key={index}
                                                   to={`/schedule/edit-appointment/view/${order.id}`}
+                                                  style={{ color: "#2a6954" }}
                                                 >
                                                   <i
                                                     title="Edit"
@@ -692,12 +696,9 @@ const ServiceOrders = (props: any) => {
                                                   &nbsp;&nbsp;
                                                 </Link>
                                                 <Link
-                                                  style={{
-                                                    cursor: "pointer",
-                                                    color: "#2a6954",
-                                                  }}
                                                   key={index}
                                                   to={`/services/payments/view/${order.id}`}
+                                                  style={{ color: "#2a6954" }}
                                                 >
                                                   <i
                                                     title="View"
@@ -706,10 +707,7 @@ const ServiceOrders = (props: any) => {
                                                   &nbsp;&nbsp;
                                                 </Link>
                                                 <a
-                                                  style={{
-                                                    cursor: "pointer",
-                                                    color: "#2a6954",
-                                                  }}
+                                                  style={{ color: "#2a6954" }}
                                                   name="delete"
                                                   onClick={() =>
                                                     deletePopup(order, index)
@@ -722,40 +720,41 @@ const ServiceOrders = (props: any) => {
                                                 </a>
                                                 <br />
                                                 {order.repeatRefId && (
-                                                  <a
-                                                    style={{
-                                                      cursor: "pointer",
-                                                      color: "#2a6954",
-                                                    }}
-                                                    onClick={() =>
-                                                      deletePopup(order, index)
-                                                    }
-                                                  >
-                                                    <i
-                                                      title="Delete Future Appoinment"
-                                                      className="fa far fa-redo"
-                                                    ></i>
-                                                  </a>
+                                                  <center>
+                                                    <a
+                                                      onClick={() =>
+                                                        deletePopup(
+                                                          order,
+                                                          index
+                                                        )
+                                                      }
+                                                      style={{
+                                                        color: "#2a6954",
+                                                      }}
+                                                    >
+                                                      <i
+                                                        title="Delete Future Appoinment"
+                                                        className="fa far fa-redo"
+                                                      ></i>
+                                                    </a>
+                                                  </center>
                                                 )}
                                               </React.Fragment>
                                             )}
-
                                             {order.status === "canceled" && (
-                                              <React.Fragment>
+                                              <center>
                                                 <Link
-                                                  style={{
-                                                    cursor: "pointer",
-                                                    color: "#2a6954",
-                                                  }}
                                                   key={index}
                                                   to={`/services/payments/view/${order.id}`}
+                                                  style={{ color: "#2a6954" }}
                                                 >
+                                                  &nbsp;&nbsp;&nbsp;&nbsp;
                                                   <i
                                                     title="View"
                                                     className="far fa-eye"
                                                   ></i>
                                                 </Link>
-                                              </React.Fragment>
+                                              </center>
                                             )}
                                           </td>
                                         </tr>

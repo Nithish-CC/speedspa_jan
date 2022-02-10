@@ -106,7 +106,7 @@ const ProductCategories = (props: any) => {
 																					title="View | Edit"
 																					className="far fa-edit"></i>
 																			</Link>
-																			&nbsp;
+																			&nbsp;&nbsp;&nbsp;
 																			<a
 																				style={{
 																					cursor: "pointer",

@@ -695,7 +695,7 @@ const Service = (props: any) => {
                                                   ? {}
                                                   : {
                                                       border:
-                                                        "1px solid #e5e6e7",
+                                                        "1px solid #ed5565",
                                                     }
                                               }
                                             />
@@ -945,7 +945,7 @@ const Service = (props: any) => {
                                                   ? {}
                                                   : {
                                                       border:
-                                                        "1px solid #e5e6e7",
+                                                        "1px solid #ed5565",
                                                     }
                                               }
                                             />
@@ -1103,7 +1103,7 @@ const Service = (props: any) => {
                                                   ? {}
                                                   : {
                                                       border:
-                                                        "1px solid #e5e6e7",
+                                                        "1px solid #ed5565",
                                                     }
                                               }
                                             >
@@ -1501,7 +1501,7 @@ const Service = (props: any) => {
                                                   ? {}
                                                   : {
                                                       border:
-                                                        "1px solid #e5e6e7",
+                                                        "1px solid #ed5565",
                                                     }
                                               }
                                             >
@@ -1546,7 +1546,7 @@ const Service = (props: any) => {
                                               values.price.length
                                                 ? {}
                                                 : {
-                                                    border: "1px solid #e5e6e7",
+                                                    border: "1px solid #ed5565",
                                                   }
                                             }
                                           />
@@ -1573,7 +1573,7 @@ const Service = (props: any) => {
                                               activeAddTime.time.length
                                                 ? {}
                                                 : {
-                                                    border: "1px solid #e5e6e7",
+                                                    border: "1px solid #ed5565",
                                                   }
                                             }
                                           />
@@ -1810,7 +1810,7 @@ const Service = (props: any) => {
                                                       (
                                                         Math.round(
                                                           value.price * 100
-                                                        ) / 10000
+                                                        ) / 100
                                                       ).toFixed(2)
                                                     )}
                                                   </td>

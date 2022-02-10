@@ -157,7 +157,7 @@ const ServiceCategory = (props: any) => {
                                       style={
                                         values.name == "" ||
                                         values.name == undefined
-                                          ? { border: "1px solid #e5e6e7" }
+                                          ? { border: "1px solid #ed5565" }
                                           : {}
                                       }
                                     />
@@ -235,7 +235,7 @@ const ServiceCategory = (props: any) => {
                                         style={
                                           values.description == "" ||
                                           values.description == undefined
-                                            ? { border: "1px solid #e5e6e7" }
+                                            ? { border: "1px solid #ed5565" }
                                             : {}
                                         }
                                       />
@@ -283,7 +283,7 @@ const ServiceCategory = (props: any) => {
                                         style={
                                           values.seats == "" ||
                                           values.seats == undefined
-                                            ? { border: "1px solid #e5e6e7" }
+                                            ? { border: "1px solid #ed5565" }
                                             : {}
                                         }
                                       />

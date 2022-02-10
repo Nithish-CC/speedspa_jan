@@ -265,7 +265,7 @@ const Messages = (props: any) => {
                               style={
                                 values.title && values.title.length
                                   ? {}
-                                  : { border: "1px solid #e5e6e7" }
+                                  : { border: "1px solid #ed5565" }
                               }
                             />
                           </div>
@@ -280,7 +280,6 @@ const Messages = (props: any) => {
                               placeholder="Write message here"
                               name="message"
                               value={values.message}
-                              placeholder="Write Message Here"
                               onChange={handleChange}
                               onBlur={handleBlur}
                               isInvalid={errors.message && touched.message}
@@ -288,7 +287,7 @@ const Messages = (props: any) => {
                               style={
                                 values.message && values.message.length
                                   ? {}
-                                  : { border: "1px solid #e5e6e7" }
+                                  : { border: "1px solid #ed5565" }
                               }
                             ></textarea>
                             <p ng-if="vm.message.clientId == 'ALL' || vm.message.clientId == '' || vm.message.clientId == null">
@@ -326,10 +325,8 @@ const Messages = (props: any) => {
                             >
                               Clear
                             </button>
-                            <button
-                              className="btn btn-primary m-l-sm"
-                              type="submit"
-                            >
+                            {"  "}
+                            <button className="btn btn-primary" type="submit">
                               Send Message
                             </button>
                           </div>

@@ -13,6 +13,7 @@ import {
   SET_STYLIST,
   SET_STAFF_SERVICE,
 } from "../types";
+import _ from "lodash";
 
 export type State = Readonly<{
   authenticated: boolean;

@@ -481,7 +481,7 @@ const StaffSchedule = (props: any) => {
                                         setStartDate(e);
                                       }}
                                       style={{
-                                        border: "1px solid #e5e6e7",
+                                        border: "1px solid #ed5565",
                                       }}
                                       format="EEEE, MMMM d, yyyy"
                                       minDate={todaysDate}
@@ -504,7 +504,7 @@ const StaffSchedule = (props: any) => {
                                         setEndDate(date);
                                       }}
                                       style={{
-                                        border: "1px solid #e5e6e7",
+                                        border: "1px solid #ed5565",
                                       }}
                                       helperText={null}
                                       format="EEEE, MMMM d, yyyy"
@@ -519,7 +519,7 @@ const StaffSchedule = (props: any) => {
                               <FormGroup>
                                 <div className="col-lg-2">
                                   <label className="control-label">
-                                    Start Time {" "}
+                                    Start Time{" "}
                                     <Tippy
                                       theme={"success"}
                                       placement="top"

@@ -304,6 +304,7 @@ const ProductOrders = (props: any) => {
                                 format="yyyy-MM-dd"
                                 style={{
                                   border: "1px solid #e5e6e7",
+                                  marginBottom: "5px",
                                 }}
                                 showTodayButton={true}
                                 keyboardIcon={
@@ -474,12 +475,23 @@ const ProductOrders = (props: any) => {
                                     <tr className="gradeX">
                                       <td>
                                         {moment(value.createdAt).format(
-                                          "ll LT"
+                                          "ll h:mmA"
                                         )}
                                       </td>
                                       <td>{value.clientName}</td>
                                       <td>{value.staffName}</td>
-                                      <td>{value.itemNames}</td>
+                                      {value.items &&
+                                        value.items.map((item: any) => {
+                                          return (
+                                            <td>
+                                              {item.quantity <= 1
+                                                ? item.name
+                                                : item.quantity +
+                                                  " x " +
+                                                  item.name}
+                                            </td>
+                                          );
+                                        })}
                                       <td className="text-center">
                                         $
                                         {commafy(
@@ -528,12 +540,14 @@ const ProductOrders = (props: any) => {
                                           </center>
                                         )}
                                         {value.status == "canceled" && (
-                                          <span
-                                            className="text-center btn btn-xs btn-danger"
-                                            style={{ width: "80px" }}
-                                          >
-                                            Canceled
-                                          </span>
+                                          <center>
+                                            <span
+                                              className="text-center btn btn-xs btn-danger"
+                                              style={{ width: "80px" }}
+                                            >
+                                              Cancelled
+                                            </span>
+                                          </center>
                                         )}
                                         {value.status == "refund" && (
                                           <center>

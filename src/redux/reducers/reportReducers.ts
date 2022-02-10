@@ -12,6 +12,7 @@ import {
   SET_SERVICE_ORDER,
   SET_DASHBOARD_CHART,
 } from "../types";
+import _ from "lodash";
 
 export type State = Readonly<{
   totalSales: object;
@@ -20,9 +21,11 @@ export type State = Readonly<{
   reportEstimatedRoll: [];
   reportServiceCompleted: [];
   reportProductSales: [];
+  reportProductSalesSorted: [];
   reportClientReport: [];
   reportStaffBookingAnalysis: [];
   getproductOrders: [];
+  getproductPurchased: [];
   getNewClientRebookingData: [];
   getServiceOrders: {};
   dashboardChart: [];
@@ -35,9 +38,11 @@ const initialState: State = {
   reportEstimatedRoll: [],
   reportServiceCompleted: [],
   reportProductSales: [],
+  reportProductSalesSorted: [],
   reportClientReport: [],
   reportStaffBookingAnalysis: [],
   getproductOrders: [],
+  getproductPurchased: [],
   getNewClientRebookingData: [],
   getServiceOrders: {},
   dashboardChart: [],
@@ -71,13 +76,14 @@ export default function reportReducers(state = initialState, action: any) {
         reportServiceCompleted: action.payload,
       };
     case SET_REPORT_PRODUCT_SALES:
-      console.log(
-        _.orderBy(action.payload[0].data, ["inverntoryValue"], ["desc"])
-      );
-
       return {
         ...state,
         reportProductSales: action.payload[0].data,
+        reportProductSalesSorted: _.orderBy(
+          action.payload[0].data,
+          ["inverntoryValue"],
+          ["desc"]
+        ),
       };
     case SET_REPORT_CLIENT_REPORT:
       return {
@@ -102,6 +108,7 @@ export default function reportReducers(state = initialState, action: any) {
       return {
         ...state,
         getproductOrders: _.orderBy(action.payload, ["createdAt"], ["desc"]),
+        getproductPurchased: action.payload,
       };
     case SET_SERVICE_ORDER:
       return {

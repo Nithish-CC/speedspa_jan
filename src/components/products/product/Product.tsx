@@ -434,11 +434,7 @@ const Products = (props: any) => {
                         <tbody>
                           {searchResults && searchResults.length ? (
                             <React.Fragment>
-                              {_.orderBy(
-                                searchResults,
-                                [(user) => user.name.toLowerCase()],
-                                ["asc"]
-                              ).map((product: any, index: any) => {
+                              {searchResults.map((product: any, index: any) => {
                                 return (
                                   <tr className="gradeX" key={index}>
                                     <td>{product.name}</td>

@@ -488,7 +488,7 @@ const ScheduleStaff = (props: any) => {
                                     helperText={null}
                                     format="EEEE MMMM d, yyyy"
                                     style={{
-                                      border: "1px solid #e5e6e7",
+                                      border: "1px solid #ed5565",
                                     }}
                                     showTodayButton={true}
                                     keyboardIcon={
@@ -591,8 +591,7 @@ const ScheduleStaff = (props: any) => {
                             dayGridPlugin,
                             timeGridPlugin,
                             resourceTimeGridPlugin,
-                            listPlugin,
-                            interactionPlugin,
+                            listPlugin,                            
                             resourceTimelinePlugin,
                           ]}
                           datesSet={(paypload) => {

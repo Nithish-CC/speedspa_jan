@@ -14,7 +14,7 @@ import DateFnsUtils from "@date-io/date-fns";
 const ProductSales = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Product Sales");
-  const [orderBy, setOrderBy] = useState(false);
+  const [orderBy, setOrderBy] = useState(true);
   const [field, setField] = useState("inverntoryValue");
   const [params, setParams] = useState({
     begin_time: moment(new Date()).startOf("day").utc().format(),
@@ -28,8 +28,8 @@ const ProductSales = (props: any) => {
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
   const report = useSelector((state: any) => state.report);
-  let productSalesReport = report.reportProductSales;
-
+  let productSalesReport = report.reportProductSalesSorted;
+  let productSalesReportDropdown = report.reportProductSales;
   useEffect(() => {
     handleSearch();
     if (UI.errors) {
@@ -65,7 +65,7 @@ const ProductSales = (props: any) => {
   };
 
   const dataFilter: any = () => {
-    let status: any = productSalesReport
+    let status: any = productSalesReportDropdown
       .map((value: any) => {
         return value.brand;
       })
@@ -336,7 +336,7 @@ const ProductSales = (props: any) => {
                                 <h3 className="panel-title">Total Inventory</h3>
                               </div>
                               <div className="panel-body">
-                                <b>Quantity:</b>
+                                <b>Quantity: </b>
                                 {addInventoryQuatity(searchResults)}
                                 <br />
                                 <b>Values:</b> $
@@ -486,8 +486,8 @@ const ProductSales = (props: any) => {
                                   field != "inverntoryValue"
                                     ? "sorting"
                                     : orderBy
-                                    ? "sorting_desc"
-                                    : "sorting_asc"
+                                    ? "sorting_asc"
+                                    : "sorting_desc"
                                 }
                                 onClick={(e) =>
                                   handleSortChange("inverntoryValue")
@@ -533,7 +533,9 @@ const ProductSales = (props: any) => {
                                 {searchResults.map((value: any) => {
                                   return (
                                     <tr className="gradeX">
-                                      <td>{value.productName}</td>
+                                      <td className="text-capitalize">
+                                        {value.productName}
+                                      </td>
                                       <td className="text-center">
                                         {value.brand}
                                       </td>

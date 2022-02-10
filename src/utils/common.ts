@@ -15,9 +15,8 @@ export const sorting = (data: any, key: any, orderBy: any) => {
     } else if (varA < varB) {
       comparison = -1;
     }
-    console.log(varB);
     return orderBy === true ? comparison * -1 : comparison;
-  });
+  });  
 };
 
 export const commafy = (num: any) => {
@@ -84,7 +83,7 @@ export const sortingNewClients = (data: any, key: any, orderBy: any) => {
       comparison = 1;
     } else if (varA < varB) {
       comparison = -1;
-    }    
+    }
     return orderBy === true ? comparison * -1 : comparison;
   });
 };

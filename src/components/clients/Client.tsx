@@ -96,7 +96,7 @@ const Client = (props: any) => {
   const clientInfo = user.clientInfo;
   const allStylist = user.allStylist;
   const allStaff = user.allStaff;
-  const allProductOrder = report.getproductOrders;
+  const allProductOrder = report.getproductPurchased;
   const allServiceOrder = service.orderDetails;
   const [modalPopup, setModalPopup] = useState({
     deleteModal: false,
@@ -176,7 +176,7 @@ const Client = (props: any) => {
   }, [client]);
 
   useEffect(() => {
-    setGetProductOrders(_.orderBy(allProductOrder, ["createdAt"], ["asc"]));
+    setGetProductOrders(allProductOrder);
     clientFliterData();
   }, [allProductOrder]);
 
@@ -661,7 +661,9 @@ const Client = (props: any) => {
                                               values.firstName &&
                                               values.firstName.length
                                                 ? {}
-                                                : { border: "1px solid #ed5565" }
+                                                : {
+                                                    border: "1px solid #ed5565",
+                                                  }
                                             }
                                             disabled={disable}
                                           />
@@ -687,7 +689,9 @@ const Client = (props: any) => {
                                               values.lastName &&
                                               values.lastName.length
                                                 ? {}
-                                                : { border: "1px solid #ed5565" }
+                                                : {
+                                                    border: "1px solid #ed5565",
+                                                  }
                                             }
                                           />
                                         </Col>
@@ -796,7 +800,9 @@ const Client = (props: any) => {
                                               values.countryCode &&
                                               values.countryCode.length
                                                 ? {}
-                                                : { border: "1px solid #ed5565" }
+                                                : {
+                                                    border: "1px solid #ed5565",
+                                                  }
                                             }
                                           >
                                             <option value="">Select</option>
@@ -1473,7 +1479,9 @@ const Client = (props: any) => {
                                             }
                                             style={
                                               values.phoneNumber == ""
-                                                ? { border: "1px solid #ed5565" }
+                                                ? {
+                                                    border: "1px solid #ed5565",
+                                                  }
                                                 : {}
                                             }
                                           />
@@ -1689,6 +1697,14 @@ const Client = (props: any) => {
                                             }
                                             onChange={handleChange}
                                             onBlur={handleBlur}
+                                            style={
+                                              values.address.postal_code
+                                                .length == 5
+                                                ? {}
+                                                : {
+                                                    border: "1px solid #ed5565",
+                                                  }
+                                            }
                                           />
                                         </Col>
                                       </FormGroup>
@@ -2378,159 +2394,168 @@ const Client = (props: any) => {
                                     {getproductOrders &&
                                     getproductOrders.length ? (
                                       <React.Fragment>
-                                        {_.orderBy(
-                                          getproductOrders,
-                                          ["createdAt"],
-                                          ["asc"]
-                                        ).map((value: any, index: any) => {
-                                          return (
-                                            <tr className="gradeX">
-                                              <td>
-                                                {moment(value.createdAt).format(
-                                                  "ll h:mmA"
-                                                )}
-                                              </td>
-                                              <td>{value.staffName}</td>
-                                              <td>{value.itemNames}</td>
-                                              <td>
-                                                $
-                                                {commafy(
-                                                  value.amount.toFixed(2)
-                                                )}
-                                              </td>
-                                              <td>
-                                                ${commafy(value.tax.toFixed(2))}
-                                              </td>
-                                              <td>
-                                                $
-                                                {commafy(
-                                                  value.total.toFixed(2)
-                                                )}
-                                              </td>
-                                              <td>
-                                                {value.status == "paid" && (
-                                                  <span
-                                                    className="btn btn-xs btn-primary"
-                                                    style={{
-                                                      width: "80px",
-                                                    }}
-                                                  >
-                                                    Paid
-                                                  </span>
-                                                )}
-                                                {value.status == "created" && (
-                                                  <center>
+                                        {getproductOrders.map(
+                                          (value: any, index: any) => {
+                                            return (
+                                              <tr className="gradeX">
+                                                <td>
+                                                  {moment(
+                                                    value.createdAt
+                                                  ).format("ll h:mmA")}
+                                                </td>
+                                                <td>{value.staffName}</td>
+                                                <td>{value.itemNames}</td>
+                                                <td>
+                                                  $
+                                                  {commafy(
+                                                    value.amount.toFixed(2)
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  $
+                                                  {commafy(
+                                                    value.tax.toFixed(2)
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  $
+                                                  {commafy(
+                                                    value.total.toFixed(2)
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  {value.status == "paid" && (
                                                     <span
-                                                      className="btn btn-xs btn-success"
+                                                      className="btn btn-xs btn-primary"
                                                       style={{
                                                         width: "80px",
                                                       }}
                                                     >
-                                                      Created
+                                                      Paid
                                                     </span>
-                                                  </center>
-                                                )}
+                                                  )}
+                                                  {value.status ==
+                                                    "created" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-success"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Created
+                                                      </span>
+                                                    </center>
+                                                  )}
 
-                                                {value.status == "canceled" && (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-danger"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Canceled
-                                                    </span>
-                                                  </center>
-                                                )}
-                                                {value.status == "refund" && (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-danger"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Refund
-                                                    </span>
-                                                  </center>
-                                                )}
-                                                {value.status == "voided" && (
-                                                  <center>
-                                                    {" "}
-                                                    <span
-                                                      className="btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Voided
-                                                    </span>
-                                                  </center>
-                                                )}
-                                                {value.status ==
-                                                  "extra_service_request" && (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Requested
-                                                    </span>
-                                                  </center>
-                                                )}
-                                              </td>
-                                              {value.status == "canceled" ? (
-                                                <React.Fragment>
-                                                  {viewOnPage(value.id, index)}
-                                                </React.Fragment>
-                                              ) : (
-                                                value.status == "paid" && (
+                                                  {value.status ==
+                                                    "canceled" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-danger"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Cancelled
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                  {value.status == "refund" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-danger"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Refund
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                  {value.status == "voided" && (
+                                                    <center>
+                                                      {" "}
+                                                      <span
+                                                        className="btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Voided
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                  {value.status ==
+                                                    "extra_service_request" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Requested
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                </td>
+                                                {value.status == "canceled" ? (
                                                   <React.Fragment>
                                                     {viewOnPage(
                                                       value.id,
                                                       index
                                                     )}
                                                   </React.Fragment>
-                                                )
-                                              )}
-                                              {value.status == "created" && (
-                                                <td className="text-center">
-                                                  <Link
-                                                    style={{
-                                                      cursor: "pointer",
-                                                      color: "#2a6954",
-                                                    }}
-                                                    key={index}
-                                                    to={`/products/orders/view/${value.id}`}
-                                                  >
-                                                    <i
-                                                      title="View | Edit"
-                                                      className="far fa-edit"
-                                                    ></i>
-                                                  </Link>
-                                                  &nbsp;&nbsp;&nbsp;
-                                                  <a
-                                                    style={{
-                                                      cursor: "pointer",
-                                                      color: "#2a6954",
-                                                    }}
-                                                    onClick={() =>
-                                                      deletePopup(value, index)
-                                                    }
-                                                  >
-                                                    <i
-                                                      title="Delete"
-                                                      className="far fa-trash-alt"
-                                                    ></i>
-                                                  </a>
-                                                </td>
-                                              )}
-                                            </tr>
-                                          );
-                                        })}
+                                                ) : (
+                                                  value.status == "paid" && (
+                                                    <React.Fragment>
+                                                      {viewOnPage(
+                                                        value.id,
+                                                        index
+                                                      )}
+                                                    </React.Fragment>
+                                                  )
+                                                )}
+                                                {value.status == "created" && (
+                                                  <td className="text-center">
+                                                    <Link
+                                                      style={{
+                                                        cursor: "pointer",
+                                                        color: "#2a6954",
+                                                      }}
+                                                      key={index}
+                                                      to={`/products/orders/view/${value.id}`}
+                                                    >
+                                                      <i
+                                                        title="View | Edit"
+                                                        className="far fa-edit"
+                                                      ></i>
+                                                    </Link>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a
+                                                      style={{
+                                                        cursor: "pointer",
+                                                        color: "#2a6954",
+                                                      }}
+                                                      onClick={() =>
+                                                        deletePopup(
+                                                          value,
+                                                          index
+                                                        )
+                                                      }
+                                                    >
+                                                      <i
+                                                        title="Delete"
+                                                        className="far fa-trash-alt"
+                                                      ></i>
+                                                    </a>
+                                                  </td>
+                                                )}
+                                              </tr>
+                                            );
+                                          }
+                                        )}
                                         <tr>
                                           <td colSpan={3}>
                                             <strong>Summary: </strong>
