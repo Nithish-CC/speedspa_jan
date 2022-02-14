@@ -18,7 +18,6 @@ import {
 } from "../../../redux/actions/scheduleActions";
 import { getRootServiceCategory } from "../../../redux/actions/serviceActions";
 import { AnyObject } from "yup/lib/types";
-import Tooltips from "../../core/Tooltips";
 import TimePicker from "react-time-picker-input";
 import {
   Form,
@@ -651,12 +650,12 @@ const ScheduleStaff = (props: any) => {
                               : []
                           }
                         />
-                        <Tooltips
+                        {/* <Tooltips
                           title={calenderData.title}
                           startTime={calenderData.startTime}
                           endTime={calenderData.endTime}
                           show={calenderData.show}
-                        />
+                        /> */}
                       </div>
                     </div>
                   </div>

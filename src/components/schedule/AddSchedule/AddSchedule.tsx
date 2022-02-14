@@ -98,7 +98,7 @@ const AddSchedule = (props: any) => {
     firstName: "1",
     lastName: "1",
   });
-
+  var yearEndDate = moment().endOf("year");
   const [mainServiceCategory, setMainServiceCategory] = useState<any[]>([]);
   const [value, setValue] = useState("00:00");
   const [startDate, setStartDate] = useState(new Date());
@@ -546,8 +546,6 @@ const AddSchedule = (props: any) => {
     var timeStart = value.timeStart;
     var repeatArrList = [];
     var thisYear = new Date().getFullYear();
-    var end = new Date("12/31/" + thisYear);
-    var yearEndDate = moment(end.valueOf());
     while (moment(yearEndDate).unix() > moment(timeStart).unix()) {
       timeStart = moment(timeStart).add(repeat, "days");
       if (moment(timeStart).unix() <= moment(yearEndDate).unix()) {
@@ -642,14 +640,14 @@ const AddSchedule = (props: any) => {
                                 </FormLabel>
                                 <SelectSearch
                                   ref={searchInput}
-                                  options={serviceOption}                                  
+                                  options={serviceOption}
                                   value={
                                     staffMainService &&
                                     staffMainService.length &&
                                     staffMainService[0]
                                   }
                                   name="service"
-                                  placeholder="service"
+                                  placeholder="Choose Main service"
                                   search
                                   onChange={(e) => {
                                     selectedMainService(e);
@@ -882,17 +880,11 @@ const AddSchedule = (props: any) => {
                                   <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <KeyboardDatePicker
                                       className="form-control"
-                                      value={moment(params.begin_time).format(
+                                      value={moment(yearEndDate).format(
                                         "YYYY-MM-DD"
                                       )}
                                       onChange={(e: any, date: any) => {
-                                        setParams({
-                                          begin_time: moment(date)
-                                            .startOf("day")
-                                            .utc()
-                                            .format(),
-                                          end_time: params.end_time,
-                                        });
+                                        yearEndDate = date;
                                       }}
                                       format="EEEE, MMMM d, yyyy"
                                       style={{

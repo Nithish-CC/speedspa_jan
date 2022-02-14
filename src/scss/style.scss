@@ -73,20 +73,24 @@
 .fc-event-title {
   color: white;
 }
+
 .fc-event a {
   background-color: transparent;
 }
+
 .fc-event {
+  display: table-row;
   color: inherit;
+  font-size: 1em;
   background-color: transparent;
   border-color: transparent;
-  font-weight: 600;
 }
+
 .fc-event:hover {
   background-color: transparent;
-  color: #000000;
-  font-weight: 600;
+  color: #676a6c;
 }
+
 .react-datepicker__input-container > input {
   border: 1px solid rgb(223, 222, 222);
   font-size: medium;
@@ -107,9 +111,11 @@ input.select-search__input {
 .select-search__select {
   border: 1px solid rgb(223, 222, 222);
 }
+
 .select-search__select > option {
   border: 1px solid rgb(199, 199, 199);
 }
+
 .inputWrapper__dropdown {
   position: absolute;
   left: 0;
@@ -127,11 +133,18 @@ input.select-search__input {
   padding: 5px 0;
   z-index: 50 !important;
 }
+
 .tippy-box[data-theme~="success"] {
   background-color: #5abb9e;
   border-color: 2px solid #5abb9e;
   color: #fff;
 }
+
+.tippy-box[data-theme~="success"][data-placement^="top"]
+  > .tippy-arrow::before {
+  color: #5abb9e;
+}
+
 .form-control.is-valid,
 .form-control.is-invalid {
   background-image: none;
@@ -141,6 +154,7 @@ input.select-search__input {
 .height {
   min-height: 135px;
 }
+
 body.mini-navbar #page-wrapper {
   margin-left: 90px;
 }
@@ -148,9 +162,11 @@ body.mini-navbar #page-wrapper {
 body.mini-navbar .navbar-static-side {
   width: 90px;
 }
+
 .react-calendar.hide {
   display: none;
 }
+
 .form-horizontal .checkbox,
 .form-horizontal .radio {
   min-height: 0;
@@ -171,6 +187,7 @@ body.mini-navbar .navbar-static-side {
   font-size: 14px;
   font-weight: 600;
 }
+
 .MuiInput-underline:before {
   border-bottom: none !important;
 }
@@ -194,7 +211,7 @@ body.mini-navbar .navbar-static-side {
   border-color: 1px solid #e7eaec !important;
   border-color: var(--fc-button-border-color, #e7eaec) !important;
 }
-.fc .fc-button-primary:not(:disabled):active,
+
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   color: #fff !important;
   color: var(--fc-button-text-color, #fff !important);
@@ -233,6 +250,7 @@ body.mini-navbar .navbar-static-side {
 .MuiIconButton-label {
   font-size: 14px !important;
 }
+
 .glyphicon {
   margin-bottom: 3px;
   color: #676a6c;
@@ -241,4 +259,36 @@ body.mini-navbar .navbar-static-side {
 .select-search__input {
   border-radius: 0 !important;
   box-shadow: none !important;
+}
+.fc-direction-ltr .fc-list-day-text,
+.fc-direction-rtl .fc-list-day-side-text {
+  color: #676a6c;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc-daygrid-day-number {
+  color: #676a6c;
+}
+
+.fc-timegrid .fc-timegrid-event {
+  height: auto;
+  width: auto;
+  z-index: 1;
+  transition: all 500ms;
+}
+
+.fc-timeline .fc-timeline-event {
+  height: auto;
+  width: 5px;
+  z-index: 0;
+  transition: all 500ms;
+}
+
+.fc-timegrid .fc-timegrid-event:hover,
+.fc-timeline .fc-timeline-event:hover {
+  position: relative !important;
+  width: 25rem;
+  height: 5rem;
+  z-index: 1000 !important;
+  margin: 0 -6.5rem;
 }

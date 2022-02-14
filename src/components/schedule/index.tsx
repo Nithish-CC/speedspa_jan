@@ -9,7 +9,6 @@ import listPlugin from "@fullcalendar/list";
 import { getUserBusinessDetails } from "../../redux/actions/businessActions";
 import { timeSlots, schedule } from "../../redux/actions/scheduleActions";
 import { getAllStaff } from "../../redux/actions/staffActions";
-import "@fullcalendar/list/main.css";
 import {
   getAllCategory,
   getAllService,
@@ -37,7 +36,7 @@ const Schedule = (props: any) => {
   );
   const [date, setDate] = useState("");
   const schedule = useSelector((state: any) => state.schedule);
-  const scheduleData = schedule.schedules;
+  // const scheduleData = schedule.schedules;
   const totalSlots = schedule.totalSlots;
   const allStaff = user.allStaff;
   const [calenderData, setCalenderData] = useState({
@@ -48,7 +47,7 @@ const Schedule = (props: any) => {
   });
   const [initialTooltip] = useState({ ...calenderData });
   const [resourseDataVal, setResourseDataVal] = useState<any[]>([]);
-  const [params, setParams] = useState({
+  const [params] = useState({
     text: "",
     status: "",
     role: "all",
@@ -276,7 +275,7 @@ const Schedule = (props: any) => {
     }
   }, [totalSlots]);
 
-  const handleMouseEnter = (info: AnyObject) => {
+  const handleMouseEnter = (info: any) => {
     updateTooltip(info);
   };
 
@@ -297,7 +296,7 @@ const Schedule = (props: any) => {
     setCalenderData(initialTooltip);
   };
 
-  const handleMouseClick = (info: AnyObject) => {
+  const handleMouseClick = (info: any) => {
     history.push(
       `/schedule/edit-appointment/view/${info.event._def.extendedProps.appointmentId}`
     );

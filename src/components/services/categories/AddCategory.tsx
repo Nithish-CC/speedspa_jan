@@ -19,6 +19,8 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const ServiceCategory = (props: any) => {
   const [title, setTitle] = useState("New Category");
@@ -168,7 +170,24 @@ const ServiceCategory = (props: any) => {
                                   <React.Fragment>
                                     <FormGroup>
                                       <FormLabel className="col-sm-4 control-label text-left">
-                                        Choose Parent Category
+                                        Choose Parent Category{" "}
+                                        <Tippy
+                                          theme={"success"}
+                                          maxWidth="225px"
+                                          content={
+                                            <div>
+                                              <p>
+                                                If it is the Parent, select
+                                                nothing. If it is the
+                                                sub-category, write in the name
+                                                of the category under which it
+                                                will appear.
+                                              </p>
+                                            </div>
+                                          }
+                                        >
+                                          <i className="fa fa-question-circle"></i>
+                                        </Tippy>
                                       </FormLabel>
                                       <Col sm="8">
                                         <FormControl
@@ -219,7 +238,23 @@ const ServiceCategory = (props: any) => {
                                 {!values.parentId ? (
                                   <FormGroup>
                                     <FormLabel className="col-sm-4 control-label">
-                                      Specialist Name
+                                      Specialist Name{" "}
+                                      <Tippy
+                                        theme={"success"}
+                                        maxWidth="225px"
+                                        content={
+                                          <div>
+                                            <p>
+                                              This is what the service provider
+                                              is called; e.g., esthetician for
+                                              facials and lashes,, nail tech for
+                                              nails, hair stylist for hair.
+                                            </p>
+                                          </div>
+                                        }
+                                      >
+                                        <i className="fa fa-question-circle"></i>
+                                      </Tippy>
                                     </FormLabel>
                                     <Col sm="8">
                                       <FormControl
@@ -268,7 +303,32 @@ const ServiceCategory = (props: any) => {
                                   !values.parentId) && (
                                   <FormGroup>
                                     <FormLabel className="col-sm-4 control-label">
-                                      Seats
+                                      Seats{" "}
+                                      <Tippy
+                                        theme={"success"}
+                                        maxWidth="225px"
+                                        content={
+                                          <div>
+                                            <p>
+                                              How many spaces do you have to
+                                              provide this category?{" "}
+                                            </p>
+                                            <p>
+                                              If subcategory: does this have a
+                                              separate number of seats from the
+                                              main category.
+                                            </p>
+                                            <p>
+                                              For example: only having one
+                                              HydraFacial machine under the Face
+                                              / Facials Parent Category or one
+                                              room to do waxing.{" "}
+                                            </p>
+                                          </div>
+                                        }
+                                      >
+                                        <i className="fa fa-question-circle"></i>
+                                      </Tippy>
                                     </FormLabel>
                                     <Col sm="8">
                                       <FormControl

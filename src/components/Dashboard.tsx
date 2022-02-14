@@ -18,7 +18,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-
+import _ from "lodash";
 import { Line, Bar } from "react-chartjs-2";
 import moment from "moment";
 import PageHeader from "../components/core/PageHeader";
@@ -52,9 +52,30 @@ const Dashboard = (props: any) => {
     (state: any) => state.report.dashboardChart[0]
   );
   const userDetails = JSON.parse(localStorage.userDetails);
+  const [colors, setColors] = useState<string[]>([]);
   const [title] = useState(
     `Welcome, ` + userDetails.firstName + ` ` + userDetails.lastName + `!`
   );
+
+  useEffect(() => {
+    getRandomColorEachEmployee();
+  }, []);
+  function getRandomColor() {
+    var letters = "0123456789ABCDEF".split("");
+    var color = "#";
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  function getRandomColorEachEmployee() {
+    var data = ["#333"];
+    for (var i = 0; i < 14; i++) {
+      data.push(getRandomColor());
+    }
+    setColors(data);
+  }
+
   //useEffect
   useEffect(() => {
     getTodayTodaySales();
@@ -367,6 +388,7 @@ const Dashboard = (props: any) => {
                                 ],
                                 datasets: [
                                   {
+                                    backgroundColor: colors,
                                     data:
                                       dashboardChart &&
                                       dashboardChart.data &&
@@ -376,15 +398,14 @@ const Dashboard = (props: any) => {
                                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                             0, 0, 0, 0,
                                           ],
-
-                                    series: [
-                                      "Day -" +
-                                        moment()
-                                          .subtract(1, "years")
-                                          .format("MMMM DD, YYYY"),
-                                      "Day -" +
-                                        moment().format("MMMM DD, YYYY"),
-                                    ],
+                                    // series: [
+                                    //   "Day -" +
+                                    //     moment()
+                                    //       .subtract(1, "years")
+                                    //       .format("MMMM DD, YYYY"),
+                                    //   +"Day -" +
+                                    //     moment().format("MMMM DD, YYYY"),
+                                    // ],
                                   },
                                 ],
                               }}
