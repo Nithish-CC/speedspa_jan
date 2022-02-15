@@ -341,7 +341,7 @@ const ServiceCategory = (props: any) => {
                                           errors.seats && touched.seats
                                         }
                                         style={
-                                          values.seats == "" ||
+                                          values.seats.toString() == "" ||
                                           values.seats == undefined
                                             ? { border: "1px solid #ed5565" }
                                             : {}

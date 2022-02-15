@@ -85,7 +85,7 @@ const ProductOrder = (props: any) => {
     type: "products",
   };
   const [card, setCard] = useState({
-    expiryMonth: "03",
+    expiryMonth: "01",
     expiryYear: "2022",
     number: "",
     cvv: "",
@@ -779,6 +779,15 @@ const ProductOrder = (props: any) => {
                                               name="number"
                                               value={card.number}
                                               onChange={handleChange}
+                                              style={
+                                                card.number &&
+                                                card.number.length
+                                                  ? {}
+                                                  : {
+                                                      border:
+                                                        "1px solid #ed5565",
+                                                    }
+                                              }
                                             />
                                           </Col>
                                         </FormGroup>
@@ -848,6 +857,14 @@ const ProductOrder = (props: any) => {
                                               name="cvv"
                                               value={card.cvv}
                                               onChange={handleChange}
+                                              style={
+                                                card.cvv.length > 2
+                                                  ? {}
+                                                  : {
+                                                      border:
+                                                        "1px solid #ed5565",
+                                                    }
+                                              }
                                             />
                                           </Col>
                                         </FormGroup>

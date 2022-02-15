@@ -27,7 +27,7 @@ const Schedule = (props: any) => {
   const UI = useSelector((state: any) => state.UI);
   const [title] = useState("Schedule");
   const businessId = localStorage.getItem("businessId");
-  const resourceId = localStorage.getItem("userId");
+  //const resourceId = localStorage.getItem("userId");
   const hostName = localStorage.getItem("businessUrl");
   let history = useHistory();
   const user = useSelector((state: any) => state.user);
@@ -566,6 +566,12 @@ const Schedule = (props: any) => {
                         id="ScheduleCalendarWrapper"
                         style={{ padding: "10px" }}
                       >
+                        <Tooltips
+                          title={calenderData.title}
+                          startTime={calenderData.startTime}
+                          endTime={calenderData.endTime}
+                          show={calenderData.show}
+                        />
                         <FullCalendar
                           plugins={[
                             dayGridPlugin,
@@ -581,6 +587,8 @@ const Schedule = (props: any) => {
                                 .format()
                             );
                           }}
+                          contentHeight={600}
+                          height={500}
                           timeZone="UTC"
                           schedulerLicenseKey="0116820732-fcs-1622120977"
                           initialView="resourceTimeline"
@@ -651,12 +659,6 @@ const Schedule = (props: any) => {
                               ? calenderDates
                               : []
                           }
-                        />
-                        <Tooltips
-                          title={calenderData.title}
-                          startTime={calenderData.startTime}
-                          endTime={calenderData.endTime}
-                          show={calenderData.show}
                         />
                       </div>
                     </div>

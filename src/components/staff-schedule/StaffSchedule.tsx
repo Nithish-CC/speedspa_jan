@@ -481,7 +481,7 @@ const StaffSchedule = (props: any) => {
                                         setStartDate(e);
                                       }}
                                       style={{
-                                        border: "1px solid #ed5565",
+                                        border: "1px solid #e5e6e7",
                                       }}
                                       format="EEEE, MMMM d, yyyy"
                                       minDate={todaysDate}
@@ -504,7 +504,7 @@ const StaffSchedule = (props: any) => {
                                         setEndDate(date);
                                       }}
                                       style={{
-                                        border: "1px solid #ed5565",
+                                        border: "1px solid #e5e6e7",
                                       }}
                                       helperText={null}
                                       format="EEEE, MMMM d, yyyy"
