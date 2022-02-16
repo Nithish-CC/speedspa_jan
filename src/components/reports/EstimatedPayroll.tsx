@@ -5,15 +5,14 @@ import { getAllClients } from "../../redux/actions/clientActions";
 import { sorting, commafy, buildFilter } from "../../utils/common";
 import PageHeader from "../core/PageHeader";
 import moment from "moment";
-import Modal from "react-bootstrap/Modal";
-import ModalBody from "react-bootstrap/ModalBody";
-import ModalHeader from "react-bootstrap/ModalHeader";
 import { Row, Col, Button, Table } from "react-bootstrap";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import XLSX from "xlsx";
+import _ from "lodash";
 
 const EstimatedPayroll = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -327,14 +326,21 @@ const EstimatedPayroll = (props: any) => {
                               <optgroup label="Stylist">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (
                                       value.roles.includes("stylist") &&
                                       !value.deleted &&
                                       value.status == "active"
                                     ) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -344,7 +350,11 @@ const EstimatedPayroll = (props: any) => {
                               <optgroup label="Admin/Support">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (
                                       (value.roles.includes("support") ||
                                         value.roles.includes("admin")) &&
@@ -352,7 +362,10 @@ const EstimatedPayroll = (props: any) => {
                                       value.status == "active"
                                     ) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -362,10 +375,17 @@ const EstimatedPayroll = (props: any) => {
                               <optgroup label="Inactive">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (value.status == "inactive") {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -375,10 +395,17 @@ const EstimatedPayroll = (props: any) => {
                               <optgroup label="Deleted">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (value.deleted) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -421,7 +448,7 @@ const EstimatedPayroll = (props: any) => {
                         >
                           Print <i className="fa fa-print "></i>
                         </Button>
-                        &nbsp;
+                        &nbsp;&nbsp;
                         <Button
                           size="sm"
                           className="btn-default"
@@ -627,7 +654,9 @@ const EstimatedPayroll = (props: any) => {
                                   (eachPayRoll: any, index: any) => {
                                     return (
                                       <tr className="gradeX" key={index}>
-                                        <th>{eachPayRoll.staffName}</th>
+                                        <th className="text-capitalize">
+                                          {eachPayRoll.staffName}
+                                        </th>
                                         {eachPayRoll.serviceRevenue ? (
                                           <td className="text-center">
                                             $

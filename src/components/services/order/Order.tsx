@@ -17,6 +17,7 @@ import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
+import _ from "lodash";
 import DateFnsUtils from "@date-io/date-fns";
 
 const ServiceOrders = (props: any) => {
@@ -63,7 +64,7 @@ const ServiceOrders = (props: any) => {
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
   const service = useSelector((state: any) => state.service);
-  const allStaff = user.allStaff;
+  const allStaff = user.allStaffDropdown;
   const allOrder = service.orderDetails;
 
   useEffect(
@@ -354,14 +355,21 @@ const ServiceOrders = (props: any) => {
                               <optgroup label="Stylist">
                                 {allStaff &&
                                   allStaff.length &&
-                                  allStaff.map((value: any) => {
+                                  _.orderBy(
+                                    allStaff,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (
                                       value.roles.includes("stylist") &&
                                       !value.deleted &&
                                       value.status == "active"
                                     ) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -371,14 +379,21 @@ const ServiceOrders = (props: any) => {
                               <optgroup label="Admin/Support">
                                 {allStaff &&
                                   allStaff.length &&
-                                  allStaff.map((value: any) => {
+                                  _.orderBy(
+                                    allStaff,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (
                                       !value.roles.includes("stylist") &&
                                       !value.deleted &&
                                       value.status == "active"
                                     ) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -388,10 +403,17 @@ const ServiceOrders = (props: any) => {
                               <optgroup label="In Active">
                                 {allStaff &&
                                   allStaff.length &&
-                                  allStaff.map((value: any) => {
+                                  _.orderBy(
+                                    allStaff,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (value.status == "inactive") {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -401,10 +423,17 @@ const ServiceOrders = (props: any) => {
                               <optgroup label="Deleted">
                                 {allStaff &&
                                   allStaff.length &&
-                                  allStaff.map((value: any) => {
+                                  _.orderBy(
+                                    allStaff,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (value.deleted) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );

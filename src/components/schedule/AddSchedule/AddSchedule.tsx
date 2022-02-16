@@ -59,7 +59,7 @@ const AddSchedule = (props: any) => {
   const categoryDetails = service.categoryDetails;
   const serviceDetails = service.serviceDetails;
   const staffService = user.staffService;
-  const allStaff = user.allStaff;
+  const allStaff = _.orderBy(user.allStaffDropdown, ["lastname"], ["asc"]);
   const schedule = useSelector((state: any) => state.schedule);
   const appointment = schedule.appointment;
   const appointmentOrder = schedule.appointmentOrder;

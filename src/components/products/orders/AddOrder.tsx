@@ -45,7 +45,7 @@ const ProductOrder = (props: any) => {
   const view = window.location.href.includes("view");
   const history = useHistory();
   const urlParams = useParams();
-  const allStaff = user.allStaff;
+  const allStaff = user.allStaffDropdown;
   const allClient = user.allClients;
   const payWithCC = user.paywithCC.data;
   const id = urlParams.id;

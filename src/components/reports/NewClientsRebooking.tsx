@@ -6,12 +6,13 @@ import { getNewClientRebookingData } from "../../redux/actions/reportActions";
 import _ from "lodash";
 import { sortingNewClients, commafy, buildFilter } from "../../utils/common";
 import moment from "moment";
+import XLSX from "xlsx";
 
 const NewClientsRebooking = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("New Clients: Rebookings");
   const [field, setField] = useState("");
-  const [orderBy, setOrderBy] = useState(false);
+  const [orderBy, setOrderBy] = useState(true);
   const [dropdownMonth, setDropdownMonth] = useState(6);
   const [reporting, setReporting] = useState([]);
   const [params] = useState({

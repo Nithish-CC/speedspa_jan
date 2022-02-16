@@ -59,6 +59,7 @@ const ProductOrders = (props: any) => {
     firstName: "1",
     lastName: "1",
   });
+
   //For Filter
   let todayDate: any = moment(new Date()).format("YYYY-MM-DD");
   const [staffVal, setStaffVal] = useState("all");
@@ -327,7 +328,11 @@ const ProductOrders = (props: any) => {
                               <option value="all">All</option>
                               {allStaff &&
                                 allStaff.length &&
-                                allStaff.map((values: any) => {
+                                _.orderBy(
+                                  allStaff,
+                                  [(user) => user.lastName.toUpperCase()],
+                                  ["asc"]
+                                ).map((values: any) => {
                                   return (
                                     <option value={values.id}>
                                       {values.name}
@@ -674,7 +679,7 @@ const ProductOrders = (props: any) => {
                             <tr>
                               <td colSpan={9} className="text-center">
                                 {!UI.buttonLoading ? (
-                                  "No Orders"
+                                  "No Product Orders"
                                 ) : (
                                   <div>
                                     <p className="fa fa-spinner fa-spin"></p>

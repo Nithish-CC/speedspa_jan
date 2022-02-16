@@ -79,6 +79,7 @@ export default function userReducers(state = initialState, action: any) {
     case SET_STAFFS:
       return {
         ...state,
+        allStaffDropdown: action.payload,
         allStaff: _.orderBy(action.payload, ["createdAt"], ["desc"]),
       };
     case SET_STAFF:

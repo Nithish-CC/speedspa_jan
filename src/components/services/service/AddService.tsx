@@ -46,7 +46,6 @@ const Service = (props: any) => {
     variation: { duration: [], price: 0, resourceId: "", resourceName: "" },
     index: 0,
   });
-  console.log(addCostChangeVal);
 
   const [params, setParams] = useState({
     categoryId: "",
@@ -84,7 +83,7 @@ const Service = (props: any) => {
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
   const service = useSelector((state: any) => state.service);
-  const allStaff = user.allStaff;
+  const allStaff = user.allStaffDropdown;
   const categoryDetails = service.categoryDetails;
   const allServices = service.serviceDetails;
   let serviceData = service.getServiceServiceData;
@@ -575,6 +574,7 @@ const Service = (props: any) => {
     setEditingData({});
     values.prices = 50;
   };
+  console.log(staffData);
 
   return (
     <React.Fragment>

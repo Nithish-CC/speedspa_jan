@@ -14,6 +14,7 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { Col, Button } from "react-bootstrap";
+import XLSX from "xlsx";
 
 const ClientReport = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -744,7 +745,10 @@ const ClientReport = (props: any) => {
                                             handleModalPopup(value, index)
                                           }
                                         >
-                                          <i className="glyphicon glyphicon-eye-open"></i>{" "}
+                                          <i
+                                            className="glyphicon glyphicon-eye-open"
+                                            style={{ color: "#337ab7" }}
+                                          ></i>{" "}
                                           Show
                                         </a>
                                       </td>

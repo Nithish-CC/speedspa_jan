@@ -10,11 +10,12 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import XLSX from "xlsx";
 
 const ProductSales = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Product Sales");
-  const [orderBy, setOrderBy] = useState(true);
+  const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("inverntoryValue");
   const [params, setParams] = useState({
     begin_time: moment(new Date()).startOf("day").utc().format(),

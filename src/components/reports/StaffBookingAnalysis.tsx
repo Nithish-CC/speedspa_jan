@@ -16,7 +16,7 @@ const StaffBokkingAnalysis = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Staff Booking Analysis");
   const [orderBy, setOrderBy] = useState(false);
-  const [field, setField] = useState("createdAt");
+  const [field, setField] = useState("totalCount");
   const [params, setParams] = useState({
     begin_time: moment(new Date()).startOf("day").utc().format(),
     end_time: moment(new Date()).endOf("day").utc().format(),

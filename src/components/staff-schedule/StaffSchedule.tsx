@@ -37,7 +37,7 @@ const StaffSchedule = (props: any) => {
   const user = useSelector((state: any) => state.user);
   const [validationShape, setValidationShape] = useState({});
   const UI = useSelector((state: any) => state.UI);
-  const staff = user.allStaff;
+  const staff = user.allStaffDropdown;
   const view = window.location.href.includes("view");
   const urlParams = useParams();
   const [todaysDate, setTodaysDate] = useState(new Date());
@@ -228,16 +228,21 @@ const StaffSchedule = (props: any) => {
                                   >
                                     <option value="">-- Select Staff --</option>
                                     <optgroup label="Staff">
-                                      {staff.map((staff: any) => {
+                                      {_.orderBy(
+                                        staff,
+                                        [(user) => user.lastName.toUpperCase()],
+                                        ["asc"]
+                                      ).map((staff: any) => {
                                         return (
                                           <React.Fragment>
                                             {staff.roles.includes(
                                               "stylist"
                                             ) && (
-                                              <option value={staff.id}>
-                                                {staff.firstName +
-                                                  " " +
-                                                  staff.lastName}
+                                              <option
+                                                value={staff.id}
+                                                className="text-capitalize"
+                                              >
+                                                {staff.name}
                                               </option>
                                             )}
                                           </React.Fragment>
@@ -245,16 +250,21 @@ const StaffSchedule = (props: any) => {
                                       })}
                                     </optgroup>
                                     <optgroup label="Admin/Support">
-                                      {staff.map((staff: any) => {
+                                      {_.orderBy(
+                                        staff,
+                                        [(user) => user.lastName.toUpperCase()],
+                                        ["asc"]
+                                      ).map((staff: any) => {
                                         return (
                                           <React.Fragment>
                                             {!staff.roles.includes(
                                               "stylist"
                                             ) && (
-                                              <option value={staff.id}>
-                                                {staff.firstName +
-                                                  " " +
-                                                  staff.lastName}
+                                              <option
+                                                value={staff.id}
+                                                className="text-capitalize"
+                                              >
+                                                {staff.name}
                                               </option>
                                             )}
                                           </React.Fragment>

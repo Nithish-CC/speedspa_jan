@@ -12,6 +12,7 @@ import PageHeader from "../../components/core/PageHeader";
 import Pagination from "react-js-pagination";
 import DeleteModal from "../core/DeleteModal";
 import _ from "lodash";
+import XLSX from 'xlsx'
 
 const Clients = (props: any) => {
   const [errors, setErrors] = useState({} as Error);

@@ -10,6 +10,7 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import _ from "lodash";
 
 const TotalSales = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
@@ -74,8 +75,6 @@ const TotalSales = (props: any) => {
     query.businessId = localStorage.businessId;
     props.searchTotalSales(query);
   };
-
-  console.log(moment("2022-01-07T18:30:00.000Z").format("lll"));
 
   const handleSortChange = (key: any) => {
     if (field === key) {
@@ -173,19 +172,25 @@ const TotalSales = (props: any) => {
                               onChange={handleChange}
                               name="resourceId"
                             >
-                              {console.log(allClients)}
                               <option value="">All</option>
                               <optgroup label="Stylist">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (
                                       value.roles.includes("stylist") &&
                                       !value.deleted &&
                                       value.status == "active"
                                     ) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -195,7 +200,11 @@ const TotalSales = (props: any) => {
                               <optgroup label="Admin/Support">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (
                                       (value.roles.includes("support") ||
                                         value.roles.includes("admin")) &&
@@ -203,20 +212,30 @@ const TotalSales = (props: any) => {
                                       value.status == "active"
                                     ) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
                                     }
                                   })}
                               </optgroup>
-                              <optgroup label="Inactive">
+                              <optgroup label="In Active">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (value.status == "inactive") {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
@@ -226,10 +245,17 @@ const TotalSales = (props: any) => {
                               <optgroup label="Deleted">
                                 {allClients &&
                                   allClients.length &&
-                                  allClients.map((value: any) => {
+                                  _.orderBy(
+                                    allClients,
+                                    [(user) => user.name.toUpperCase()],
+                                    ["asc"]
+                                  ).map((value: any) => {
                                     if (value.deleted) {
                                       return (
-                                        <option value={value.id}>
+                                        <option
+                                          value={value.id}
+                                          className="text-capitalize"
+                                        >
                                           {value.name}
                                         </option>
                                       );
