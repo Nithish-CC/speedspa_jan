@@ -13,6 +13,7 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
+import { Prompt } from "react-router";
 import {
   addStaff,
   getStaffDetails,
@@ -31,6 +32,7 @@ import {
   addStaffCategory,
 } from "../../redux/actions/serviceActions";
 import "../../scss/style.scss";
+import LeavePageModal from "../core/LeavePageModal";
 import _ from "lodash";
 import * as yup from "yup";
 import Tippy from "@tippyjs/react";
@@ -99,6 +101,7 @@ const Staff = (props: any) => {
       postal_code: yup.string().length(5),
     }),
   });
+  const [modal, setModal] = useState(false);
   const [initialValidationShape] = useState({ ...validationShape });
   const [pctService, setPctService] = useState({});
   const [staffRoletype, setstaffRoletype] = useState("");
@@ -287,7 +290,8 @@ const Staff = (props: any) => {
         multiRoleOptions.push("admin");
       } else if (selectedItems == "stylist") {
         multiRoleOptions.push("stylist");
-      } else if (selectedItems == "support") {
+      }
+      if (selectedItems == "support") {
         multiRoleOptions.push("support");
       }
       setSelectedRole([...selectedRole, multiRoleOptions[0]]);
@@ -307,12 +311,12 @@ const Staff = (props: any) => {
       </div>,
       {
         theme: "colored",
-        icon: ({ theme, type }) => <GppMaybeRoundedIcon fontSize="large" />,
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
       }
     );
     toast.error(<div>{data}</div>, {
       theme: "colored",
-      icon: ({ theme, type }) => <GppMaybeRoundedIcon fontSize="large" />,
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
     });
   };
 
@@ -352,6 +356,21 @@ const Staff = (props: any) => {
           });
         });
         setEditedMultiParent(serviceIdsRes);
+      }
+    });
+  };
+
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("Staff");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
       }
     });
   };
@@ -493,7 +512,11 @@ const Staff = (props: any) => {
   };
 
   const handleCancel = (e: any) => {
-    props.history.push("/staff");
+    if (formChanged) {
+      setModal(true);
+    } else {
+      props.history.push("/staff");
+    }
   };
 
   const filterData = () => {
@@ -583,6 +606,10 @@ const Staff = (props: any) => {
     }
   };
 
+  const closeModal = () => {
+    setModal(false);
+  };  
+
   //Pct of Service Value Change
   const handleServiceChange = (event: any) => {
     if (event.target.value != null) {
@@ -615,6 +642,10 @@ const Staff = (props: any) => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading ? (
         <React.Fragment>
           <PageHeader title={title} />
@@ -642,6 +673,8 @@ const Staff = (props: any) => {
                         return (
                           <Form
                             name="Staff"
+                            id="Staff"
+                            onChange={onChangeHandler}
                             className="form-horizontal"
                             noValidate
                             autoComplete="off"
@@ -690,6 +723,7 @@ const Staff = (props: any) => {
                                     Last Name
                                   </FormLabel>
                                   <Col sm="9">
+                                    {console.log(formChanged)}
                                     <FormControl
                                       type="text"
                                       name="lastName"
@@ -1508,54 +1542,39 @@ const Staff = (props: any) => {
                                       type="checkbox"
                                       name="admin"
                                       label="Admin"
-                                      checked={
-                                        uniques.includes("admin")
-                                          ? "checked"
-                                          : ""
-                                      }
                                       value={selectedRole}
+                                      checked={selectedRole.includes("admin")}
                                       onChange={(e) => {
-                                        e.target.checked &&
-                                          handleRole(
-                                            e.target.name,
-                                            e.target.checked
-                                          );
+                                        handleRole(
+                                          e.target.name,
+                                          e.target.checked
+                                        );
                                       }}
                                     />
                                     <Form.Check
                                       type="checkbox"
                                       name="support"
                                       label="Support"
-                                      checked={
-                                        uniques.includes("support")
-                                          ? "checked"
-                                          : ""
-                                      }
                                       value={selectedRole}
+                                      checked={selectedRole.includes("support")}
                                       onChange={(e) => {
-                                        e.target.checked &&
-                                          handleRole(
-                                            e.target.name,
-                                            e.target.checked
-                                          );
+                                        handleRole(
+                                          e.target.name,
+                                          e.target.checked
+                                        );
                                       }}
                                     />
                                     <Form.Check
                                       type="checkbox"
                                       name="stylist"
                                       label="Stylist"
-                                      checked={
-                                        uniques.includes("stylist")
-                                          ? "checked"
-                                          : ""
-                                      }
                                       value={selectedRole}
+                                      checked={selectedRole.includes("stylist")}
                                       onChange={(e) => {
-                                        e.target.checked &&
-                                          handleRole(
-                                            e.target.name,
-                                            e.target.checked
-                                          );
+                                        handleRole(
+                                          e.target.name,
+                                          e.target.checked
+                                        );
                                       }}
                                     />
                                   </Col>
@@ -2466,6 +2485,12 @@ const Staff = (props: any) => {
                   </div>
                 </div>
               </div>
+              <LeavePageModal
+                title="client"
+                modal={modal}
+                closeModal={closeModal}
+                swapPage={() => props.history.push("/staff")}
+              />
             </Col>
           </Row>
         </React.Fragment>

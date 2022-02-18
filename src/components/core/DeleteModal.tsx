@@ -13,7 +13,12 @@ const DeleteModal = (props: any) => {
     <React.Fragment>
       <Modal show={modalPopup.deleteModal} animation={false}>
         <ModalHeader>
-          <ModalTitle>Delete {title}</ModalTitle>
+          <ModalTitle
+            className="text-capitalize fontWeight-600"
+            style={{ fontSize: "16px" }}
+          >
+            Delete {title}
+          </ModalTitle>
         </ModalHeader>
         {modalPopup.startDate && (
           <ModalBody>
@@ -21,18 +26,40 @@ const DeleteModal = (props: any) => {
             {modalPopup.startDate} to {modalPopup.endDate} ?
           </ModalBody>
         )}
-        {!modalPopup.startDate && (
+        {!modalPopup.startDate && title === "staff" && (
+          <ModalBody>
+            <p>
+              Are you sure you want to delete {title} <b>{modalPopup.name}</b>?
+            </p>
+            <small>
+              Before deleting make sure there is no appointment assigned for
+              this user
+            </small>
+            <p></p>
+          </ModalBody>
+        )}
+        {!modalPopup.startDate && title !== "staff" && (
           <ModalBody>
             Are you sure you want to delete {title} <b>{modalPopup.name}</b>?
           </ModalBody>
         )}
         <ModalFooter>
-          <button className="btn btn-secondary" onClick={() => closeModal()}>
+          <button
+            className="btn btn-secondary"
+            onClick={() => closeModal()}
+            style={{
+              background: "#fff",
+              border: "1px solid #e7eaec",
+              color: "#676a6c",
+            }}
+          >
             Cancel
           </button>
+          &nbsp;
           <button className="btn btn-danger" onClick={() => handleDelete()}>
-            Delete            
+            Delete
           </button>
+          &nbsp;
           <button className="btn btn-warning" onClick={() => handleNoShow()}>
             No Show
           </button>

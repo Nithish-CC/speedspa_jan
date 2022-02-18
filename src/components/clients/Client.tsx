@@ -9,7 +9,6 @@ import { getAllStaff, getAllStylist } from "../../redux/actions/staffActions";
 import { sorting, commafy, buildFilter } from "../../utils/common";
 import Pagination from "react-js-pagination";
 import { Link } from "react-router-dom";
-import _ from "lodash";
 import moment from "moment";
 import * as yup from "yup";
 import { Formik } from "formik";

@@ -7,7 +7,6 @@ import PageHeader from "../core/PageHeader";
 import moment from "moment";
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
-import ModalHeader from "react-bootstrap/ModalHeader";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -248,10 +247,9 @@ const ClientReport = (props: any) => {
       >
         <ModalBody className="text-center">
           <button
-            class="btn btn-sm btn-default ng-isolate-scope"
+            className="btn btn-sm btn-default ng-isolate-scope fontWeight-600"
             style={{
               marginBottom: "10px",
-              fontWeight: "600",
               background: "#EFEFEF",
               borderColor: "#dddddd",
             }}
@@ -261,7 +259,7 @@ const ClientReport = (props: any) => {
               printModal(e);
             }}
           >
-            Print <i class="fa fa-print"></i>
+            Print <i className="fa fa-print"></i>
           </button>
           <button type="button" className="close" onClick={() => closeModal()}>
             <span aria-hidden="true">×</span>
@@ -520,13 +518,12 @@ const ClientReport = (props: any) => {
                         <Col sm="12" className="text-right">
                           <Button
                             size="sm"
-                            className="btn-default"
+                            className="btn-default fontWeight-600"
                             onClick={(e) => printContent(e)}
                             style={{
                               marginBottom: "10px",
                               background: "#EFEFEF",
                               borderColor: "#dddddd",
-                              fontWeight: "600",
                             }}
                             name="clientReportPrintDiv"
                             id="printBtn"
@@ -536,10 +533,9 @@ const ClientReport = (props: any) => {
                           &nbsp;
                           <Button
                             size="sm"
-                            className="btn-default"
+                            className="btn-default fontWeight-600"
                             style={{
                               marginBottom: "10px",
-                              fontWeight: "600",
                               background: "#EFEFEF",
                               borderColor: "#dddddd",
                             }}

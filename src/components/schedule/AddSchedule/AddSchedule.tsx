@@ -59,7 +59,7 @@ const AddSchedule = (props: any) => {
   const categoryDetails = service.categoryDetails;
   const serviceDetails = service.serviceDetails;
   const staffService = user.staffService;
-  const allStaff = _.orderBy(user.allStaffDropdown, ["lastname"], ["asc"]);
+  const allStaff = user.allStaffDropdown;
   const schedule = useSelector((state: any) => state.schedule);
   const appointment = schedule.appointment;
   const appointmentOrder = schedule.appointmentOrder;
@@ -104,10 +104,9 @@ const AddSchedule = (props: any) => {
   const [startDate, setStartDate] = useState(new Date());
   const randomStr = _.uniqueId(getRandomStr(5) + "_") + new Date().getTime();
   // To set which user has ordered
-  useEffect(
-    () => setLocalUser(JSON.parse(localStorage.userDetails)),
-    [userDetails]
-  );
+  useEffect(() => {
+    setLocalUser(JSON.parse(localStorage.userDetails));
+  }, [userDetails]);
 
   function getRandomStr(length: any) {
     var result = "";
@@ -900,6 +899,7 @@ const AddSchedule = (props: any) => {
                               </FormGroup>
                             )}
                             <FormGroup>
+                              {console.log("!")}
                               <Col lg="12">
                                 <Button
                                   className="btn btn-white"

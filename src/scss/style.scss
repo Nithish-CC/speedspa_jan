@@ -292,3 +292,32 @@ body.mini-navbar .navbar-static-side {
   z-index: 1000 !important;
   margin: 0 -6.5rem;
 }
+
+.fc-icon-chevron-left:before {
+  content: "\2039" !important;
+  font-weight: 700;
+  font-size: 200%;
+  top: 7%;
+  font-family: "Courier New", Courier, monospace;
+}
+.fc-icon {
+  height: 1em !important;
+  line-height: 1em !important;
+  font-size: 1em !important;
+}
+
+.fc-icon-chevron-right:before {
+  content: "\203A" !important;
+  font-weight: 700;
+  font-size: 200%;
+  top: 7%;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.fc .fc-button {
+  padding: 0 0.6em !important;
+}
+
+.fontWeight-600 {
+  font-weight: 600;
+}

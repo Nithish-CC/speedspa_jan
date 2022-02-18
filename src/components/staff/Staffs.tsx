@@ -132,8 +132,7 @@ const Staffs = (props: any) => {
       setField(key);
     }
     sorting(allStaff, key, orderBy);
-  };
-  console.log(allStaff);
+  };  
 
   const deletePopup = (staff: any, index: any) => {
     setModalPopup({
@@ -204,8 +203,7 @@ const Staffs = (props: any) => {
       value.uniques = uniques.join(", ");
     } else {
       value.uniques = "Support";
-    }
-    console.log(value.uniques);
+    }    
     return value.uniques;
   };
 
