@@ -38,7 +38,7 @@ const Schedule = (props: any) => {
   const schedule = useSelector((state: any) => state.schedule);
   // const scheduleData = schedule.schedules;
   const totalSlots = schedule.totalSlots;
-  const allStaff = user.allStaff;
+  const allStaff = user.allStaffDropdown;
   const [calenderData, setCalenderData] = useState({
     title: "",
     startTime: "",
@@ -356,207 +356,7 @@ const Schedule = (props: any) => {
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
                 <div className="row">
-                  <div className="col-md-12 col-md-push-0">
-                    {/* <div className='ibox float-e-margins' data-ng-show='vm.editing'>
-									<div id='edit-event'></div>
-									<div className='ibox-title'>
-										<h5>Appointment Details</h5>
-										<div className='ibox-tools'>
-											<a className='collapse-link' href='#/'>
-												<i className='fa fa-chevron-up'></i>
-											</a>
-										</div>
-									</div>
-									<div className='ibox-content m-b-sm border-bottom'>
-										<form name='scheduleItemEdit' className='form-horizontal'>
-											<div className='text-danger m-t-md m-b-md' data-ng-show='vm.errors.length'>
-												vm.errors
-											</div>
-											<div className='text-warning m-t-md m-b-md' data-ng-show='vm.event.deleted==true'>
-												<strong>Warning!</strong> Service was deleted from DB!
-											</div>
-											<div className='form-group'>
-												<div className='col-lg-12'>
-													<label className='control-label'>Client Name:</label>
-												</div>
-												<div className='col-lg-12' data-ng-hide="vm.event.clientName=='deleted'">
-													vm.event.clientName
-												</div>
-												<div className='col-lg-12 text-warning' data-ng-show="vm.event.clientName=='deleted'">
-													<strong>Warning!</strong> Client was deleted from DB!
-												</div>
-											</div>
-											<div className='form-group'>
-												<div className='col-lg-12'>
-													<label className='control-label'>Service Category</label>
-													<select
-														data-ng-model='vm.event.categoryId'
-														data-ng-options='category.id as category.name for category in vm.plainCategories'
-														className='form-control'
-														required
-													>
-														<option value=''>Category</option>
-													</select>
-												</div>
-											</div>
-											<div className='form-group'>
-												<div className='col-lg-12'>
-													<label className='control-label'>Services</label>
-													<select
-														name='services'
-														data-ng-model='vm.event.serviceId'
-														data-ng-options='service.id as service.name for service in vm.services | filter: vm.event.categoryId : categoryId'
-														className='form-control'
-														required
-													></select>
-												</div>
-											</div>
-											<div className='form-group'>
-												<div className='col-lg-12'>
-													<label className='control-label'>Staff Members</label>
-													<select
-														data-ng-model='vm.event.resourceId'
-														data-ng-options="staff.id as staff.firstName+' '+staff.lastName for staff in vm.staff | filterByIdList : vm.categoryStaffList(vm.event.categoryId) | orderBy:'order'"
-														className='form-control'
-														required
-													></select>
-												</div>
-											</div>
-											<div className='form-group'>
-												<div className='col-lg-12'>
-													<label className='control-label'>Start Time</label>
-													<div className='input-group'>
-														<input
-															type='text'
-															className='form-control'
-															uib-datepicker-popup="{{'fullDate'}}"
-															ng-model='vm.event.startDate'
-															is-open='vm.popupDateTime.opened'
-															datepicker-options='vm.popupDateTime.dateOptions'
-															close-text='Close'
-															required
-														/>
-														<span className='input-group-btn'>
-															<button type='button' className='btn btn-default' ng-click='vm.openDate()'>
-																<i className='glyphicon glyphicon-calendar'></i>
-															</button>
-														</span>
-													</div>
-													<div
-														uib-timepicker
-														ng-model='vm.event.startTime'
-														hour-step='1'
-														minute-step='10'
-														show-meridian='ismeridian'
-													></div>
-												</div>
-											</div>
-											<div className='form-group'>
-												<div className='col-lg-12'>
-													<button className='btn btn-white' type='button' data-ng-click='vm.cancel()'>
-														Cancel
-													</button>
-													<button
-														// style="display: none"
-														className='btn btn-danger'
-														type='button'
-														item-name="(vm.event.title+' for client '+vm.event.clientName+' on '+vm.shortDateTime(vm.event.start))"
-														item-callback='vm.delete'
-													>
-														Delete
-													</button>
-													<button
-														className='btn btn-primary'
-														type='button'
-														data-ng-click='vm.save()'
-														data-ng-disabled='scheduleItemEdit.$invalid || vm.saving'
-													>
-														Save Changes <i className='fa fa-spinner fa-spin' data-ng-show='vm.saving'></i>
-													</button>
-												</div>
-											</div>
-										</form>
-									</div>
-								</div> */}
-                    {/* <div className='ibox float-e-margins' data-ng-show='vm.showingDetails'>
-									<div id='show-event'></div>
-									<div className='ibox-title'>
-										<h5>Event Details</h5>
-										<div className='ibox-tools'>
-											<a className='collapse-link' href='#/'>
-												<i className='fa fa-chevron-up'></i>
-											</a>
-										</div>
-									</div>
-									<div className='ibox-content m-b-sm border-bottom clearfix'>
-										<div className='text-warning m-t-md m-b-md' data-ng-show='vm.showEvent.deleted==true'>
-											<strong>Warning!</strong> Service was deleted from DB!
-										</div>
-										<div
-											className='row'
-											// style="margin-top: 10px;"
-										>
-											<div className='col-lg-12'>
-												<label className='control-label'>Client Name:</label>
-											</div>
-											<div className='col-lg-12' data-ng-hide="vm.showEvent.clientName=='deleted'">
-												vm.showEvent.clientName
-											</div>
-											<div className='col-lg-12 text-warning' data-ng-show="vm.showEvent.clientName=='deleted'">
-												<strong>Warning!</strong> Client was deleted from DB!
-											</div>
-										</div>
-										<div
-											className='row'
-											// style="margin-top: 10px;"
-										>
-											<div className='col-lg-12'>
-												<label className='control-label'>Services Category:</label>
-											</div>
-											<div className='col-lg-12'>vm.showEvent.categoryName</div>
-										</div>
-										<div
-											className='row'
-											// style="margin-top: 10px;"
-										>
-											<div className='col-lg-12'>
-												<label className='control-label'>Service:</label>
-											</div>
-											<div className='col-lg-12'>vm.showEvent.title</div>
-										</div>
-										<div
-											className='row'
-											//style="margin-top: 10px;"
-										>
-											<div className='col-lg-12'>
-												<label className='control-label'>Staff:</label>
-											</div>
-											<div className='col-lg-12'>vm.showEvent.resourceName</div>
-										</div>
-										<div
-											className='row'
-											// style="margin-top: 10px;"
-										>
-											<div className='col-lg-12'>
-												<label className='control-label'>Date/Time:</label>
-											</div>
-											<div className='col-lg-12'>
-												vm.showEvent.startDate | date: 'EEEE, LLLL d, yyyy' vm.showEvent.startTime | date: 'hh:mm a'
-											</div>
-										</div>
-										<div
-											className='row'
-											// style="margin-top: 10px;"
-										>
-											<div className='col-lg-12'>
-												<button className='btn btn-white' type='button' data-ng-click='vm.cancelDetails()'>
-													OK
-												</button>
-											</div>
-										</div>
-									</div>
-								</div> */}
-                  </div>
+                  <div className="col-md-12 col-md-push-0"></div>
                 </div>
                 <div className="row">
                   <div className="col-md-9 col-md-push-3">
@@ -673,7 +473,7 @@ const Schedule = (props: any) => {
                           className="btn btn-white m-t-xs m-b-xs"
                           style={{
                             backgroundColor: "white",
-                            color: "black",
+                            color: "#676a6c",
                             width: "100%",
                             maxWidth: "400px",
                           }}
@@ -783,28 +583,64 @@ const Schedule = (props: any) => {
                             <div className="col-md-12 text-truncate">
                               {allStaff &&
                                 allStaff.length &&
-                                allStaff.map((values: any, index: any) => {
+                                _.orderBy(
+                                  allStaff,
+                                  ["displayName"],
+                                  ["desc"]
+                                ).map((values: any, index: any) => {
                                   return (
-                                    !values.roles.includes("stylist") && (
-                                      <Button
-                                        className="btn btn-primary m-t-xs m-b-xs text-truncate"
-                                        style={{
-                                          width: "100%",
-                                          maxWidth: "400px",
-                                          backgroundColor: `${values.color}`,
-                                          borderColor: `${values.color}`,
-                                        }}
-                                        onClick={(e: any) =>
-                                          setStaffSelected(e.target.value)
-                                        }
-                                        value={values.id}
-                                      >
-                                        {/* {getRole(values,index)} */}
-                                        {values.name}
-                                      </Button>
-                                    )
+                                    <>
+                                      {values.roles.includes("admin") &&
+                                        !values.roles.includes("support") &&
+                                        !values.roles.includes("stylist") && (
+                                          <Button
+                                            className="btn btn-primary m-t-xs m-b-xs text-truncate"
+                                            style={{
+                                              width: "100%",
+                                              maxWidth: "400px",
+                                              backgroundColor: `${values.color}`,
+                                              borderColor: `${values.color}`,
+                                            }}
+                                            onClick={(e: any) =>
+                                              setStaffSelected(e.target.value)
+                                            }
+                                            value={values.id}
+                                          >
+                                            {/* {getRole(values,index)} */}
+                                            {values.name}
+                                          </Button>
+                                        )}
+                                    </>
                                   );
                                 })}
+                              {allStaff &&
+                                allStaff.length &&
+                                _.orderBy(allStaff, ["displayName"]).map(
+                                  (values: any, index: any) => {
+                                    return (
+                                      <>
+                                        {values.roles.includes("support") && (
+                                          <Button
+                                            className="btn btn-primary m-t-xs m-b-xs text-truncate"
+                                            style={{
+                                              width: "100%",
+                                              maxWidth: "400px",
+                                              backgroundColor: `${values.color}`,
+                                              borderColor: `${values.color}`,
+                                            }}
+                                            onClick={(e: any) =>
+                                              setStaffSelected(e.target.value)
+                                            }
+                                            value={values.id}
+                                          >
+                                            {/* {getRole(values,index)} */}
+                                            {values.name}
+                                          </Button>
+                                        )}
+                                      </>
+                                    );
+                                  }
+                                )}
                             </div>
                           </div>
                         </div>

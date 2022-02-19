@@ -6,6 +6,7 @@ import {
   SET_PRODUCT_CATEGORIES_DATA,
   SET_PRODUCT_ORDER_DATA,
   SET_PRODUCT_SETTINGS_DATA,
+  SET_PRODUCT_TERMINAL_DATA,
 } from "../types";
 import _ from "lodash";
 
@@ -49,7 +50,11 @@ export default function productReducers(state = initialState, action: any) {
     case SET_PRODUCTS:
       return {
         ...state,
-        productDetails: _.orderBy(action.payload.data, [(user) => user.name.toLowerCase()], ["asc"]),
+        productDetails: _.orderBy(
+          action.payload.data,
+          [(user) => user.name.toLowerCase()],
+          ["asc"]
+        ),
       };
     case SET_PRODUCT_VIEW:
       return {
@@ -66,7 +71,8 @@ export default function productReducers(state = initialState, action: any) {
         ...state,
         getSettings: action.payload,
       };
-
+    case SET_PRODUCT_TERMINAL_DATA:
+      return {...state};
     default:
       return state;
   }

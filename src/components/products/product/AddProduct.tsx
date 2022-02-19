@@ -486,14 +486,17 @@ const Product = (props: any) => {
                                             Categories (at least 1):
                                           </FormLabel>
                                           <Col sm="8">
+                                            {console.log(checkData)}
                                             <DeniReactTreeView
                                               style={{
                                                 marginRight: "10px",
                                                 marginBottom: "10px",
                                               }}
                                               //key={index}
+                                              autoLoad={true}
                                               showCheckbox={true}
                                               showIcon={false}
+                                              value={checkData}
                                               onCheckItem={onChangeTreeSelect}
                                               theme="classic"
                                               items={data}

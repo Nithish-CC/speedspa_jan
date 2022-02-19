@@ -12,6 +12,7 @@ import {
   SET_PRODUCT_ORDER,
   SET_PRODUCT_ORDER_DATA,
   SET_PRODUCT_SETTINGS_DATA,
+  SET_PRODUCT_TERMINAL_DATA,
 } from "../types";
 import axios from "axios";
 
@@ -316,7 +317,7 @@ export const addProductUpdateStaffOrder =
         dispatch({ type: LOADING_CLEAR });
       });
   };
-  
+
 export const getProductSettingData = (params: any) => (dispatch: any) => {
   dispatch({ type: LOADING_UI });
   axios
@@ -344,3 +345,20 @@ export const updateProductSetting = (params: any) => (dispatch: any) => {
       console.log(err);
     });
 };
+
+export const getTerminalId =
+  (params: any, callback: any) => (dispatch: any) => {
+    axios
+      .get(`merchant/terminal`, { params })
+      .then((res) => {
+        dispatch({
+          type: SET_PRODUCT_TERMINAL_DATA,
+          payload: res.data,
+        });
+        dispatch({ type: CLEAR_ERRORS });
+      })
+      .catch((err) => {
+        callback(false, err.response.data.message);
+        console.log(err);
+      });
+  };

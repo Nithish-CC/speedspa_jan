@@ -18,9 +18,9 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 
 const ProductOrders = (props: any) => {
-  const [errors, setErrors] = useState({} as Error);
+  const [errors, setErrors] = useState({} as Error);  
   const [title] = useState("Product Orders");
-  const [orderBy, setOrderBy] = useState(false);
+  const [orderBy, setOrderBy] = useState(true);
   const [field, setField] = useState("createdAt");
   const [activePage, setActivePage] = useState(1);
   const [perPage] = useState(10);

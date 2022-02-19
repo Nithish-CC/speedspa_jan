@@ -4,6 +4,7 @@ import { Formik } from "formik";
 import { ColorCode } from "./../../utils/ColorCodeList";
 import { connect, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
+import { Prompt } from "react-router";
 import {
   Form,
   Col,
@@ -13,7 +14,6 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
-import { Prompt } from "react-router";
 import {
   addStaff,
   getStaffDetails,

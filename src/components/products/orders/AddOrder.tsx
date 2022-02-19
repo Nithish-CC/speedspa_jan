@@ -15,6 +15,7 @@ import {
   getProductOrderView,
   updateProductOrder,
   addProductUpdateStaffOrder,
+  getTerminalId,
 } from "../../../redux/actions/productAction";
 import {
   getPaymentCC,
@@ -33,29 +34,18 @@ import {
   Button,
 } from "react-bootstrap";
 import _ from "lodash";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const ProductOrder = (props: any) => {
-  const [errors, setErrors] = useState({} as Error);
+
+  //State
+  const [errors, setErrors] = useState({} as Error);  
   const [title, setTitle] = useState("New Order");
-  const UI = useSelector((state: any) => state.UI);
-  const user = useSelector((state: any) => state.user);
-  const product = useSelector((state: any) => state.product);
-  const productDetails = product.productDetails;
-  const ProductOrderView = product.ProductOrderView;
-  const view = window.location.href.includes("view");
-  const history = useHistory();
-  const urlParams = useParams();
-  const allStaff = user.allStaffDropdown;
-  const allClient = user.allClients;
-  const payWithCC = user.paywithCC.data;
-  const id = urlParams.id;
-  const bussinessId = localStorage.getItem("businessId");
-  const userDetails = localStorage.getItem("userDetails");
   const [payWithCc, setPayWithCc] = useState(false);
   const [payWithEmv, setPayWithEmv] = useState(false);
   const [saveStaff, setSaveStaff] = useState(false);
-  console.log(UI.errors);
-
   const [saveData, setSaveData] = useState(false);
   const [refundData, setRefundData] = useState(false);
   const [notesData, setNotesData] = useState("");
@@ -99,12 +89,34 @@ const ProductOrder = (props: any) => {
     lastName: "1",
   });
 
+  // From Reducer
+  const UI = useSelector((state: any) => state.UI);
+  const user = useSelector((state: any) => state.user);
+  const product = useSelector((state: any) => state.product);
+  const allStaff = user.allStaffDropdown;
+  const allClient = user.allClients;
+  const payWithCC = user.paywithCC.data;
+  const productDetails = product.productDetails;
+  const ProductOrderView = product.ProductOrderView;
+
+  const view = window.location.href.includes("view");  
+  const history = useHistory();
+  const urlParams = useParams();
+  const id = urlParams.id;
+  
+  //localStorage
+  const bussinessId = localStorage.getItem("businessId");
+  const userDetails = localStorage.getItem("userDetails");
+  const businessDetails = JSON.parse(localStorage.businessDetails);
+  const mxMerchantId = businessDetails.mxMerchantId;
+
   // To set which user has ordered
   useEffect(
     () => setLocalUser(JSON.parse(localStorage.userDetails)),
     [userDetails]
   );
 
+  //useState
   useEffect(() => {
     if (view) {
       setTitle("Product Order");
@@ -359,8 +371,6 @@ const ProductOrder = (props: any) => {
     setchangeStaff(args[1]);
   };
 
-  console.log(products);
-
   const handleChangeQuantity = (e: any, quantity: any) => {};
 
   //Updates products to table
@@ -401,12 +411,14 @@ const ProductOrder = (props: any) => {
     });
     return sumOfAddition;
   };
+
   const tax = (searchResults: any) => {
     let sumOfAddition = 0;
     sumOfAddition = (9 * searchResults) / 100;
     let tax = sumOfAddition;
     return tax;
   };
+
   const total = (price: any, tax: any) => {
     let sumOfAddition = 0;
     sumOfAddition = Number(price) + Number(tax);
@@ -461,6 +473,7 @@ const ProductOrder = (props: any) => {
       history.push("/products/orders");
       props.refundPayment(params, history);
     }
+
     // Add order
     else if (view == false) {
       if (
@@ -498,6 +511,7 @@ const ProductOrder = (props: any) => {
   const handleCancel = (e: any) => {
     props.history.push("/products/orders");
   };
+
   const makePaymentCC = () => {
     productOrder.updatedAt = new Date().toISOString();
     productOrder.timeStart = new Date().toISOString();
@@ -529,6 +543,7 @@ const ProductOrder = (props: any) => {
       }
     });
   };
+
   //Table Quantity Change
   const handleTableQuantity = (e: any, index: any, parentId: any) => {
     addProductOrder(parentId);
@@ -553,6 +568,38 @@ const ProductOrder = (props: any) => {
     }));
   };
 
+  //toast notification
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
+
+  const getTerminalId = (e: any) => {
+    let params = {
+      mxMerchantId: mxMerchantId,
+      businessId: bussinessId,
+    };
+    props.getTerminalId(params, (success: any, data: any) => {
+      if (success) {
+        history.push("");
+      } else {
+        notify(data);
+      }
+    });
+  };
+
   return (
     <React.Fragment>
       {user.authenticated && !UI.loading && (
@@ -568,8 +615,7 @@ const ProductOrder = (props: any) => {
             </div>
           )}
           <Formik
-            initialValues={{ ...productOrder }}
-            //validationSchema={basicFormSchema}
+            initialValues={{ ...productOrder }}            
             onSubmit={handleSubmit}
             enableReinitialize={true}
           >
@@ -797,7 +843,7 @@ const ProductOrder = (props: any) => {
                                           </FormLabel>
                                           <Col sm="9">
                                             <select
-                                              class="form-control"
+                                              className="form-control"
                                               name="expiryMonth"
                                               value={card.expiryMonth}
                                               onChange={handleChange}
@@ -825,7 +871,7 @@ const ProductOrder = (props: any) => {
                                           </FormLabel>
                                           <Col sm="9">
                                             <select
-                                              class="form-control"
+                                              className="form-control"
                                               name="expiryYear"
                                               value={card.expiryYear}
                                               onChange={handleChange}
@@ -998,7 +1044,7 @@ const ProductOrder = (props: any) => {
                                       </React.Fragment>
                                     )}
                                   </div>
-                                  <div class="col-sm-6">
+                                  <div className="col-sm-6">
                                     <p>
                                       Before sending a transaction to the
                                       terminal, Make sure the terminal device
@@ -1006,6 +1052,13 @@ const ProductOrder = (props: any) => {
                                       connectivity. If not, please contact the
                                       administrator.
                                     </p>
+                                    <button
+                                      className="btn btn-sm btn-primary"
+                                      type="button"
+                                      onClick={getTerminalId}
+                                    >
+                                      Get Terminal Id &nbsp;
+                                    </button>
                                   </div>
                                 </div>
                                 <div className="hr-line-dashed" />
@@ -1021,7 +1074,11 @@ const ProductOrder = (props: any) => {
                                           Cancel
                                         </Button>
                                         &nbsp;
-                                        <Button variant="primary" type="submit">
+                                        <Button
+                                          variant="primary"
+                                          type="submit"
+                                          disabled
+                                        >
                                           Send Transaction to Terminal
                                           {UI.buttonLoading && (
                                             <i className="fa fa-spinner fa-spin"></i>
@@ -1731,6 +1788,23 @@ const ProductOrder = (props: any) => {
                                               </Button>
                                             </React.Fragment>
                                           ))}
+                                        <ToastContainer
+                                          position="bottom-right"
+                                          autoClose={5000}
+                                          hideProgressBar={true}
+                                          newestOnTop={true}
+                                          closeOnClick
+                                          rtl={false}
+                                          toastStyle={{
+                                            backgroundColor: "#ED5565",
+                                            color: "#fff",
+                                            fontSize: "13px",
+                                          }}
+                                          closeButton={false}
+                                          pauseOnFocusLoss
+                                          draggable
+                                          pauseOnHover
+                                        />
                                       </React.Fragment>
                                     </Col>
                                   </FormGroup>
@@ -1763,6 +1837,7 @@ const mapActionsToProps = {
   addProductUpdateStaffOrder,
   refundPayment,
   getAllClients,
+  getTerminalId,
 };
 
 export default connect(null, mapActionsToProps)(ProductOrder);

@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PageHeader from "../components/core/PageHeader";
-import { Modal } from "react-bootstrap";
 import "../scss/style.scss";
 
-const Instructions = (props: any) => {
-  const [errors, setErrors] = useState({} as Error);
+const Instructions = () => {  
   const [title] = useState("Instructional Videos");
   const [videos] = useState([
     {
@@ -84,6 +82,7 @@ const Instructions = (props: any) => {
       url: "https://embed.fleeq.io/l/kot9gqizhg-3ait968es2",
     },
   ]);
+
   const [modalPopup, setModalPopup] = useState({
     deleteModal: false,
     name: [],
@@ -200,7 +199,5 @@ const Instructions = (props: any) => {
     </React.Fragment>
   );
 };
-
-const mapActionsToProps = {};
 
 export default Instructions;

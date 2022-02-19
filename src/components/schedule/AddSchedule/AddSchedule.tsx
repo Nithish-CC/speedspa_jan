@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { connect, useSelector } from "react-redux";
 import moment from "moment";
+import { Prompt } from "react-router";
 import { sorting, buildFilter } from "../../../utils/common";
 import { useHistory, useParams } from "react-router-dom";
 import _ from "lodash";
@@ -14,6 +15,7 @@ import {
   getAllStaff,
   staffService,
 } from "../../../redux/actions/staffActions";
+import LeavePageModal from "../../core/LeavePageModal";
 import { searchClients } from "../../../redux/actions/clientActions";
 import {
   addAppointments,
@@ -36,7 +38,6 @@ import {
   Button,
   InputGroup,
 } from "react-bootstrap";
-import { AnyObject } from "yup/lib/types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -47,6 +48,7 @@ import DateFnsUtils from "@date-io/date-fns";
 
 const AddSchedule = (props: any) => {
   const [title] = useState("New Appointment");
+  const [modal, setModal] = useState(false);
   const [errors, setErrors] = useState({} as Error);
   const view = window.location.href.includes("view");
   const urlParams = useParams();
@@ -188,6 +190,22 @@ const AddSchedule = (props: any) => {
     });
   };
 
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("schedule");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      console.log("!");
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
+  };
+
   const handleStaffFilter = (items: any) => {
     return (searchValue: any) => {
       if (searchValue.length === 0) {
@@ -199,6 +217,10 @@ const AddSchedule = (props: any) => {
       });
       return newItems;
     };
+  };
+
+  const closeModal = () => {
+    setModal(false);
   };
 
   const handleChangeStaff = (...args: any) => {
@@ -216,19 +238,21 @@ const AddSchedule = (props: any) => {
   const optionsData = (allStaff: any) => {
     let tempArr: any[] = [];
     if (allStaff && allStaff.length) {
-      allStaff.forEach((element: any) => {
-        if (element.name) {
-          tempArr.push({
-            name: element.name,
-            value: element.id,
-          });
-        } else {
-          tempArr.push({
-            name: element.firstName + " " + element.lastName,
-            value: element.id,
-          });
+      _.orderBy(allStaff, [(user) => user.lastName.toUpperCase()]).forEach(
+        (element: any) => {
+          if (element.name) {
+            tempArr.push({
+              name: element.name,
+              value: element.id,
+            });
+          } else {
+            tempArr.push({
+              name: element.firstName + " " + element.lastName,
+              value: element.id,
+            });
+          }
         }
-      });
+      );
     }
     setOptions(tempArr);
   };
@@ -498,8 +522,6 @@ const AddSchedule = (props: any) => {
         setValue(appointment.timeStart.substr(11, 5));
       }
     }
-    //staffMainService[0]=appointment.services[0]
-    //selectedMainService(appointment.services[0])
   }, [appointment]);
 
   //update  function
@@ -508,17 +530,11 @@ const AddSchedule = (props: any) => {
       serviceDetails,
       (serviceDetails) => serviceDetails.id === appointment
     );
-    // staffMainService[1] = updateAddOnServiceData.id;
-    // console.log(staffMainService);
     return updateAddOnServiceData;
   };
 
   //Repeat
   const [weeklyRepeat, setWeeklyRepeat] = useState("");
-
-  // useEffect(()=>{
-  // 	repeatAppointments(weeklyRepeat)
-  // },[weeklyRepeat])
 
   function repeatAppointments(value: any) {
     var repeat = weeklyRepeat;
@@ -541,6 +557,10 @@ const AddSchedule = (props: any) => {
     // })
   }
 
+  const handleCancel = (e: any) => {
+    props.history.push("/schedule");
+  };
+
   function getRepeatList(repeat: any, value: any) {
     var timeStart = value.timeStart;
     var repeatArrList = [];
@@ -556,6 +576,10 @@ const AddSchedule = (props: any) => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading ? (
         <React.Fragment>
           <PageHeader title={title} />
@@ -582,6 +606,8 @@ const AddSchedule = (props: any) => {
                           <Form
                             name="scheduleItemEdit"
                             className="form-horizontal"
+                            id="schedule"
+                            onChange={onChangeHandler}
                             onSubmit={handleSubmit}
                           >
                             {UI.errors && (
@@ -597,6 +623,7 @@ const AddSchedule = (props: any) => {
                                 </div>
                               </div>
                             )}
+                            {console.log(formChanged)}
                             <FormGroup>
                               <Col sm="12">
                                 <FormLabel
@@ -899,7 +926,6 @@ const AddSchedule = (props: any) => {
                               </FormGroup>
                             )}
                             <FormGroup>
-                              {console.log("!")}
                               <Col lg="12">
                                 <Button
                                   className="btn btn-white"
@@ -908,9 +934,7 @@ const AddSchedule = (props: any) => {
                                     color: "black",
                                   }}
                                   type="button"
-                                  onClick={() => {
-                                    history.push("/schedule");
-                                  }}
+                                  onClick={(e) => handleCancel(e)}
                                 >
                                   Cancel
                                 </Button>
@@ -941,6 +965,12 @@ const AddSchedule = (props: any) => {
                       </div>
                     </div>
                   </div>
+                  {/* <LeavePageModal
+                    title="schedule"
+                    modal={modal}
+                    closeModal={closeModal}
+                    swapPage={() => props.history.push("/schedule")}
+                  /> */}
                 </div>
               );
             }}
