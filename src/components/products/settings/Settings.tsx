@@ -16,6 +16,7 @@ import {
   FormLabel,
 } from "react-bootstrap";
 import "../../../scss/style.scss";
+import DoneIcon from "@mui/icons-material/Done";
 
 const Settings = (props: any) => {
   const [title] = useState("Product Settings");
@@ -67,6 +68,7 @@ const Settings = (props: any) => {
     props.updateProductSetting(values);
     toast("Updated Successfully", {
       className: "toastify-success",
+      icon: () => <DoneIcon fontSize="large" />,
     });
   };
 

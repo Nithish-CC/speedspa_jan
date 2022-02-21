@@ -9,13 +9,19 @@ import {
   FormGroup,
   FormLabel,
 } from "react-bootstrap";
+import { Prompt } from "react-router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useHistory, useParams } from "react-router-dom";
 import NumberFormat from "react-number-format";
 import { classList } from "../utils/common";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Profile = () => {
+  
   //useState
   const [profile, setProfile] = useState({
     firstName: "",
@@ -40,7 +46,7 @@ const Profile = () => {
 
   const [profileSuccess, setProfileSuccess] = useState(false);
   const [passwdSuccess, setPasswdSuccess] = useState(false);
-
+  const history = useHistory();
   const userData = useSelector((state: any) => state.user.credentials);
 
   //useEffect
@@ -74,8 +80,40 @@ const Profile = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const userId = localStorage.getItem("userId");
-    axios.patch(`/users/${userId}`, profile).then((res) => {
-      setProfileSuccess(!profileSuccess);
+    axios
+      .patch(`/users/${userId}`, profile)
+      .then((res) => {
+        setProfileSuccess(!profileSuccess);
+      })
+      .catch((err) => {
+        notify(err.response.data.message);
+      });
+  };
+
+  //Error Toastification
+  const notify = (data: any) => {
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
+
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("profile");
+  const myForm2 = document.getElementById("changePassword");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    if(myForm2){
+      myForm2.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
     });
   };
 
@@ -89,10 +127,14 @@ const Profile = () => {
       id: userId,
       password: password.passwordRep,
     };
-
-    axios.patch(`/users/${userId}`, data).then((res) => {
-      setPasswdSuccess(!passwdSuccess);
-    });
+    axios
+      .patch(`/users/${userId}`, data)
+      .then((res) => {
+        setPasswdSuccess(!passwdSuccess);
+      })
+      .catch((err) => {
+        notify(err.response.data.message);
+      });
     setPassword({
       password: "",
       passwordRep: "",
@@ -101,6 +143,10 @@ const Profile = () => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       <PageHeader title="Profile" />
       <Row>
         <Col lg={12}>
@@ -156,7 +202,9 @@ const Profile = () => {
                       </Col>
                     </Row>
                     <Form
-                      name="staffEdit"
+                      name="profileEdit"
+                      id="profile"
+                      onChange={onChangeHandler}
                       className="form-horizontal"
                       noValidate
                       autoComplete="off"
@@ -315,7 +363,15 @@ const Profile = () => {
                                 type="text"
                                 name="address.line2"
                                 value={profile.address.line2}
-                                onChange={handleChange}
+                                onChange={(e: any) => {
+                                  setProfile({
+                                    ...profile,
+                                    address: {
+                                      ...profile.address,
+                                      line2: e.target.value,
+                                    },
+                                  });
+                                }}
                               />
                             </Col>
                           </FormGroup>
@@ -420,7 +476,11 @@ const Profile = () => {
                         <div className="col-md-8">
                           <div className="form-group">
                             <div className="col-sm-9 col-sm-offset-3">
-                              <button className="btn btn-white" type="button">
+                              <button
+                                className="btn btn-white"
+                                type="button"
+                                onClick={() => history.push("/schedule")}
+                              >
                                 Cancel
                               </button>
                               &nbsp;
@@ -439,6 +499,23 @@ const Profile = () => {
                                 Save Changes
                                 {/* <i className='fa fa-spinner fa-spin'></i> */}
                               </button>
+                              <ToastContainer
+                                position="bottom-right"
+                                autoClose={5000}
+                                hideProgressBar={true}
+                                newestOnTop={true}
+                                closeOnClick
+                                rtl={false}
+                                toastStyle={{
+                                  backgroundColor: "#ED5565",
+                                  color: "#fff",
+                                  fontSize: "13px",
+                                }}
+                                closeButton={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                              />
                             </div>
                           </div>
                         </div>
@@ -458,7 +535,9 @@ const Profile = () => {
                   <div className="ibox-content no-border">
                     <Form
                       name="staffEdit"
+                      id="changePassword"
                       className="form-horizontal"
+                      onChange={onChangeHandler}
                       noValidate
                       autoComplete="off"
                       onSubmit={onPasswordSubmit}

@@ -78,15 +78,17 @@ export const deleteServiceCategories =
   };
 
 export const addServiceCategory =
-  (params: any, history: any) => (dispatch: any) => {
+  (params: any, history: any, callback: any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .post("/categories", params)
       .then((res) => {
         history.push("/services/categories");
+        callback(true, res.data.id);
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,
@@ -113,15 +115,17 @@ export const getServiceCategory =
   };
 
 export const updateServiceCategory =
-  (params: any, history: any, props: any) => (dispatch: any) => {
+  (params: any, history: any, callback: any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .put(`categories/${params.id}`, params)
       .then((res) => {
+        callback(true, res.data.id);
         history.push("/services/categories");
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,
@@ -150,15 +154,17 @@ export const getAllService = (params: any) => (dispatch: any) => {
 };
 
 export const addServiceOfService =
-  (params: any, history: any) => (dispatch: any) => {
+  (params: any, history: any, callback: any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .post("/services", params)
       .then((res) => {
+        callback(true, res.data.id);
         history.push("/services");
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,

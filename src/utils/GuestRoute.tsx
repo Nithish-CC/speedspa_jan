@@ -1,19 +1,28 @@
-import React from 'react'
-import { Route, Redirect, RouteProps } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React from "react";
+import { Route, Redirect, RouteProps } from "react-router-dom";
+import { connect } from "react-redux";
 
 interface MyRouteProps extends RouteProps {
-	component: any
-	authenticated: boolean
-	rest?: any
+  component: any;
+  authenticated: boolean;
+  rest?: any;
 }
 
-const GuestRoute: React.FunctionComponent<MyRouteProps> = ({ component: Component, authenticated, ...rest }) => (
-	<Route {...rest} render={props => (authenticated ? <Redirect to='/dashboard' /> : <Component {...props} />)} />
-)
+const GuestRoute: React.FunctionComponent<MyRouteProps> = ({
+  component: Component,
+  authenticated,
+  ...rest
+}) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      authenticated ? <Redirect to="/schedule" /> : <Component {...props} />
+    }
+  />
+);
 
 const mapStateToProps = (state: any) => ({
-	authenticated: state.user.authenticated,
-})
+  authenticated: state.user.authenticated,
+});
 
-export default connect(mapStateToProps)(GuestRoute)
+export default connect(mapStateToProps)(GuestRoute);

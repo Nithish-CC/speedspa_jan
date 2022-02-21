@@ -5,11 +5,12 @@ import { sorting, buildFilter } from "./../../utils/common";
 import { getAllStaff } from "../../redux/actions/staffActions";
 import { addSchedule } from "../../redux/actions/scheduleActions";
 import _ from "lodash";
+import moment from "moment";
 import PageHeader from "../core/PageHeader";
-import { ColorCode } from "./../../utils/ColorCodeList";
-import { StateList } from "./../../utils/StateList";
+import { ToastContainer, toast } from "react-toastify";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 import { Formik } from "formik";
-import * as yup from "yup";
+import { Prompt } from "react-router";
 import {
   Form,
   Col,
@@ -25,8 +26,6 @@ import {
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import TimePicker from "react-time-picker-input";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
@@ -65,6 +64,7 @@ const StaffSchedule = (props: any) => {
   const [endDate, setEndDate] = useState(new Date());
   const [repeat, setRepeat] = useState("weekly");
   const [frequency, setFrequency] = useState<any[]>([]);
+
   //useEffect
   let verifyDateTime =
     moment(startDate).format("YYYY-MM-DD") >
@@ -96,6 +96,7 @@ const StaffSchedule = (props: any) => {
   };
 
   const handleSubmit = (values: any) => {
+    setOnSubmit(true);
     if (
       verifyDateTime &&
       values.resourceId != "" &&
@@ -111,8 +112,34 @@ const StaffSchedule = (props: any) => {
       staffSchedule.repeatingStartTime = moment(startTime, "hh:mm").format(
         "LT"
       );
-      props.addSchedule(staffSchedule);
+
+      props.addSchedule(staffSchedule, (success: any, data: any) => {
+        if (success && timeError) {
+          setFormChanged(false);
+          console.log("@");
+          history.push("/staff-schedule");
+        } else {
+          notify(data);
+        }
+      });
     }
+  };
+
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
   };
 
   //To Find The Occurence
@@ -129,6 +156,21 @@ const StaffSchedule = (props: any) => {
       setFrequency([]);
       setOccuranceValues({ montly: false, weekly: false, daily: true });
     }
+  };
+
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("StaffSchedule");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
   };
 
   //Number of Dates 1 to 31
@@ -164,9 +206,22 @@ const StaffSchedule = (props: any) => {
   const dailyRepeat = (e: any) => {
     setFrequency([Number(e.target.value)]);
   };
+  const [timeError, setTimeError] = useState(false);
+  const [onSubmit, setOnSubmit] = useState(false);
+  useEffect(() => {
+    if (endTime > startTime) {
+      setTimeError(true);
+    } else {
+      setTimeError(false);
+    }
+  }, [endTime, startTime]);
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading ? (
         <React.Fragment>
           <PageHeader title={title} />
@@ -175,6 +230,15 @@ const StaffSchedule = (props: any) => {
               <div className="col-sm-12">
                 <div className="alert alert-danger" role="alert">
                   {"Can not save your data."} {UI.errors.message}
+                </div>
+              </div>
+            </div>
+          )}
+          {timeError === false && onSubmit && (
+            <div className="row">
+              <div className="col-sm-12">
+                <div className="alert alert-danger" role="alert">
+                  {"Please check data you input."}
                 </div>
               </div>
             </div>
@@ -203,6 +267,8 @@ const StaffSchedule = (props: any) => {
                           <Form
                             name="Staff"
                             className="form-horizontal"
+                            id="StaffSchedule"
+                            onChange={onChangeHandler}
                             noValidate
                             autoComplete="off"
                             onSubmit={handleSubmit}
@@ -226,6 +292,7 @@ const StaffSchedule = (props: any) => {
                                         : { border: "1px solid #ed5565" }
                                     }
                                   >
+                                    {console.log(formChanged)}
                                     <option value="">-- Select Staff --</option>
                                     <optgroup label="Staff">
                                       {_.orderBy(
@@ -588,7 +655,7 @@ const StaffSchedule = (props: any) => {
                                   </div>
                                 </div>
                               </FormGroup>
-
+                              {console.log(endTime)}
                               <div className="hr-line-dashed" />
                               <Row>
                                 <Col md="8">
@@ -617,6 +684,23 @@ const StaffSchedule = (props: any) => {
                                           <i className="fa fa-spinner fa-spin"></i>
                                         )}
                                       </Button>
+                                      <ToastContainer
+                                        position="bottom-right"
+                                        autoClose={5000}
+                                        hideProgressBar={true}
+                                        newestOnTop={true}
+                                        closeOnClick
+                                        rtl={false}
+                                        toastStyle={{
+                                          backgroundColor: "#ED5565",
+                                          color: "#fff",
+                                          fontSize: "13px",
+                                        }}
+                                        closeButton={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                      />
                                     </Col>
                                   </FormGroup>
                                 </Col>

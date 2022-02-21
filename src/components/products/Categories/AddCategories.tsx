@@ -17,6 +17,10 @@ import {
   getProductCategory,
   updateProductCategory,
 } from "../../../redux/actions/productAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Prompt } from "react-router";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Addcategories = (props: any) => {
   const [title, setTitle] = useState("New Category");
@@ -53,15 +57,44 @@ const Addcategories = (props: any) => {
     }
   }, [productCategory]);
 
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("Categories");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
+  };
+
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
     if (!values.parentId) {
       delete values.parentId;
     }
     if (view) {
-      props.updateProductCategory(values, history);
+      props.updateProductCategory(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/products/categories/");
+        } else {
+          notify(data);
+        }
+      });
     } else {
-      props.addProductCategory(values, history);
+      props.addProductCategory(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/products/categories/");
+        } else {
+          notify(data);
+        }
+      });
     }
   };
 
@@ -73,8 +106,30 @@ const Addcategories = (props: any) => {
     name: yup.string().required("Name is required"),
   });
 
+  //Error Toastification
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
+
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <PageHeader title={title} />
@@ -99,6 +154,8 @@ const Addcategories = (props: any) => {
                       }) => {
                         return (
                           <Form
+                            id="Categories"
+                            onChange={onChangeHandler}
                             name="productCategory"
                             className="form-horizontal"
                             noValidate
@@ -196,6 +253,23 @@ const Addcategories = (props: any) => {
                                         <i className="fa fa-spinner fa-spin"></i>
                                       )}
                                     </button>
+                                    <ToastContainer
+                                      position="bottom-right"
+                                      autoClose={5000}
+                                      hideProgressBar={true}
+                                      newestOnTop={true}
+                                      closeOnClick
+                                      rtl={false}
+                                      toastStyle={{
+                                        backgroundColor: "#ED5565",
+                                        color: "#fff",
+                                        fontSize: "13px",
+                                      }}
+                                      closeButton={false}
+                                      pauseOnFocusLoss
+                                      draggable
+                                      pauseOnHover
+                                    />
                                   </div>
                                 </div>
                               </div>

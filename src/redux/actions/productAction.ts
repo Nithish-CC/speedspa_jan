@@ -83,15 +83,17 @@ export const deleteProductCategories =
   };
 
 export const addProductCategory =
-  (params: any, history: any) => (dispatch: any) => {
+  (params: any, history: any, callback: any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .post("/products_categories", params)
       .then((res) => {
+        callback(true, res.data.id);
         history.push("/products/categories");
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,
@@ -118,15 +120,17 @@ export const getProductCategory =
   };
 
 export const updateProductCategory =
-  (params: any, history: any) => (dispatch: any) => {
+  (params: any, history: any, callback: any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .put(`products_categories/${params.id}`, params)
       .then((res) => {
+        callback(true, res.data.id);
         history.push("/products/categories");
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,
@@ -154,15 +158,18 @@ export const getAllProducts = (params: any) => (dispatch: any) => {
 };
 
 export const addProductProduct =
-  (params: any, history: any) => (dispatch: any) => {
+  (params: any, history: any,callback:any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .post("/products", params)
       .then((res) => {
+        const id = res.data.id;
+        callback(true, id);
         history.push("/products");
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response,
@@ -243,7 +250,7 @@ export const addProductOrder =
         delete axios.defaults.headers.common["x-populate"];
       })
       .catch((err) => {
-        callback(false, null);
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response,

@@ -1,52 +1,48 @@
-import React, { useEffect, useState, useRef } from "react";
-import { connect, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getUserBusinessDetails } from "../../redux/actions/businessActions";
+import { timeSlots, schedule } from "../../redux/actions/scheduleActions";
+import { getAllStaff } from "../../redux/actions/staffActions";
+import { Button } from "react-bootstrap";
+import { buildFilter } from "../../utils/common";
+import {
+  getAllCategory,
+  getAllService,
+} from "../../redux/actions/serviceActions";
+import { connect, useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
-import { getUserBusinessDetails } from "../../redux/actions/businessActions";
-import { timeSlots, schedule } from "../../redux/actions/scheduleActions";
-import { getAllStaff } from "../../redux/actions/staffActions";
-import {
-  getAllCategory,
-  getAllService,
-} from "../../redux/actions/serviceActions";
-import "../../scss/style.scss";
-import { buildFilter } from "../../utils/common";
 import moment from "moment";
 import Tooltips from "../core/Tooltips";
 import PageHeader from "../core/PageHeader";
 import _ from "lodash";
-import { Button } from "react-bootstrap";
+import "../../scss/style.scss";
 
 const Schedule = (props: any) => {
+  //useState
+
   const [errors, setErrors] = useState({} as Error);
   const [loading, setLoading] = useState(false);
-  const UI = useSelector((state: any) => state.UI);
   const [title] = useState("Schedule");
   const businessId = localStorage.getItem("businessId");
-  //const resourceId = localStorage.getItem("userId");
   const hostName = localStorage.getItem("businessUrl");
-  let history = useHistory();
-  const user = useSelector((state: any) => state.user);
-  const allCategories = useSelector(
-    (state: any) => state.service.categoryDetails
-  );
   const [date, setDate] = useState("");
-  const schedule = useSelector((state: any) => state.schedule);
-  // const scheduleData = schedule.schedules;
-  const totalSlots = schedule.totalSlots;
-  const allStaff = user.allStaffDropdown;
+  const [calenderDates, setCalenderDates] = useState<any[]>([]);
+  const [staffSelected, setStaffSelected] = useState("all");
+
   const [calenderData, setCalenderData] = useState({
     title: "",
     startTime: "",
     endTime: "",
     show: false,
   });
+
   const [initialTooltip] = useState({ ...calenderData });
   const [resourseDataVal, setResourseDataVal] = useState<any[]>([]);
+
   const [params] = useState({
     text: "",
     status: "",
@@ -59,10 +55,25 @@ const Schedule = (props: any) => {
       url: "schedule/add-appointment",
     },
   ]);
+
   const [toggle, setToggle] = useState({
     stylist: true,
     support: true,
   });
+
+  let history = useHistory();
+
+  //useSelector
+
+  const allCategories = useSelector(
+    (state: any) => state.service.categoryDetails
+  );
+
+  const schedule = useSelector((state: any) => state.schedule);
+  const totalSlots = schedule.totalSlots;
+  const user = useSelector((state: any) => state.user);
+  const allStaff = user.allStaffDropdown;
+  const UI = useSelector((state: any) => state.UI);
 
   //To fetch date on load
   let dates = {
@@ -75,8 +86,8 @@ const Schedule = (props: any) => {
       end: new Date(moment().endOf("month").add(1, "milliseconds")),
     },
   };
-
   //useEffect
+
   useEffect(() => {
     let paramsPass = {
       businessId: businessId,
@@ -98,6 +109,20 @@ const Schedule = (props: any) => {
   useEffect(() => {
     allStaffDetail();
   }, [allStaff]);
+
+  useEffect(() => {
+    if (totalSlots && totalSlots.length) {
+      calendarData();
+    }
+  }, [totalSlots]);
+
+  useEffect(() => {
+    if (totalSlots && totalSlots.length) {
+      calendarData();
+    }
+  }, [staffSelected]);
+
+  //Function calls
 
   const schedules = () => {
     let start = date;
@@ -156,6 +181,7 @@ const Schedule = (props: any) => {
       });
     }
   };
+
   const getRole = (value: any, index: any) => {
     var roleName = [];
     var roleValues = [];
@@ -268,13 +294,6 @@ const Schedule = (props: any) => {
     return dt;
   }
 
-  const [calenderDates, setCalenderDates] = useState<any[]>([]);
-  useEffect(() => {
-    if (totalSlots && totalSlots.length) {
-      calendarData();
-    }
-  }, [totalSlots]);
-
   const handleMouseEnter = (info: any) => {
     updateTooltip(info);
   };
@@ -301,15 +320,6 @@ const Schedule = (props: any) => {
       `/schedule/edit-appointment/view/${info.event._def.extendedProps.appointmentId}`
     );
   };
-
-  const handleClick = (args: any) => {};
-
-  const [staffSelected, setStaffSelected] = useState("all");
-  useEffect(() => {
-    if (totalSlots && totalSlots.length) {
-      calendarData();
-    }
-  }, [staffSelected]);
 
   const calendarData = () => {
     const tempArr: any[] = [];
@@ -398,6 +408,7 @@ const Schedule = (props: any) => {
                             ["building"],
                             ["desc"]
                           )}
+                          eventOverlap={false}
                           buttonText={{
                             today: "Today",
                             month: "Month",

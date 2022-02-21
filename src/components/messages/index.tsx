@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { FormControl, Form } from "react-bootstrap";
 import { sendMessage, createURL } from "../../redux/actions/messageAction";
@@ -6,6 +6,11 @@ import { uploadImage, getImageFile } from "../../redux/actions/staffActions";
 import * as yup from "yup";
 import { Formik } from "formik";
 import SelectSearch from "react-select-search";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Prompt } from "react-router";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
+
 const Messages = (props: any) => {
   const [messages, setMessages] = useState({
     type: "",
@@ -51,6 +56,24 @@ const Messages = (props: any) => {
     return window.btoa(binary);
   };
 
+  //Error Toastification
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
+
   const uploadFileImage = (files: any) => {
     const imageToSave = new FormData();
     imageToSave.append("input", files[0]);
@@ -72,7 +95,7 @@ const Messages = (props: any) => {
       imageName: imageName,
     };
     let bussinesId = {
-      bussinessId: bussinessId,
+      bussinessId: businessId,
     };
     props.getImageFile(values, bussinesId, (success: any, valres: any) => {
       if (success) {
@@ -86,6 +109,22 @@ const Messages = (props: any) => {
 
   const getImageURL = (res: any) => {
     return res.data.Body.data;
+  };
+
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("Messages");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      console.log("!");
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
   };
 
   const handleSubmit = (values: any) => {
@@ -135,7 +174,11 @@ const Messages = (props: any) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       <div
         className="row wrapper border-bottom white-bg page-heading"
         style={{ padding: "10px" }}
@@ -188,6 +231,8 @@ const Messages = (props: any) => {
                         name="Message"
                         className="form-horizontal"
                         noValidate
+                        id="Messages"
+                        onChange={onChangeHandler}
                         autoComplete="off"
                         onSubmit={handleSubmit}
                       >
@@ -209,6 +254,7 @@ const Messages = (props: any) => {
                             </div>
                           </div>
                         )}
+                        {console.log(formChanged)}
                         <div className="form-group">
                           <label className="col-md-2 col-sm-3 col-xs-4 control-label">
                             Type
@@ -328,6 +374,23 @@ const Messages = (props: any) => {
                             <button className="btn btn-primary" type="submit">
                               Send Message
                             </button>
+                            <ToastContainer
+                              position="bottom-right"
+                              autoClose={5000}
+                              hideProgressBar={true}
+                              newestOnTop={true}
+                              closeOnClick
+                              rtl={false}
+                              toastStyle={{
+                                backgroundColor: "#ED5565",
+                                color: "#fff",
+                                fontSize: "13px",
+                              }}
+                              closeButton={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                            />
                           </div>
                         </div>
                       </Form>
@@ -339,7 +402,7 @@ const Messages = (props: any) => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

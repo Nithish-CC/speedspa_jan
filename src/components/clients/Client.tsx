@@ -1,44 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { connect, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
-import PageHeader from "./../core/PageHeader";
+import { Link } from "react-router-dom";
+import { Prompt } from "react-router";
+import { Formik } from "formik";
 import { StateList } from "./../../utils/StateList";
 import { getAllOrder } from "../../redux/actions/serviceActions";
 import { getproductOrders } from "../../redux/actions/reportActions";
+import { connect, useSelector } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
 import { getAllStaff, getAllStylist } from "../../redux/actions/staffActions";
 import { sorting, commafy, buildFilter } from "../../utils/common";
-import Pagination from "react-js-pagination";
-import { Link } from "react-router-dom";
-import moment from "moment";
-import * as yup from "yup";
-import { Formik } from "formik";
-import NumberFormat from "react-number-format";
 import {
   Form,
   Col,
   Row,
-  Table,
   FormControl,
   FormGroup,
   FormLabel,
-  Button,
 } from "react-bootstrap";
 import {
   addClient,
   updateClient,
   getClientDetails,
 } from "../../redux/actions/clientActions";
-import DeleteModal from "../core/DeleteModal";
-import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Pagination from "react-js-pagination";
+import moment from "moment";
+import NumberFormat from "react-number-format";
+import DeleteModal from "../core/DeleteModal";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
+import Tippy from "@tippyjs/react";
+import PageHeader from "./../core/PageHeader";
+import * as yup from "yup";
+import "tippy.js/dist/tippy.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const Client = (props: any) => {
+  //useState
+
   const [title, setTitle] = useState("New Client");
-  const history = useHistory();
-  const months = ["01", "03", "05", "07", "08", "10", "12"];
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("");
   const [bookingOrderBy, setBookingOrderBy] = useState(false);
@@ -50,7 +49,6 @@ const Client = (props: any) => {
   const [getBookingOrders, setGetBookingOrders] = useState<any[]>([]);
   const [staffVal, setStaffVal] = useState("all");
   const [statusVal, setStatusVal] = useState("all");
-  const [touched, setTouched] = useState(false);
   const [localUser, setLocalUser] = useState({
     businessId: "",
     name: "1",
@@ -89,15 +87,7 @@ const Client = (props: any) => {
     day: "",
     month: "",
   });
-  const UI = useSelector((state: any) => state.UI);
-  const user = useSelector((state: any) => state.user);
-  const report = useSelector((state: any) => state.report);
-  const service = useSelector((state: any) => state.service);
-  const clientInfo = user.clientInfo;
-  const allStylist = user.allStylist;
-  const allStaff = user.allStaffDropdown;
-  const allProductOrder = report.getproductPurchased;
-  const allServiceOrder = service.orderDetails;
+  const [formChanged, setFormChanged] = useState(false);
   const [modalPopup, setModalPopup] = useState({
     deleteModal: false,
     id: "",
@@ -106,7 +96,24 @@ const Client = (props: any) => {
   });
   const [initialModalPopup] = useState({ ...modalPopup });
 
+  //useSelector
+
+  const UI = useSelector((state: any) => state.UI);
+  const user = useSelector((state: any) => state.user);
+  const report = useSelector((state: any) => state.report);
+  const service = useSelector((state: any) => state.service);
+  const clientInfo = user.clientInfo;
+  const allStylist = user.allStylist;
+  const allStaff = user.allStaff;
+  const allProductOrder = report.getproductPurchased;
+  const allServiceOrder = service.orderDetails;
+
+  //For input
+
+  const months = ["01", "03", "05", "07", "08", "10", "12"];
+
   //search status
+
   const productOrdersStatuses = [
     {
       status: "paid",
@@ -122,30 +129,20 @@ const Client = (props: any) => {
     },
   ];
 
-  /* Get urlparams values */
+  // Get urlparams values
+
   const view = window.location.href.includes("view");
   const urlParams = useParams();
   const id = urlParams.id;
   const bussinessId = localStorage.getItem("businessId");
+  const history = useHistory();
+
+  //useEffect
 
   useEffect(
     () => setLocalUser(JSON.parse(localStorage.userDetails)),
     [userDetails]
   );
-
-  let formChanged = false;
-
-  const myForm = document.getElementById("clients");
-  const onChangeHandler = () => {
-    if (myForm) {
-      myForm.addEventListener("change", () => (formChanged = true));
-    }
-    window.addEventListener("beforeunload", (event) => {
-      if (formChanged) {
-        event.returnValue = "You have unfinished changes!";
-      }
-    });
-  };
 
   useEffect(() => {
     if (view) {
@@ -174,6 +171,7 @@ const Client = (props: any) => {
       dob.month = moment(clientInfo.dob).format("MM");
     }
   }, [clientInfo]);
+
   useEffect(() => {
     setError(
       client.firstName &&
@@ -194,12 +192,22 @@ const Client = (props: any) => {
     clientFliterData();
   }, [allProductOrder]);
 
-  /*   useEffect(() => {
-    setGetBookingOrders(allServiceOrder);
-    clientBookingFilter();
-  }, [allServiceOrder]); */
+  //Form Onbefore loading
+
+  const onChangeHandler = () => {
+    let myForm = document.getElementById("clients");
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
+  };
 
   // All Order Details
+
   const getAllOrder = () => {
     var data: any = {
       clientId: {
@@ -215,6 +223,7 @@ const Client = (props: any) => {
   };
 
   //To get all product Details
+
   const getAllProduct = () => {
     var data: any = {
       clientId: {
@@ -230,6 +239,7 @@ const Client = (props: any) => {
   };
 
   //To get all staff stylist
+
   const getAllStylist = () => {
     var data: any = {
       filter: {
@@ -244,6 +254,7 @@ const Client = (props: any) => {
   };
 
   //To get All staff
+
   const getAllStaff = (params: any) => {
     var requestRoles = ["admin", "stylist", "support"];
     if (params.role !== "all") {
@@ -270,6 +281,8 @@ const Client = (props: any) => {
     props.getAllStaff(query);
   };
 
+  //Error Toastification
+
   const notify = (data: any) => {
     toast.error(
       <div>
@@ -287,6 +300,8 @@ const Client = (props: any) => {
     });
   };
 
+  //When form is submitted
+
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
     values.dob = new Date(dob.month + "/" + dob.day + "/");
@@ -295,6 +310,7 @@ const Client = (props: any) => {
     } else {
       props.addClient(values, (success: any, data: any) => {
         if (success) {
+          setFormChanged(false);
           history.push("/clients");
         } else {
           notify(data);
@@ -303,11 +319,14 @@ const Client = (props: any) => {
     }
   };
 
+  //When form is cancelled
+
   const handleCancel = (e: any) => {
     props.history.push("/clients");
   };
 
   //For Products Purchased
+
   const handleSortChange = (key: any) => {
     if (field === key) {
       setOrderBy(!orderBy);
@@ -319,6 +338,7 @@ const Client = (props: any) => {
   };
 
   //Bookings
+
   const handleBookingSortChange = (key: any) => {
     if (bookingField === key) {
       setBookingOrderBy(!bookingOrderBy);
@@ -346,6 +366,8 @@ const Client = (props: any) => {
     );
   };
 
+  //For Price calculation
+
   const price = (searchResults: any) => {
     let sumOfAddition = 0;
     searchResults.forEach((element: any) => {
@@ -357,6 +379,8 @@ const Client = (props: any) => {
     });
     return sumOfAddition.toFixed(2);
   };
+
+  //For Tax calculation
 
   const tax = (searchResults: any) => {
     let sumOfAddition = 0;
@@ -370,9 +394,10 @@ const Client = (props: any) => {
     return sumOfAddition.toFixed(2);
   };
 
+  //For Total calculation
+
   const total = (searchResults: any) => {
     let sumOfAddition = 0;
-
     searchResults.forEach((element: any) => {
       if (element.status !== "canceled") {
         var addToadditionSum =
@@ -384,6 +409,8 @@ const Client = (props: any) => {
     return sumOfAddition.toFixed(2);
   };
 
+  //For Delete Popup
+
   const deletePopup = (value: any, index: any) => {
     setModalPopup({
       deleteModal: !modalPopup.deleteModal,
@@ -393,9 +420,13 @@ const Client = (props: any) => {
     });
   };
 
+  //To close the delete modal
+
   const closeModal = () => {
     setModalPopup(initialModalPopup);
   };
+
+  //When Delete icon is clicked
 
   const handleDelete = () => {
     let params = {
@@ -415,24 +446,29 @@ const Client = (props: any) => {
     getAllOrder();
   };
 
+  //While changing the dob
+
   const handleChangeDob = (event: any) => {
     setDob({
       ...dob,
       [event.target.name]: event.target.value,
     });
   };
+
+  //For Validation
+
   const basicFormSchema = yup.object().shape({
     firstName: yup.string().required("First Name is required"),
     lastName: yup.string().required("Last Name is required"),
     phoneNumber: yup.string().required("Phone Number is required"),
     email: yup.string().email("Email is invalid").required("Email is required"),
-    postal_code: yup.string().length(5),
     address: yup.object().shape({
       postal_code: yup.string().length(5),
     }),
   });
 
   //Products Purchased Search Filter Calling Below clientFliterData Function
+
   const clientDetailsFilter = (e: any) => {
     e.preventDefault();
     setGetProductOrders(allProductOrder);
@@ -440,6 +476,7 @@ const Client = (props: any) => {
   };
 
   //Products Purchased Search Data Filter
+
   const clientFliterData = () => {
     const tempstatusVal = (newFliterJob: any) => {
       if (statusVal == "all") {
@@ -485,11 +522,15 @@ const Client = (props: any) => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <PageHeader title={title} />
-          <Row>
-            <Col lg={12}>
+          <div className="row">
+            <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                   <li className="nav-item active">
@@ -570,14 +611,17 @@ const Client = (props: any) => {
                         handleChange,
                         handleBlur,
                         handleSubmit,
+                        isSubmitting,
+                        dirty,
+                        isValid,
                       }) => {
                         return (
                           <Form
                             name="clientEdit"
-                            className="form-horizontal"
-                            noValidate
                             onChange={onChangeHandler}
                             id="clients"
+                            className="form-horizontal"
+                            noValidate
                             autoComplete="off"
                             onSubmit={handleSubmit}
                           >
@@ -585,10 +629,10 @@ const Client = (props: any) => {
                               <div className="ibox-content no-border">
                                 <div className="m-t-md">
                                   <Row>
-                                    <Col md="8">
+                                    <Col md="12">
                                       {UI.errors && UI.errors.message && (
-                                        <div className="text-danger m-t-md m-b-md">
-                                          Can not save your data.
+                                        <div className="alert alert-danger">
+                                          Can not save your data.{" "}
                                           {UI.errors.message}
                                         </div>
                                       )}
@@ -607,9 +651,6 @@ const Client = (props: any) => {
                                             value={values.firstName}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            onFocus={(e) => {
-                                              setTouched(true);
-                                            }}
                                             isInvalid={
                                               errors.firstName &&
                                               touched.firstName
@@ -638,9 +679,6 @@ const Client = (props: any) => {
                                             value={values.lastName}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            onFocus={(e) => {
-                                              setTouched(true);
-                                            }}
                                             isInvalid={
                                               errors.lastName &&
                                               touched.lastName
@@ -1456,11 +1494,11 @@ const Client = (props: any) => {
                                             type="email"
                                             name="email"
                                             value={values.email}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
                                             isInvalid={
                                               errors.email && touched.email
                                             }
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                           />
                                         </Col>
                                       </FormGroup>
@@ -1658,7 +1696,6 @@ const Client = (props: any) => {
                                                 ? values.address.postal_code
                                                 : ""
                                             }
-                                            onBlur={handleBlur}
                                             isInvalid={
                                               errors.address?.postal_code &&
                                               touched.address?.postal_code
@@ -1707,19 +1744,19 @@ const Client = (props: any) => {
                             </div>
                             <div className="ibox float-e-margins">
                               <div className="ibox-content no-border">
-                                <Row>
-                                  <Col md={8}>
-                                    <FormGroup>
-                                      <Col sm={9} sm-offset={3}>
-                                        <Button
+                                <div className="row">
+                                  <div className="col-md-8">
+                                    <div className="form-group">
+                                      <div className="col-sm-9 col-sm-offset-3">
+                                        <button
                                           className="btn btn-white"
                                           type="button"
                                           onClick={(e) => handleCancel(e)}
                                         >
                                           Cancel
-                                        </Button>
+                                        </button>
                                         &nbsp;
-                                        <Button
+                                        <button
                                           className="btn btn-primary"
                                           type="submit"
                                           disabled={
@@ -1739,7 +1776,7 @@ const Client = (props: any) => {
                                           {UI.buttonLoading && (
                                             <i className="fa fa-spinner fa-spin"></i>
                                           )}
-                                        </Button>
+                                        </button>
                                         <ToastContainer
                                           position="bottom-right"
                                           autoClose={5000}
@@ -1757,10 +1794,10 @@ const Client = (props: any) => {
                                           draggable
                                           pauseOnHover
                                         />
-                                      </Col>
-                                    </FormGroup>
-                                  </Col>
-                                </Row>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </Form>
@@ -1778,14 +1815,14 @@ const Client = (props: any) => {
                     <div className="ibox float-e-margins m-b-none">
                       <div className="ibox-content no-border">
                         <div className="m-t-md">
-                          <Row>
-                            <Col md={12}>
-                              <Form role="form">
-                                <Row>
-                                  <Col sm={4}>
-                                    <FormGroup>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <form role="form">
+                                <div className="row">
+                                  <div className="col-sm-4">
+                                    <div className="form-group">
                                       <label>Staff</label>
-                                      <FormControl as="select">
+                                      <select className="form-control">
                                         <option value="">All</option>
                                         {allStylist &&
                                           allStylist.length &&
@@ -1796,13 +1833,13 @@ const Client = (props: any) => {
                                               </option>
                                             );
                                           })}
-                                      </FormControl>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col sm={4}>
-                                    <FormGroup>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div className="col-sm-4">
+                                    <div className="form-group">
                                       <label>Status</label>
-                                      <FormControl as="select">
+                                      <select className="form-control">
                                         <option value="">Status</option>
                                         {productOrdersStatuses.map(
                                           (values: any) => {
@@ -1813,344 +1850,352 @@ const Client = (props: any) => {
                                             );
                                           }
                                         )}
-                                      </FormControl>
-                                    </FormGroup>
-                                  </Col>
-                                  <Col sm={4}>
-                                    <FormGroup>
+                                      </select>
+                                    </div>
+                                  </div>
+                                  <div className="col-sm-4">
+                                    <div className="form-group">
                                       <div>
                                         <label>&nbsp;</label>
                                       </div>
-                                      <Button
+                                      <button
                                         id="searchBtn"
                                         className="btn btn-primary"
                                       >
                                         Search
-                                      </Button>
-                                    </FormGroup>
-                                  </Col>
-                                </Row>
-                              </Form>
-                            </Col>
-                            <Col md={12}>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                            <div className="col-md-12">
                               <div className="hr-line-dashed"></div>
-                              <Table
-                                bordered
-                                striped
-                                responsive
-                                hover
-                                className="dataTables-example"
-                              >
-                                <thead>
-                                  <tr>
-                                    <th
-                                      className={
-                                        bookingField !== "appTimeStart"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("appTimeStart")
-                                      }
-                                    >
-                                      Date/Time
-                                    </th>
-                                    <th
-                                      className={
-                                        bookingField !== "staffName"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("staffName")
-                                      }
-                                    >
-                                      Staff
-                                    </th>
-                                    <th
-                                      className={
-                                        bookingField !== "categoryName"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("categoryName")
-                                      }
-                                    >
-                                      Category
-                                    </th>
-                                    <th
-                                      className={
-                                        bookingField !== "items[0].name"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("items[0].name")
-                                      }
-                                    >
-                                      Services
-                                    </th>
-                                    <th
-                                      className={
-                                        bookingField !== "amount"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("amount")
-                                      }
-                                    >
-                                      Price
-                                    </th>
-                                    <th
-                                      className={
-                                        bookingField !== "tip"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("tip")
-                                      }
-                                    >
-                                      Tip
-                                    </th>
-                                    <th
-                                      className={
-                                        bookingField !== "total"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleBookingSortChange("total")
-                                      }
-                                    >
-                                      Total
-                                    </th>
-                                    <th
-                                      className={`text-center ${
-                                        bookingField !== "status"
-                                          ? "sorting"
-                                          : bookingOrderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) =>
-                                        handleBookingSortChange("status")
-                                      }
-                                    >
-                                      Status
-                                    </th>
-                                    <th className="text-center">Action</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {allServiceOrder && allServiceOrder.length ? (
-                                    <React.Fragment>
-                                      {allServiceOrder.map(
-                                        (order: any, index: any) => {
-                                          return (
-                                            <tr className="gradeX">
-                                              <td>
-                                                {moment
-                                                  .utc(order.timeStart)
-                                                  .format("ll h:mmA")}
-                                              </td>
-                                              <td>{order.staffName}</td>
-                                              <td>{order.categoryName}</td>
-                                              <td>{order.itemNames}</td>
-                                              <td>
-                                                ${order.amount.toFixed(2)}
-                                              </td>
-                                              <td>${order.tip.toFixed(2)}</td>
-                                              <td>${order.total.toFixed(2)}</td>
-                                              <td>
-                                                {order.status === "paid" ? (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-primary"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Paid
-                                                    </span>
-                                                  </center>
-                                                ) : order.status ===
-                                                  "created" ? (
-                                                  <center>
-                                                    {" "}
-                                                    <span
-                                                      className="btn btn-xs btn-primary"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Created
-                                                    </span>
-                                                  </center>
-                                                ) : order.status ==
-                                                    "canceled" &&
-                                                  order.noShow == true ? (
-                                                  <center>
-                                                    <span
-                                                      className=" btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      No Show
-                                                    </span>
-                                                  </center>
-                                                ) : order.status ===
-                                                  "canceled" ? (
-                                                  <center>
-                                                    {" "}
-                                                    <span
-                                                      className="btn btn-xs btn-danger"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Cancelled
-                                                    </span>
-                                                  </center>
-                                                ) : order.status ===
-                                                  "refund" ? (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-danger"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Refund
-                                                    </span>
-                                                  </center>
-                                                ) : order.status ===
-                                                  "voided" ? (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Voided
-                                                    </span>
-                                                  </center>
-                                                ) : order.status ===
-                                                  "extra_service_request" ? (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Requested
-                                                    </span>
-                                                  </center>
-                                                ) : (
-                                                  <></>
-                                                )}
-                                              </td>
-                                              <td className="text-center">
-                                                <React.Fragment>
-                                                  {order.status ==
-                                                    "created" && (
-                                                    <React.Fragment>
-                                                      <Link
-                                                        style={{
-                                                          cursor: "pointer",
-                                                          color: "#2a6954",
-                                                        }}
-                                                        key={index}
-                                                        to={`/services/payments/view/${order.id}`}
-                                                      >
-                                                        <i
-                                                          title="View | Edit"
-                                                          className="far fa-edit"
-                                                        ></i>
-                                                      </Link>
-                                                      &nbsp;&nbsp;&nbsp;
-                                                      <a
-                                                        style={{
-                                                          cursor: "pointer",
-                                                          color: "#2a6954",
-                                                        }}
-                                                        onClick={() =>
-                                                          deletePopup(
-                                                            value,
-                                                            index
-                                                          )
-                                                        }
-                                                      >
-                                                        <i
-                                                          title="Delete"
-                                                          className="far fa-trash-alt"
-                                                        ></i>
-                                                      </a>
-                                                    </React.Fragment>
-                                                  )}
-                                                  {order.status ==
-                                                    "canceled" && (
-                                                    <React.Fragment>
-                                                      <Link
-                                                        style={{
-                                                          cursor: "pointer",
-                                                          color: "#2a6954",
-                                                        }}
-                                                        to={`/services/payments/view/${order.id}`}
-                                                      >
-                                                        <i
-                                                          title="view"
-                                                          className="far fa-eye"
-                                                        ></i>
-                                                      </Link>
-                                                    </React.Fragment>
-                                                  )}
-                                                </React.Fragment>
-                                              </td>
-                                            </tr>
-                                          );
-                                        }
-                                      )}
-                                      <tr>
-                                        <td colSpan={4}>
-                                          <strong>Summary: </strong>
-                                        </td>
-                                        <th>${price(allServiceOrder)}</th>
-                                        <th>${tax(allServiceOrder)}</th>
-                                        <th>${total(allServiceOrder)}</th>
-                                        <th colSpan={2}></th>
-                                      </tr>
-                                    </React.Fragment>
-                                  ) : (
+                              <div className="table-responsive">
+                                <table className="table table-bordered table-striped table-hover dataTables-example">
+                                  <thead>
                                     <tr>
-                                      <td colSpan={10} className="text-center">
-                                        No Bookings
-                                      </td>
+                                      <th
+                                        className={
+                                          bookingField !== "appTimeStart"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange(
+                                            "appTimeStart"
+                                          )
+                                        }
+                                      >
+                                        Date/Time
+                                      </th>
+                                      <th
+                                        className={
+                                          bookingField !== "staffName"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange("staffName")
+                                        }
+                                      >
+                                        Staff
+                                      </th>
+                                      <th
+                                        className={
+                                          bookingField !== "categoryName"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange(
+                                            "categoryName"
+                                          )
+                                        }
+                                      >
+                                        Category
+                                      </th>
+                                      <th
+                                        className={
+                                          bookingField !== "items[0].name"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange(
+                                            "items[0].name"
+                                          )
+                                        }
+                                      >
+                                        Services
+                                      </th>
+                                      <th
+                                        className={
+                                          bookingField !== "amount"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange("amount")
+                                        }
+                                      >
+                                        Price
+                                      </th>
+                                      <th
+                                        className={
+                                          bookingField !== "tip"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange("tip")
+                                        }
+                                      >
+                                        Tip
+                                      </th>
+                                      <th
+                                        className={
+                                          bookingField !== "total"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleBookingSortChange("total")
+                                        }
+                                      >
+                                        Total
+                                      </th>
+                                      <th
+                                        className={`text-center ${
+                                          bookingField !== "status"
+                                            ? "sorting"
+                                            : bookingOrderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) =>
+                                          handleBookingSortChange("status")
+                                        }
+                                      >
+                                        Status
+                                      </th>
+                                      <th className="text-center">Action</th>
                                     </tr>
-                                  )}
-                                </tbody>
-                              </Table>
-                            </Col>
-                          </Row>
+                                  </thead>
+                                  <tbody>
+                                    {allServiceOrder &&
+                                    allServiceOrder.length ? (
+                                      <React.Fragment>
+                                        {allServiceOrder.map(
+                                          (order: any, index: any) => {
+                                            return (
+                                              <tr className="gradeX">
+                                                <td>
+                                                  {moment
+                                                    .utc(order.timeStart)
+                                                    .format("ll h:mmA")}
+                                                </td>
+                                                <td>{order.staffName}</td>
+                                                <td>{order.categoryName}</td>
+                                                <td>{order.itemNames}</td>
+                                                <td>
+                                                  ${order.amount.toFixed(2)}
+                                                </td>
+                                                <td>${order.tip.toFixed(2)}</td>
+                                                <td>
+                                                  ${order.total.toFixed(2)}
+                                                </td>
+                                                <td>
+                                                  {order.status === "paid" ? (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-primary"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Paid
+                                                      </span>
+                                                    </center>
+                                                  ) : order.status ===
+                                                    "created" ? (
+                                                    <center>
+                                                      {" "}
+                                                      <span
+                                                        className="btn btn-xs btn-primary"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Created
+                                                      </span>
+                                                    </center>
+                                                  ) : order.status ==
+                                                      "canceled" &&
+                                                    order.noShow == true ? (
+                                                    <center>
+                                                      <span
+                                                        className=" btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        No Show
+                                                      </span>
+                                                    </center>
+                                                  ) : order.status ===
+                                                    "canceled" ? (
+                                                    <center>
+                                                      {" "}
+                                                      <span
+                                                        className="btn btn-xs btn-danger"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Cancelled
+                                                      </span>
+                                                    </center>
+                                                  ) : order.status ===
+                                                    "refund" ? (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-danger"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Refund
+                                                      </span>
+                                                    </center>
+                                                  ) : order.status ===
+                                                    "voided" ? (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Voided
+                                                      </span>
+                                                    </center>
+                                                  ) : order.status ===
+                                                    "extra_service_request" ? (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Requested
+                                                      </span>
+                                                    </center>
+                                                  ) : (
+                                                    <></>
+                                                  )}
+                                                </td>
+                                                <td className="text-center">
+                                                  <React.Fragment>
+                                                    {order.status ==
+                                                      "created" && (
+                                                      <React.Fragment>
+                                                        <Link
+                                                          style={{
+                                                            cursor: "pointer",
+                                                            color: "#2a6954",
+                                                          }}
+                                                          key={index}
+                                                          to={`/services/payments/view/${order.id}`}
+                                                        >
+                                                          <i
+                                                            title="View | Edit"
+                                                            className="far fa-edit"
+                                                          ></i>
+                                                        </Link>
+                                                        &nbsp;&nbsp;&nbsp;
+                                                        <a
+                                                          style={{
+                                                            cursor: "pointer",
+                                                            color: "#2a6954",
+                                                          }}
+                                                          onClick={() =>
+                                                            deletePopup(
+                                                              value,
+                                                              index
+                                                            )
+                                                          }
+                                                        >
+                                                          <i
+                                                            title="Delete"
+                                                            className="far fa-trash-alt"
+                                                          ></i>
+                                                        </a>
+                                                      </React.Fragment>
+                                                    )}
+                                                    {order.status ==
+                                                      "canceled" && (
+                                                      <React.Fragment>
+                                                        <Link
+                                                          style={{
+                                                            cursor: "pointer",
+                                                            color: "#2a6954",
+                                                          }}
+                                                          to={`/services/payments/view/${order.id}`}
+                                                        >
+                                                          <i
+                                                            title="view"
+                                                            className="far fa-eye"
+                                                          ></i>
+                                                        </Link>
+                                                      </React.Fragment>
+                                                    )}
+                                                  </React.Fragment>
+                                                </td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                        <tr>
+                                          <td colSpan={4}>
+                                            <strong>Summary: </strong>
+                                          </td>
+                                          <th>${price(allServiceOrder)}</th>
+                                          <th>${tax(allServiceOrder)}</th>
+                                          <th>${total(allServiceOrder)}</th>
+                                          <th colSpan={2}></th>
+                                        </tr>
+                                      </React.Fragment>
+                                    ) : (
+                                      <tr>
+                                        <td
+                                          colSpan={10}
+                                          className="text-center"
+                                        >
+                                          No Bookings
+                                        </td>
+                                      </tr>
+                                    )}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2165,15 +2210,15 @@ const Client = (props: any) => {
                     <div className="ibox float-e-margins m-b-none">
                       <div className="ibox-content no-border">
                         <div className="m-t-md">
-                          <Row>
-                            <Col md={12}>
-                              <Form role="form">
-                                <Row>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <form role="form">
+                                <div className="row">
                                   <div className="col-sm-4">
-                                    <FormGroup>
+                                    <div className="form-group">
                                       <label>Staff</label>
-                                      <FormControl
-                                        as="select"
+                                      <select
+                                        className="form-control"
                                         onChange={(e) => {
                                           setStaffVal(e.target.value);
                                         }}
@@ -2188,14 +2233,14 @@ const Client = (props: any) => {
                                               </option>
                                             );
                                           })}
-                                      </FormControl>
-                                    </FormGroup>
+                                      </select>
+                                    </div>
                                   </div>
                                   <div className="col-sm-4">
-                                    <FormGroup>
+                                    <div className="form-group">
                                       <label>Status</label>
-                                      <FormControl
-                                        as="select"
+                                      <select
+                                        className="form-control"
                                         onChange={(e) => {
                                           setStatusVal(e.target.value);
                                         }}
@@ -2210,353 +2255,365 @@ const Client = (props: any) => {
                                             );
                                           }
                                         )}
-                                      </FormControl>
-                                    </FormGroup>
+                                      </select>
+                                    </div>
                                   </div>
-                                  <Col sm={4}>
-                                    <FormControl>
+                                  <div className="col-sm-4">
+                                    <div className="form-group">
                                       <div>
                                         <label>&nbsp;</label>
                                       </div>
-                                      <Button
+                                      <button
                                         id="searchBtn"
                                         className="btn btn-primary"
                                         onClick={(e) => clientDetailsFilter(e)}
                                       >
                                         Search
-                                      </Button>
-                                    </FormControl>
-                                  </Col>
-                                </Row>
-                              </Form>
-                            </Col>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
                             <div className="col-md-12">
                               <div className="hr-line-dashed"></div>
-                              <Table
-                                bordered
-                                responsive
-                                striped
-                                hover
-                                className="dataTables-example"
-                              >
-                                <thead>
-                                  <tr>
-                                    <th
-                                      className={
-                                        field !== "createdAt"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }
-                                      onClick={(e) =>
-                                        handleSortChange("createdAt")
-                                      }
-                                    >
-                                      Date/Time
-                                    </th>
-                                    <th
-                                      className={` ${
-                                        field !== "staffName"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) =>
-                                        handleSortChange("staffName")
-                                      }
-                                    >
-                                      Staff
-                                    </th>
-                                    <th
-                                      className={`${
-                                        field !== "itemNames"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) =>
-                                        handleSortChange("itemNames")
-                                      }
-                                    >
-                                      Products
-                                    </th>
-                                    <th
-                                      className={`${
-                                        field !== "amount"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) =>
-                                        handleSortChange("amount")
-                                      }
-                                    >
-                                      Price
-                                    </th>
-                                    <th
-                                      className={`${
-                                        field !== "tax"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) => handleSortChange("tax")}
-                                    >
-                                      Tax (9%)
-                                    </th>
-                                    <th
-                                      className={`${
-                                        field !== "total"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) => handleSortChange("total")}
-                                    >
-                                      Total
-                                    </th>
-                                    <th
-                                      className={`text-center ${
-                                        field !== "status"
-                                          ? "sorting"
-                                          : orderBy
-                                          ? "sorting_asc"
-                                          : "sorting_desc"
-                                      }`}
-                                      onClick={(e) =>
-                                        handleSortChange("status")
-                                      }
-                                    >
-                                      Status
-                                    </th>
-                                    <th className="text-center">Action</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {getproductOrders &&
-                                  getproductOrders.length ? (
-                                    <React.Fragment>
-                                      {getproductOrders.map(
-                                        (value: any, index: any) => {
-                                          return (
-                                            <tr className="gradeX">
-                                              <td>
-                                                {moment(value.createdAt).format(
-                                                  "ll h:mmA"
-                                                )}
-                                              </td>
-                                              <td>{value.staffName}</td>
-                                              <td>{value.itemNames}</td>
-                                              <td>
-                                                $
-                                                {commafy(
-                                                  value.amount.toFixed(2)
-                                                )}
-                                              </td>
-                                              <td>
-                                                ${commafy(value.tax.toFixed(2))}
-                                              </td>
-                                              <td>
-                                                $
-                                                {commafy(
-                                                  value.total.toFixed(2)
-                                                )}
-                                              </td>
-                                              <td>
-                                                {value.status == "paid" && (
-                                                  <span
-                                                    className="btn btn-xs btn-primary"
-                                                    style={{
-                                                      width: "80px",
-                                                    }}
-                                                  >
-                                                    Paid
-                                                  </span>
-                                                )}
-                                                {value.status == "created" && (
-                                                  <center>
+                              <div className="table-responsive">
+                                <table className="table table-bordered table-striped table-hover dataTables-example">
+                                  <thead>
+                                    <tr>
+                                      <th
+                                        className={
+                                          field !== "createdAt"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }
+                                        onClick={(e) =>
+                                          handleSortChange("createdAt")
+                                        }
+                                      >
+                                        Date/Time
+                                      </th>
+                                      <th
+                                        className={` ${
+                                          field !== "staffName"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) =>
+                                          handleSortChange("staffName")
+                                        }
+                                      >
+                                        Staff
+                                      </th>
+                                      <th
+                                        className={`${
+                                          field !== "itemNames"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) =>
+                                          handleSortChange("itemNames")
+                                        }
+                                      >
+                                        Products
+                                      </th>
+                                      <th
+                                        className={`${
+                                          field !== "amount"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) =>
+                                          handleSortChange("amount")
+                                        }
+                                      >
+                                        Price
+                                      </th>
+                                      <th
+                                        className={`${
+                                          field !== "tax"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) => handleSortChange("tax")}
+                                      >
+                                        Tax (9%)
+                                      </th>
+                                      <th
+                                        className={`${
+                                          field !== "total"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) =>
+                                          handleSortChange("total")
+                                        }
+                                      >
+                                        Total
+                                      </th>
+                                      <th
+                                        className={`text-center ${
+                                          field !== "status"
+                                            ? "sorting"
+                                            : orderBy
+                                            ? "sorting_asc"
+                                            : "sorting_desc"
+                                        }`}
+                                        onClick={(e) =>
+                                          handleSortChange("status")
+                                        }
+                                      >
+                                        Status
+                                      </th>
+                                      <th className="text-center">Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {getproductOrders &&
+                                    getproductOrders.length ? (
+                                      <React.Fragment>
+                                        {getproductOrders.map(
+                                          (value: any, index: any) => {
+                                            return (
+                                              <tr className="gradeX">
+                                                <td>
+                                                  {moment(
+                                                    value.createdAt
+                                                  ).format("ll h:mmA")}
+                                                </td>
+                                                <td>{value.staffName}</td>
+                                                <td>{value.itemNames}</td>
+                                                <td>
+                                                  $
+                                                  {commafy(
+                                                    value.amount.toFixed(2)
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  $
+                                                  {commafy(
+                                                    value.tax.toFixed(2)
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  $
+                                                  {commafy(
+                                                    value.total.toFixed(2)
+                                                  )}
+                                                </td>
+                                                <td>
+                                                  {value.status == "paid" && (
                                                     <span
-                                                      className="btn btn-xs btn-success"
+                                                      className="btn btn-xs btn-primary"
                                                       style={{
                                                         width: "80px",
                                                       }}
                                                     >
-                                                      Created
+                                                      Paid
                                                     </span>
-                                                  </center>
-                                                )}
+                                                  )}
+                                                  {value.status ==
+                                                    "created" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-success"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Created
+                                                      </span>
+                                                    </center>
+                                                  )}
 
-                                                {value.status == "canceled" && (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-danger"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Cancelled
-                                                    </span>
-                                                  </center>
-                                                )}
-                                                {value.status == "refund" && (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-danger"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Refund
-                                                    </span>
-                                                  </center>
-                                                )}
-                                                {value.status == "voided" && (
-                                                  <center>
-                                                    {" "}
-                                                    <span
-                                                      className="btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Voided
-                                                    </span>
-                                                  </center>
-                                                )}
-                                                {value.status ==
-                                                  "extra_service_request" && (
-                                                  <center>
-                                                    <span
-                                                      className="btn btn-xs btn-warning"
-                                                      style={{
-                                                        width: "80px",
-                                                      }}
-                                                    >
-                                                      Requested
-                                                    </span>
-                                                  </center>
-                                                )}
-                                              </td>
-                                              {value.status == "canceled" ? (
-                                                <React.Fragment>
-                                                  {viewOnPage(value.id, index)}
-                                                </React.Fragment>
-                                              ) : (
-                                                value.status == "paid" && (
+                                                  {value.status ==
+                                                    "canceled" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-danger"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Cancelled
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                  {value.status == "refund" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-danger"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Refund
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                  {value.status == "voided" && (
+                                                    <center>
+                                                      {" "}
+                                                      <span
+                                                        className="btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Voided
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                  {value.status ==
+                                                    "extra_service_request" && (
+                                                    <center>
+                                                      <span
+                                                        className="btn btn-xs btn-warning"
+                                                        style={{
+                                                          width: "80px",
+                                                        }}
+                                                      >
+                                                        Requested
+                                                      </span>
+                                                    </center>
+                                                  )}
+                                                </td>
+                                                {value.status == "canceled" ? (
                                                   <React.Fragment>
                                                     {viewOnPage(
                                                       value.id,
                                                       index
                                                     )}
                                                   </React.Fragment>
-                                                )
-                                              )}
-                                              {value.status == "created" && (
-                                                <td className="text-center">
-                                                  <Link
-                                                    style={{
-                                                      cursor: "pointer",
-                                                      color: "#2a6954",
-                                                    }}
-                                                    key={index}
-                                                    to={`/products/orders/view/${value.id}`}
-                                                  >
-                                                    <i
-                                                      title="View | Edit"
-                                                      className="far fa-edit"
-                                                    ></i>
-                                                  </Link>
-                                                  &nbsp;&nbsp;&nbsp;
-                                                  <a
-                                                    style={{
-                                                      cursor: "pointer",
-                                                      color: "#2a6954",
-                                                    }}
-                                                    onClick={() =>
-                                                      deletePopup(value, index)
-                                                    }
-                                                  >
-                                                    <i
-                                                      title="Delete"
-                                                      className="far fa-trash-alt"
-                                                    ></i>
-                                                  </a>
-                                                </td>
-                                              )}
-                                            </tr>
-                                          );
-                                        }
-                                      )}
+                                                ) : (
+                                                  value.status == "paid" && (
+                                                    <React.Fragment>
+                                                      {viewOnPage(
+                                                        value.id,
+                                                        index
+                                                      )}
+                                                    </React.Fragment>
+                                                  )
+                                                )}
+                                                {value.status == "created" && (
+                                                  <td className="text-center">
+                                                    <Link
+                                                      style={{
+                                                        cursor: "pointer",
+                                                        color: "#2a6954",
+                                                      }}
+                                                      key={index}
+                                                      to={`/products/orders/view/${value.id}`}
+                                                    >
+                                                      <i
+                                                        title="View | Edit"
+                                                        className="far fa-edit"
+                                                      ></i>
+                                                    </Link>
+                                                    &nbsp;&nbsp;&nbsp;
+                                                    <a
+                                                      style={{
+                                                        cursor: "pointer",
+                                                        color: "#2a6954",
+                                                      }}
+                                                      onClick={() =>
+                                                        deletePopup(
+                                                          value,
+                                                          index
+                                                        )
+                                                      }
+                                                    >
+                                                      <i
+                                                        title="Delete"
+                                                        className="far fa-trash-alt"
+                                                      ></i>
+                                                    </a>
+                                                  </td>
+                                                )}
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                        <tr>
+                                          <td colSpan={3}>
+                                            <strong>Summary: </strong>
+                                          </td>
+                                          <th>
+                                            $
+                                            {commafy(
+                                              (
+                                                Math.round(
+                                                  price(getproductOrders)
+                                                ) / 100
+                                              ).toFixed(2)
+                                            )}
+                                          </th>
+                                          <th>
+                                            $
+                                            {commafy(
+                                              (
+                                                Math.round(
+                                                  tax(getproductOrders)
+                                                ) / 100
+                                              ).toFixed(2)
+                                            )}
+                                          </th>
+                                          <th>
+                                            $
+                                            {commafy(
+                                              (
+                                                Math.round(
+                                                  total(getproductOrders)
+                                                ) / 100
+                                              ).toFixed(2)
+                                            )}
+                                          </th>
+                                          <th></th>
+                                        </tr>
+                                      </React.Fragment>
+                                    ) : (
                                       <tr>
-                                        <td colSpan={3}>
-                                          <strong>Summary: </strong>
+                                        <td
+                                          colSpan={10}
+                                          className="text-center"
+                                        >
+                                          No Product Purchased
                                         </td>
-                                        <th>
-                                          $
-                                          {commafy(
-                                            (
-                                              Math.round(
-                                                price(getproductOrders)
-                                              ) / 100
-                                            ).toFixed(2)
-                                          )}
-                                        </th>
-                                        <th>
-                                          $
-                                          {commafy(
-                                            (
-                                              Math.round(
-                                                tax(getproductOrders)
-                                              ) / 100
-                                            ).toFixed(2)
-                                          )}
-                                        </th>
-                                        <th>
-                                          $
-                                          {commafy(
-                                            (
-                                              Math.round(
-                                                total(getproductOrders)
-                                              ) / 100
-                                            ).toFixed(2)
-                                          )}
-                                        </th>
-                                        <th></th>
                                       </tr>
-                                    </React.Fragment>
-                                  ) : (
-                                    <tr>
-                                      <td colSpan={10} className="text-center">
-                                        No Product Purchased
-                                      </td>
-                                    </tr>
-                                  )}
-                                </tbody>
-                              </Table>
-                              {getproductOrders &&
-                              getproductOrders.length > 10 ? (
-                                <div className="text-right">
-                                  <Pagination
-                                    activePage={activePage}
-                                    itemsCountPerPage={perPage}
-                                    totalItemsCount={getproductOrders.length}
-                                    pageRangeDisplayed={5}
-                                    onChange={(page: any) =>
-                                      setActivePage(page)
-                                    }
-                                  />
-                                </div>
-                              ) : (
-                                <></>
-                              )}
+                                    )}
+                                  </tbody>
+                                </table>
+                                {getproductOrders &&
+                                getproductOrders.length > 10 ? (
+                                  <div className="text-right">
+                                    <Pagination
+                                      activePage={activePage}
+                                      itemsCountPerPage={perPage}
+                                      totalItemsCount={getproductOrders.length}
+                                      pageRangeDisplayed={5}
+                                      onChange={(page: any) =>
+                                        setActivePage(page)
+                                      }
+                                    />
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
+                              </div>
                             </div>
-                          </Row>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2571,36 +2628,36 @@ const Client = (props: any) => {
                     <div className="ibox float-e-margins m-b-none">
                       <div className="ibox-content no-border">
                         <div className="m-t-md">
-                          <Row>
+                          <div className="row">
                             <div className="col-md-12">
-                              <Table
-                                bordered
-                                striped
-                                responsive
-                                hover
-                                className="dataTables-example"
-                              >
-                                <thead>
-                                  <tr>
-                                    <th>Device Id</th>
-                                    <th>Device Token</th>
-                                    <th className="text-center">
-                                      Device Model
-                                    </th>
-                                    <th className="text-center">OS Version</th>
-                                    <th className="text-center">OS Type</th>
-                                    <th className="text-center">App Version</th>
-                                    <th className="text-center">Last View</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr className="text-center">
-                                    <td colSpan={7}>No Devices Found</td>
-                                  </tr>
-                                </tbody>
-                              </Table>
+                              <div className="table-responsive">
+                                <table className="table table-bordered table-striped table-hover dataTables-example">
+                                  <thead>
+                                    <tr>
+                                      <th>Device Id</th>
+                                      <th>Device Token</th>
+                                      <th className="text-center">
+                                        Device Model
+                                      </th>
+                                      <th className="text-center">
+                                        OS Version
+                                      </th>
+                                      <th className="text-center">OS Type</th>
+                                      <th className="text-center">
+                                        App Version
+                                      </th>
+                                      <th className="text-center">Last View</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr className="text-center">
+                                      <td colSpan={7}>No Devices Found</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
-                          </Row>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -2613,8 +2670,8 @@ const Client = (props: any) => {
                 closeModal={closeModal}
                 handleDelete={handleDelete}
               />
-            </Col>
-          </Row>
+            </div>
+          </div>
         </React.Fragment>
       )}
     </React.Fragment>

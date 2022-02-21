@@ -36,12 +36,12 @@ import {
 import _ from "lodash";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Prompt } from "react-router";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const ProductOrder = (props: any) => {
-
   //State
-  const [errors, setErrors] = useState({} as Error);  
+  const [errors, setErrors] = useState({} as Error);
   const [title, setTitle] = useState("New Order");
   const [payWithCc, setPayWithCc] = useState(false);
   const [payWithEmv, setPayWithEmv] = useState(false);
@@ -99,11 +99,11 @@ const ProductOrder = (props: any) => {
   const productDetails = product.productDetails;
   const ProductOrderView = product.ProductOrderView;
 
-  const view = window.location.href.includes("view");  
+  const view = window.location.href.includes("view");
   const history = useHistory();
   const urlParams = useParams();
   const id = urlParams.id;
-  
+
   //localStorage
   const bussinessId = localStorage.getItem("businessId");
   const userDetails = localStorage.getItem("userDetails");
@@ -115,6 +115,21 @@ const ProductOrder = (props: any) => {
     () => setLocalUser(JSON.parse(localStorage.userDetails)),
     [userDetails]
   );
+
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("order");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
+  };
 
   //useState
   useEffect(() => {
@@ -496,10 +511,12 @@ const ProductOrder = (props: any) => {
         values.shipping = { name: "chair" };
         values.status = "created";
         values.type = "products";
-        props.addProductOrder(values, (success: any, id: any) => {
+        props.addProductOrder(values, (success: any, data: any) => {
           if (success) {
-            const Id = id;
-            history.push(`/products/orders/view/${Id}`);
+            setFormChanged(false);
+            history.push(`/products/orders/view/${id}`);
+          } else {
+            notify(data);
           }
         });
       } else {
@@ -602,6 +619,10 @@ const ProductOrder = (props: any) => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <PageHeader title={title} />
@@ -615,13 +636,14 @@ const ProductOrder = (props: any) => {
             </div>
           )}
           <Formik
-            initialValues={{ ...productOrder }}            
+            initialValues={{ ...productOrder }}
             onSubmit={handleSubmit}
             enableReinitialize={true}
           >
             {({ values, errors, touched, handleBlur, handleSubmit }) => {
               return (
                 <React.Fragment>
+                  {console.log(formChanged)}
                   {view &&
                     ProductOrderView &&
                     ProductOrderView.items &&
@@ -630,6 +652,8 @@ const ProductOrder = (props: any) => {
                       <Form
                         name="productCategory"
                         className="form-horizontal"
+                        id="order"
+                        onChange={onChangeHandler}
                         noValidate
                         autoComplete="off"
                         onSubmit={handleSubmit}
@@ -731,6 +755,8 @@ const ProductOrder = (props: any) => {
                     <Form
                       name="productCategory"
                       className="form-horizontal"
+                      id="order"
+                      onChange={onChangeHandler}
                       noValidate
                       autoComplete="off"
                       onSubmit={handleSubmit}
@@ -958,6 +984,8 @@ const ProductOrder = (props: any) => {
                     <Form
                       name="productCategory"
                       className="form-horizontal"
+                      id="order"
+                      onChange={onChangeHandler}
                       noValidate
                       autoComplete="off"
                       onSubmit={handleSubmit}
@@ -1099,6 +1127,8 @@ const ProductOrder = (props: any) => {
                     name="productCategory"
                     className="form-horizontal"
                     noValidate
+                    id="order"
+                    onChange={onChangeHandler}
                     autoComplete="off"
                     onSubmit={handleSubmit}
                   >

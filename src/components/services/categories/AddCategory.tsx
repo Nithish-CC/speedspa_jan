@@ -21,6 +21,10 @@ import {
 } from "react-bootstrap";
 import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Prompt } from "react-router";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const ServiceCategory = (props: any) => {
   const [title, setTitle] = useState("New Category");
@@ -78,16 +82,63 @@ const ServiceCategory = (props: any) => {
     props.getAllCategory(params);
   };
 
+  //Error Toastification
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
+
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
     if (!values.parentId) {
       delete values.parentId;
     }
     if (view) {
-      props.updateServiceCategory(values, history);
+      props.updateServiceCategory(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/services/categories/");
+        } else {
+          notify(data);
+        }
+      });
     } else {
-      props.addServiceCategory(values, history);
+      props.addServiceCategory(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/services/categories/");
+        } else {
+          notify(data);
+        }
+      });
     }
+  };
+
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("Categories");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
   };
 
   const handleCancel = (e: any) => {
@@ -110,6 +161,10 @@ const ServiceCategory = (props: any) => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <PageHeader title={title} />
@@ -131,14 +186,14 @@ const ServiceCategory = (props: any) => {
                         handleChange,
                         handleBlur,
                         handleSubmit,
-                        dirty,
-                        isValid,
                       }) => {
                         return (
                           <Form
                             name="serviceCategory"
                             className="form-horizontal"
                             noValidate
+                            id="Categories"
+                            onChange={onChangeHandler}
                             autoComplete="off"
                             onSubmit={handleSubmit}
                           >
@@ -403,7 +458,23 @@ const ServiceCategory = (props: any) => {
                                         <i className="fa fa-spinner fa-spin"></i>
                                       )}
                                     </Button>
-                                    {console.log(errors)}
+                                    <ToastContainer
+                                      position="bottom-right"
+                                      autoClose={5000}
+                                      hideProgressBar={true}
+                                      newestOnTop={true}
+                                      closeOnClick
+                                      rtl={false}
+                                      toastStyle={{
+                                        backgroundColor: "#ED5565",
+                                        color: "#fff",
+                                        fontSize: "13px",
+                                      }}
+                                      closeButton={false}
+                                      pauseOnFocusLoss
+                                      draggable
+                                      pauseOnHover
+                                    />
                                   </Col>
                                 </FormGroup>
                               </Col>

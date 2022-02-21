@@ -23,7 +23,10 @@ import {
 import _ from "lodash";
 import DeniReactTreeView from "deni-react-treeview";
 import { uploadImage, getImageFile } from "../../../redux/actions/staffActions";
-import ProductImage from "./ProductImage";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Prompt } from "react-router";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Product = (props: any) => {
   const [title, setTitle] = useState("New Product");
@@ -124,6 +127,21 @@ const Product = (props: any) => {
     setImageSortUrl([]);
   }, [view]);
 
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("product");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
+  };
+
   const categoriesIdFunc = (data: any) => {
     let temp: any[] = [];
     data.forEach((element: any) => {
@@ -140,10 +158,42 @@ const Product = (props: any) => {
     values.price = values.price * 100;
     values.images = checkDataUrl;
     if (view) {
-      props.getProductProductUpdate(values, history);
+      props.getProductProductUpdate(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/products/");
+        } else {
+          notify(data);
+        }
+      });
     } else {
-      props.addProductProduct(values, history);
+      props.addProductProduct(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/products/");
+        } else {
+          notify(data);
+        }
+      })
     }
+  };
+
+  //Error Toastification
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
   };
 
   // Tree Selection Start
@@ -330,6 +380,10 @@ const Product = (props: any) => {
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <PageHeader title={title} />
@@ -407,7 +461,8 @@ const Product = (props: any) => {
                             aria-labelledby="client-tab"
                           >
                             <Form
-                              name="clientEdit"
+                              id="product"
+                              onChange={onChangeHandler}
                               className="form-horizontal"
                               noValidate
                               autoComplete="off"
@@ -486,7 +541,6 @@ const Product = (props: any) => {
                                             Categories (at least 1):
                                           </FormLabel>
                                           <Col sm="8">
-                                            {console.log(checkData)}
                                             <DeniReactTreeView
                                               style={{
                                                 marginRight: "10px",
@@ -665,6 +719,23 @@ const Product = (props: any) => {
                                               <i className="fa fa-spinner fa-spin"></i>
                                             )}
                                           </button>
+                                          <ToastContainer
+                                            position="bottom-right"
+                                            autoClose={5000}
+                                            hideProgressBar={true}
+                                            newestOnTop={true}
+                                            closeOnClick
+                                            rtl={false}
+                                            toastStyle={{
+                                              backgroundColor: "#ED5565",
+                                              color: "#fff",
+                                              fontSize: "13px",
+                                            }}
+                                            closeButton={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -681,7 +752,6 @@ const Product = (props: any) => {
                             aria-labelledby="Staff-tab"
                           >
                             <Form
-                              name="clientEdit"
                               className="form-horizontal"
                               noValidate
                               autoComplete="off"
@@ -880,7 +950,6 @@ const Product = (props: any) => {
                             aria-labelledby="image-tab"
                           >
                             <Form
-                              name="clientEdit"
                               className="form-horizontal"
                               noValidate
                               autoComplete="off"

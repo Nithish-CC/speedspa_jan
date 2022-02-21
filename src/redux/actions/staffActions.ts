@@ -207,8 +207,7 @@ export const uploadImage =
 
 export const getImageFile =
   (imageName: any, bussinessId: any, callback: any) => (dispatch: any) => {
-    dispatch({ type: BUTTON_LOADING });
-    console.log(bussinessId);
+    dispatch({ type: BUTTON_LOADING });    
     axios
       .get(
         `s3/getFileURL?fileName=${imageName.imageName}&businessId=${bussinessId.bussinessId}`

@@ -155,7 +155,10 @@ const Dashboard = (props: any) => {
                   {/* total customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer-analysis-content greenWhite">
+                      <div
+                        className="ibox-content customer-analysis-content greenWhite"
+                        style={{ marginBottom: "0" }}
+                      >
                         <span className="customer_analysis_count">
                           ${totalSales.summaryOfAmount}
                         </span>
@@ -165,7 +168,10 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer-analysis-content greenWhite">
+                      <div
+                        className="ibox-content customer-analysis-content greenWhite"
+                        style={{ marginBottom: "0" }}
+                      >
                         <span className="customer_analysis_count">
                           ${totalSales.summaryOfTip}
                         </span>
@@ -175,7 +181,10 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer-analysis-content greenWhite">
+                      <div
+                        className="ibox-content customer-analysis-content greenWhite"
+                        style={{ marginBottom: "0" }}
+                      >
                         <span className="customer_analysis_count">
                           {"\u0024"}
                           {totalSales.summaryOfTotal}
@@ -184,11 +193,13 @@ const Dashboard = (props: any) => {
                       </div>
                     </div>
                   </div>
+                </div>
+                <div style={{ textTransform: "uppercase" }} className="row">
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
                       <div
                         className="ibox-content customer-analysis-content greenWhite"
-                        style={{ height: "150px" }}
+                        style={{ height: "150px", marginBottom: "0" }}
                       >
                         <span
                           className="customer_analysis_count"
@@ -222,7 +233,10 @@ const Dashboard = (props: any) => {
                   </div>
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer-analysis-content greenWhite">
+                      <div
+                        className="ibox-content customer-analysis-content greenWhite"
+                        style={{ marginBottom: "0" }}
+                      >
                         <span className="customer_analysis_count">
                           {totalSales.total}
                         </span>
@@ -234,7 +248,7 @@ const Dashboard = (props: any) => {
                     <div className="ibox float-e-margins m-b-none">
                       <div
                         className="ibox-content customer-analysis-content greenWhite"
-                        style={{ height: "150px" }}
+                        style={{ height: "150px", marginBottom: "0" }}
                       >
                         <span
                           className="customer_analysis_count"

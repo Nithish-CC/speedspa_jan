@@ -27,6 +27,10 @@ import {
   FormLabel,
   Button,
 } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Prompt } from "react-router";
+import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Service = (props: any) => {
   const [title, setTitle] = useState("Add New Service");
@@ -91,7 +95,7 @@ const Service = (props: any) => {
   // Form Validation
   const [validationShape] = useState({
     name: yup.string().required("Name is required"),
-    priority: yup.number().min(1).required("Priority is required"),
+    priority: yup.number().max(1).required("Priority is required"),
     categoryId: yup.string().required("Category id is required"),
   });
 
@@ -163,11 +167,13 @@ const Service = (props: any) => {
   useEffect(() => {
     if (view == true) {
       const tempStaffArr: any[] = [];
-      allStaff.forEach((element: any) => {
-        if (element.profileCategoryId.includes(serviceData.categoryId)) {
-          tempStaffArr.push(element);
-        }
-      });
+      if (allStaff && allStaff.length) {
+        allStaff.map((element: any) => {
+          if (element.profileCategoryId.includes(serviceData.categoryId)) {
+            tempStaffArr.push(element);
+          }
+        });
+      }
       setStaffData(tempStaffArr);
 
       if (serviceData.links) {
@@ -344,6 +350,24 @@ const Service = (props: any) => {
     setLinkedServices(filteredLinkedServices);
   };
 
+  //Error Toastification
+  const notify = (data: any) => {
+    toast.error(
+      <div>
+        <strong> Status: Error </strong>{" "}
+        <p>Something went wrong. Please come back later</p>
+      </div>,
+      {
+        theme: "colored",
+        icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+      }
+    );
+    toast.error(<div>{data}</div>, {
+      theme: "colored",
+      icon: () => <GppMaybeRoundedIcon fontSize="large" />,
+    });
+  };
+
   const handleCancel = (e: any) => {
     props.history.push("/services");
   };
@@ -431,7 +455,14 @@ const Service = (props: any) => {
       values.topLevel = checkedTopLevel;
       values.requiredAddOns = checkedAddonsRequired;
       values.businessId = bussinessId;
-      props.addServiceOfService(values, history);
+      props.addServiceOfService(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/services");
+        } else {
+          notify(data);
+        }
+      });
     }
   };
 
@@ -518,6 +549,21 @@ const Service = (props: any) => {
     serviceData.variations.splice(modalPopup.index, 1);
   };
 
+  const [formChanged, setFormChanged] = useState(false);
+
+  const myForm = document.getElementById("service");
+
+  const onChangeHandler = () => {
+    if (myForm) {
+      myForm.addEventListener("change", () => setFormChanged(true));
+    }
+    window.addEventListener("beforeunload", (event) => {
+      if (formChanged) {
+        event.returnValue = "You have unfinished changes!";
+      }
+    });
+  };
+
   //add active time
   const handleAddActiveTime = (event: any) => {
     if (event == "") {
@@ -574,10 +620,13 @@ const Service = (props: any) => {
     setEditingData({});
     values.prices = 50;
   };
-  console.log(staffData);
 
   return (
     <React.Fragment>
+      <Prompt
+        when={formChanged}
+        message="Are you sure you want to leave the page?"
+      />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <PageHeader title={title} />
@@ -629,7 +678,6 @@ const Service = (props: any) => {
                     handleChange,
                     handleBlur,
                     handleSubmit,
-                    isSubmitting,
                   }) => {
                     return (
                       <React.Fragment>
@@ -646,6 +694,8 @@ const Service = (props: any) => {
                               noValidate
                               autoComplete="off"
                               onSubmit={handleSubmit}
+                              id="service"
+                              onChange={onChangeHandler}
                             >
                               <div className="ibox float-e-margins m-b-none">
                                 <div className="ibox-content no-border">
@@ -1440,6 +1490,23 @@ const Service = (props: any) => {
                                                 <i className="fa fa-spinner fa-spin"></i>
                                               )}
                                             </button>
+                                            <ToastContainer
+                                              position="bottom-right"
+                                              autoClose={5000}
+                                              hideProgressBar={true}
+                                              newestOnTop={true}
+                                              closeOnClick
+                                              rtl={false}
+                                              toastStyle={{
+                                                backgroundColor: "#ED5565",
+                                                color: "#fff",
+                                                fontSize: "13px",
+                                              }}
+                                              closeButton={false}
+                                              pauseOnFocusLoss
+                                              draggable
+                                              pauseOnHover
+                                            />
                                           </div>
                                         </div>
                                       </div>
@@ -1542,8 +1609,8 @@ const Service = (props: any) => {
                                             placeholder="Price"
                                             onBlur={handleBlur}
                                             style={
-                                              values.price &&
-                                              values.price.length
+                                              values.prices &&
+                                              values.prices.toString().length
                                                 ? {}
                                                 : {
                                                     border: "1px solid #ed5565",
@@ -1570,7 +1637,8 @@ const Service = (props: any) => {
                                             onBlur={handleBlur}
                                             style={
                                               activeAddTime.time &&
-                                              activeAddTime.time.length
+                                              activeAddTime.time.toString()
+                                                .length
                                                 ? {}
                                                 : {
                                                     border: "1px solid #ed5565",
