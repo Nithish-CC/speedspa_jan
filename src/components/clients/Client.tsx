@@ -35,6 +35,7 @@ import "tippy.js/dist/tippy.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const Client = (props: any) => {
+  
   //useState
 
   const [title, setTitle] = useState("New Client");
@@ -57,9 +58,7 @@ const Client = (props: any) => {
     firstName: "1",
     lastName: "1",
   });
-  console.log("/clients/addnew");
-  console.log(props.location.pathname);
-
+  
   const [disable, setDisable] = useState(false);
   const [error, setError] = useState(true);
   const [client, setClient] = useState({

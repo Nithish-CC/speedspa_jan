@@ -10,8 +10,6 @@ import {
   getProductProductUpdate,
   getAllProductCategories,
 } from "../../../redux/actions/productAction";
-import CheckboxTree from "react-checkbox-tree";
-import "react-checkbox-tree/lib/react-checkbox-tree.css";
 import {
   Form,
   Col,
@@ -29,23 +27,24 @@ import { Prompt } from "react-router";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Product = (props: any) => {
+  //useState
+
+  const [avatarImg, setAvatarImg] = useState("");
+  const [imgValKeys, setImgValKeys] = useState("");
   const [title, setTitle] = useState("New Product");
-  const UI = useSelector((state: any) => state.UI);
-  const [checked, setChecked] = useState<any>([]);
-  const [expanded, setExpanded] = useState<any>([]);
-  const user = useSelector((state: any) => state.user);
-  const product = useSelector((state: any) => state.product);
-  const productCategories = product.productCategories;
-  const getProductProductView = product.getProductProductView;
-  const getAllCategories = product.getAllCategories;
-  const view = window.location.href.includes("view");
-  const history = useHistory();
-  const urlParams = useParams();
-  const id = urlParams.id;
-  const bussinessId = localStorage.getItem("businessId");
-  const [active, setActive] = useState(true);
-  const [excludeInvCalc, SetExcludeInvCalc] = useState(false);
+  const [stopLoading, setStopLoading] = useState("loading");
   const [buttonSubmit, setButtonSubmit] = useState("tosubmit");
+  const [imageButtonHandle, setImageButtonHandle] = useState("Click Add");
+  let checkData: any[] = [];
+  const [imageToUpload, setImageToUpload] = useState([]);
+  const [imageSortUrl, setImageSortUrl] = useState<any[]>([]);
+  const [categoriesData, setCategoriesData] = useState<any>([]);
+  const [validationShape, setValidationShape] = useState({
+    name: yup.string().required("Name is required"),
+    description: yup.string().required("description is required"),
+    caption: yup.string().required("caption is required"),
+    price: yup.number().min(0.2).required("price is required"),
+  });
   const productValues = {
     active: true,
     businessId: "",
@@ -67,32 +66,56 @@ const Product = (props: any) => {
     taxClass: "",
     excludeInvCalc: false,
   };
-
+  const [active, setActive] = useState(true);
+  const [excludeInvCalc, SetExcludeInvCalc] = useState(false);
+  const [formChanged, setFormChanged] = useState(false);
   const [params, setParams] = useState({ ...productValues });
-  const [avatarImg, setAvatarImg] = useState("");
-  const [imgValKeys, setImgValKeys] = useState("");
-  const [validationShape, setValidationShape] = useState({
-    name: yup.string().required("Name is required"),
-    description: yup.string().required("description is required"),
-    caption: yup.string().required("caption is required"),
-    price: yup.number().min(0.2).required("price is required"),
-  });
   const [initialValidationShape] = useState({ ...validationShape });
   const basicFormSchema = yup.object().shape(validationShape);
-  const [imageButtonHandle, setImageButtonHandle] = useState("Click Add");
-  const [imageToUpload, setImageToUpload] = useState([]);
-  const [stopLoading, setStopLoading] = useState("loading");
-  const [imageSortUrl, setImageSortUrl] = useState<any[]>([]);
+
+  //form tag element for onbeforeunload
+
+  const myForm = document.getElementById("product");
+
+  //useparams and useHistory
+
+  const history = useHistory();
+  const urlParams = useParams();
+  const id = urlParams.id;
+
+  //Form Localstorage
+
+  const bussinessId = localStorage.getItem("businessId");
+
+  //Location
+
+  const view = window.location.href.includes("view");
+
+  //useSelector
+
+  const UI = useSelector((state: any) => state.UI);
+  const user = useSelector((state: any) => state.user);
+  const product = useSelector((state: any) => state.product);
+  const productCategories = product.productCategories;
+  const getProductProductView = product.getProductProductView;
+  const getAllCategories = product.getAllCategories;
 
   //final sorted image
+
   let checkDataUrl: any[] = [];
   const [checkurl, setCheckUrl] = useState<any[]>([]);
+
   //uploaded image
+
   let imageBySortUrl: any[] = [];
   let imageButtonHandleClick = "Click Add";
+
   //User uploading image
+
   let imageToUploadUrl: any[] = [];
   let stopLoadingUi = "loading";
+
+  //useEffect
 
   useEffect(() => {
     if (getProductProductView && view == true) {
@@ -129,9 +152,13 @@ const Product = (props: any) => {
     setImageSortUrl([]);
   }, [view]);
 
-  const [formChanged, setFormChanged] = useState(false);
+  useEffect(() => {
+    setCategoriesData(categoriesToData(getAllCategories, 0));
+  }, [getAllCategories]);
 
-  const myForm = document.getElementById("product");
+  //function call
+
+  //Form Onbefore loading
 
   const onChangeHandler = () => {
     if (myForm) {
@@ -144,6 +171,8 @@ const Product = (props: any) => {
     });
   };
 
+  //splittng Id for the categories
+
   const categoriesIdFunc = (data: any) => {
     let temp: any[] = [];
     data.forEach((element: any) => {
@@ -151,6 +180,8 @@ const Product = (props: any) => {
     });
     return temp;
   };
+
+  //When form is submitted
 
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
@@ -170,6 +201,7 @@ const Product = (props: any) => {
       });
     } else {
       props.addProductProduct(values, (success: any, data: any) => {
+        console.log(data);
         if (success) {
           setFormChanged(false);
           history.push("/products/");
@@ -181,6 +213,7 @@ const Product = (props: any) => {
   };
 
   //Error Toastification
+
   const notify = (data: any) => {
     toast.error(
       <div>
@@ -199,8 +232,6 @@ const Product = (props: any) => {
   };
 
   // Tree Selection Start
-  let categoriesData = [];
-  let [checkData, setCheckData] = useState([]);
 
   const categoriesToData = (categories: any, level: any) => {
     var data = _.chain(categories)
@@ -216,7 +247,7 @@ const Product = (props: any) => {
             value.selected = true;
             value.isLeaf = true;
             value.state = 1;
-            setCheckData(value);
+            checkData.push(value);
           } else {
             value.selected = false;
           }
@@ -235,7 +266,6 @@ const Product = (props: any) => {
             result["children"] = categoriesToData(value, nLevel);
             result["isLeaf"] = true;
             result["Ordata"] = value;
-            //result["state"] = 1;
           } else if (key === "name") {
             result["value"] = value;
             result["label"] = value;
@@ -249,8 +279,7 @@ const Product = (props: any) => {
     return data;
   };
 
-  categoriesData = categoriesToData(getAllCategories, 0);
-  const data = categoriesData;
+  //When tree checked
 
   const onChangeTreeSelect = async (currentNode: any) => {
     parentHasChild(currentNode, checkData);
@@ -258,7 +287,7 @@ const Product = (props: any) => {
 
   const parentHasChild = async (parentValue: any, checkData: any) => {
     removeDuplicates(parentValue);
-    if (parentValue.checkState == 0) {
+    if (parentValue.state == 1) {
       checkData.push(parentValue);
     }
 
@@ -270,7 +299,7 @@ const Product = (props: any) => {
   const childrenHasChild = (parentValue: any, checkData: any) => {
     parentValue.children.forEach((children: any) => {
       removeDuplicates(children);
-      if (children.checkState == 0) {
+      if (children.state == 1) {
         checkData.push(children);
       }
       if (children.children && children.children.length > 0) {
@@ -287,31 +316,12 @@ const Product = (props: any) => {
   };
 
   // Image Tab
+
   const imgSortView = (e: any, key: any) => {
     const productData = [...imageSortUrl];
     productData[key].index = Number(e.target.value);
     setImageSortUrl(productData);
   };
-
-  // const handleCancel = (e: any) => {
-  // 	console.log("clicked");
-  // 	props.history.push("/products");
-  // };
-
-  //Image Upload To Table
-  // const imgPass = (image: any) => {
-  // 	if (view == false) {
-  // 		imageSortUrl.push({ image: image, index: imageSortUrl.length + 1 });
-  // 	} else if (view == true) {
-  // 		imageSortUrl.push({ image: image, index: imageSortUrl.length + 1 });
-  // 	}
-  // };
-
-  // const imgSortView = (e: any, key: any) => {
-  // 	const productData = [...imageBySortUrl];
-  // 	productData[key].index = Number(e.target.value);
-  // 	imageBySortUrl = productData;
-  // };
 
   const imgPass = (image: any) => {
     imageSortUrl.push({ image: image, index: imageSortUrl.length + 1 });
@@ -376,10 +386,6 @@ const Product = (props: any) => {
   const handleRemoveImage = (index: any) => {
     imageSortUrl.splice(index, 1);
     Sortable(imageSortUrl);
-  };
-
-  const handleCancel = (e: any) => {
-    props.history.push("/products");
   };
 
   return (
@@ -471,7 +477,7 @@ const Product = (props: any) => {
                               noValidate
                               autoComplete="off"
                               onSubmit={handleSubmit}
-                            >
+                            >                              
                               <div className="ibox float-e-margins m-b-none">
                                 <div className="ibox-content no-border">
                                   <div className="m-t-md">
@@ -492,7 +498,6 @@ const Product = (props: any) => {
                                             Name
                                           </FormLabel>
                                           <Col sm="8">
-                                            {console.log(checkData)}
                                             <FormControl
                                               type="text"
                                               name="name"
@@ -547,30 +552,24 @@ const Product = (props: any) => {
                                           </FormLabel>
                                           <Col sm="8">
                                             <TreeView
-                                              style={{
-                                                marginRight: "10px",
-                                                marginBottom: "10px",
-                                              }}
-                                              autoLoad={false}
-                                              lazyLoad={false}
+                                              style={
+                                                checkData.length === 0
+                                                  ? {
+                                                      marginRight: "10px",
+                                                      marginBottom: "10px",
+                                                      border: "1px solid red",
+                                                    }
+                                                  : {
+                                                      marginRight: "10px",
+                                                      marginBottom: "10px",
+                                                    }
+                                              }
                                               showCheckbox={true}
                                               showIcon={false}
-                                              value={checkData}
                                               onCheckItem={onChangeTreeSelect}
                                               theme="classic"
-                                              items={data}
-                                            />
-                                            <CheckboxTree
-                                              nodes={data}
-                                              checked={checked}
-                                              expanded={expanded}
-                                              onCheck={(checked, e) => {
-                                                setChecked(checked);
-                                                onChangeTreeSelect(e);
-                                              }}
-                                              onExpand={(expanded) =>
-                                                setExpanded(expanded)
-                                              }
+                                              selectRow={false}
+                                              items={categoriesData}
                                             />
                                           </Col>
                                         </FormGroup>
@@ -709,7 +708,9 @@ const Product = (props: any) => {
                                           <Button
                                             variant="white"
                                             type="button"
-                                            onClick={(e) => handleCancel(e)}
+                                            onClick={() =>
+                                              props.history.push("/products")
+                                            }
                                           >
                                             Cancel
                                           </Button>
@@ -924,7 +925,9 @@ const Product = (props: any) => {
                                           <Button
                                             variant="white"
                                             type="button"
-                                            onClick={(e) => handleCancel(e)}
+                                            onClick={() =>
+                                              props.history.push("/products")
+                                            }
                                           >
                                             Cancel
                                           </Button>
