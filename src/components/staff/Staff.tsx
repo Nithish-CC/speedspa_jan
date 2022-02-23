@@ -32,7 +32,6 @@ import {
   addStaffCategory,
 } from "../../redux/actions/serviceActions";
 import "../../scss/style.scss";
-import LeavePageModal from "../core/LeavePageModal";
 import _ from "lodash";
 import * as yup from "yup";
 import Tippy from "@tippyjs/react";
@@ -512,11 +511,7 @@ const Staff = (props: any) => {
   };
 
   const handleCancel = (e: any) => {
-    if (formChanged) {
-      setModal(true);
-    } else {
-      props.history.push("/staff");
-    }
+    props.history.push("/staff");
   };
 
   const filterData = () => {
@@ -608,7 +603,7 @@ const Staff = (props: any) => {
 
   const closeModal = () => {
     setModal(false);
-  };  
+  };
 
   //Pct of Service Value Change
   const handleServiceChange = (event: any) => {
@@ -2484,13 +2479,7 @@ const Staff = (props: any) => {
                     </Formik>
                   </div>
                 </div>
-              </div>
-              <LeavePageModal
-                title="client"
-                modal={modal}
-                closeModal={closeModal}
-                swapPage={() => props.history.push("/staff")}
-              />
+              </div>              
             </Col>
           </Row>
         </React.Fragment>

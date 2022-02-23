@@ -11,13 +11,13 @@ const Terminals = (props: any) => {
     email: "",
     password: "",
   });
-  const [errors, setErrors] = useState({} as Error);
-  const [loading, setLoading] = useState(false);
+  //const [errors, setErrors] = useState({} as Error);
+  //const [loading, setLoading] = useState(false);
   const history = useHistory();
   const bussinessId = localStorage.getItem("businessId");
   const businessDetails = JSON.parse(localStorage.businessDetails);
   const mxMerchantId = businessDetails.mxMerchantId;
-  const hostname = "demo-sofabnails.savantsaloncrm.com";
+  //const hostname = "demo-sofabnails.savantsaloncrm.com";
 
   useEffect(() => {
     getTerminalId();

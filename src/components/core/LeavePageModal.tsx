@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom";
 import React from "react";
 import { useSelector } from "react-redux";
 import Modal from "react-bootstrap/Modal";
@@ -7,11 +8,32 @@ import ModalFooter from "react-bootstrap/ModalFooter";
 import ModalTitle from "react-bootstrap/ModalTitle";
 import { Button } from "react-bootstrap";
 
-const LeavePageModal = (props: any) => {
-  const { modal, closeModal, swapPage } = props;
-  return (
+const LeavePageModal = (
+  message: any,
+  callback: any,
+  confirmOpen: any,
+  setConfirmOpen: any
+) => {
+  const container = document.createElement("div");
+
+  container.setAttribute("custom-confirm-view", "");
+
+  const handleConfirm = (callbackState: any) => {
+    ReactDOM.unmountComponentAtNode(container);
+    callback();
+    setConfirmOpen(false);
+  };
+
+  const handleCancel = (callbackState: any) => {
+    ReactDOM.unmountComponentAtNode(container);
+    callback(callbackState);
+    setConfirmOpen(false);
+  };
+
+  document.body.appendChild(container);
+  ReactDOM.render(
     <React.Fragment>
-      <Modal show={modal} animation={false}>
+      <Modal show={confirmOpen} animation={false}>
         <ModalHeader>
           <ModalTitle className="fontWeight-600" style={{ fontSize: "16px" }}>
             You have usaved changes!
@@ -25,17 +47,18 @@ const LeavePageModal = (props: any) => {
               border: "1px solid #e7eaec",
               color: "#676a6c",
             }}
-            onClick={() => closeModal()}
+            onClick={handleConfirm}
           >
             Stay
           </Button>
           &nbsp;
-          <button className="btn btn-danger" onClick={() => swapPage()}>
+          <button className="btn btn-danger" onClick={handleCancel}>
             Leave
           </button>
         </ModalFooter>
       </Modal>
-    </React.Fragment>
+    </React.Fragment>,
+    container
   );
 };
 

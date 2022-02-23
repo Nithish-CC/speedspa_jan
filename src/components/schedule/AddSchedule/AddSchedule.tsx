@@ -15,7 +15,6 @@ import {
   getAllStaff,
   staffService,
 } from "../../../redux/actions/staffActions";
-import LeavePageModal from "../../core/LeavePageModal";
 import { searchClients } from "../../../redux/actions/clientActions";
 import {
   addAppointments,
@@ -196,7 +195,6 @@ const AddSchedule = (props: any) => {
 
   const onChangeHandler = () => {
     if (myForm) {
-      console.log("!");
       myForm.addEventListener("change", () => setFormChanged(true));
     }
     window.addEventListener("beforeunload", (event) => {
@@ -315,13 +313,11 @@ const AddSchedule = (props: any) => {
       }
     return str.join("&");
   };
-  const i = startDate.toISOString().split("T")[0] + " " + value;
 
   const handleSubmit = (values: any) => {
-    let setDate = startDate.toISOString().split("T")[0];
-    let m = moment(`${setDate} ${value}`, "YYYY-MM-DD HH:mm");
+    const i = startDate.toISOString().split("T")[0] + " " + value;
+    let setDate = startDate.toISOString().split("T")[0];    
     let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${value}:00Z`;
-
     let check = {
       checkFreeTime: 1,
       checkResourceSchedule: 1,
@@ -623,7 +619,6 @@ const AddSchedule = (props: any) => {
                                 </div>
                               </div>
                             )}
-                            {console.log(formChanged)}
                             <FormGroup>
                               <Col sm="12">
                                 <FormLabel

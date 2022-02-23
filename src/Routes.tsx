@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
@@ -44,10 +45,18 @@ import AddSchedule from "./components/schedule/AddSchedule/AddSchedule";
 /* Staff Schedule */
 import StaffSchedule from "./components/staff-schedule/StaffSchedule";
 import ScheduleStaff from "./components/staff-schedule/add-staff-schedule/index";
+import LeavePageModal from "./components/core/LeavePageModal";
 
 const Routes = () => {
+  const [confirmOpen, setConfirmOpen] = useState(true);
+
   return (
-    <Router basename={'/react'}> 
+    <Router
+      basename={"/react"}
+      getUserConfirmation={(message, callback) => {
+        return LeavePageModal(message, callback, confirmOpen, setConfirmOpen);
+      }}
+    >
       <Switch>
         <GuestRoute exact path="/" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />

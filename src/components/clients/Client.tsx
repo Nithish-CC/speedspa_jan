@@ -57,6 +57,9 @@ const Client = (props: any) => {
     firstName: "1",
     lastName: "1",
   });
+  console.log("/clients/addnew");
+  console.log(props.location.pathname);
+
   const [disable, setDisable] = useState(false);
   const [error, setError] = useState(true);
   const [client, setClient] = useState({
@@ -199,11 +202,11 @@ const Client = (props: any) => {
     if (myForm) {
       myForm.addEventListener("change", () => setFormChanged(true));
     }
-    window.addEventListener("beforeunload", (event) => {
-      if (formChanged) {
+    if (formChanged) {
+      window.addEventListener("beforeunload", (event) => {
         event.returnValue = "You have unfinished changes!";
-      }
-    });
+      });
+    }
   };
 
   // All Order Details
@@ -322,6 +325,7 @@ const Client = (props: any) => {
   //When form is cancelled
 
   const handleCancel = (e: any) => {
+    setFormChanged(false);
     props.history.push("/clients");
   };
 
@@ -626,7 +630,10 @@ const Client = (props: any) => {
                             onSubmit={handleSubmit}
                           >
                             <div className="ibox float-e-margins m-b-none">
-                              <div className="ibox-content no-border">
+                              <div
+                                className="ibox-content no-border"
+                                style={{ marginBottom: "0" }}
+                              >
                                 <div className="m-t-md">
                                   <Row>
                                     <Col md="12">
@@ -1746,7 +1753,7 @@ const Client = (props: any) => {
                               <div className="ibox-content no-border">
                                 <div className="row">
                                   <div className="col-md-8">
-                                    <div className="form-group">
+                                    <FormGroup>
                                       <div className="col-sm-9 col-sm-offset-3">
                                         <button
                                           className="btn btn-white"
@@ -1795,7 +1802,7 @@ const Client = (props: any) => {
                                           pauseOnHover
                                         />
                                       </div>
-                                    </div>
+                                    </FormGroup>
                                   </div>
                                 </div>
                               </div>

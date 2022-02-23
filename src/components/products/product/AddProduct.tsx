@@ -10,7 +10,8 @@ import {
   getProductProductUpdate,
   getAllProductCategories,
 } from "../../../redux/actions/productAction";
-import "react-dropdown-tree-select/dist/styles.css";
+import CheckboxTree from "react-checkbox-tree";
+import "react-checkbox-tree/lib/react-checkbox-tree.css";
 import {
   Form,
   Col,
@@ -21,16 +22,17 @@ import {
   Button,
 } from "react-bootstrap";
 import _ from "lodash";
-import DeniReactTreeView from "deni-react-treeview";
+import TreeView from "deni-react-treeview";
 import { uploadImage, getImageFile } from "../../../redux/actions/staffActions";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Prompt } from "react-router";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Product = (props: any) => {
   const [title, setTitle] = useState("New Product");
   const UI = useSelector((state: any) => state.UI);
+  const [checked, setChecked] = useState<any>([]);
+  const [expanded, setExpanded] = useState<any>([]);
   const user = useSelector((state: any) => state.user);
   const product = useSelector((state: any) => state.product);
   const productCategories = product.productCategories;
@@ -174,7 +176,7 @@ const Product = (props: any) => {
         } else {
           notify(data);
         }
-      })
+      });
     }
   };
 
@@ -198,7 +200,7 @@ const Product = (props: any) => {
 
   // Tree Selection Start
   let categoriesData = [];
-  let checkData: any[] = [];
+  let [checkData, setCheckData] = useState([]);
 
   const categoriesToData = (categories: any, level: any) => {
     var data = _.chain(categories)
@@ -214,7 +216,7 @@ const Product = (props: any) => {
             value.selected = true;
             value.isLeaf = true;
             value.state = 1;
-            checkData.push(value);
+            setCheckData(value);
           } else {
             value.selected = false;
           }
@@ -235,7 +237,8 @@ const Product = (props: any) => {
             result["Ordata"] = value;
             //result["state"] = 1;
           } else if (key === "name") {
-            result["text"] = value;
+            result["value"] = value;
+            result["label"] = value;
           } else {
             result[key] = value;
           }
@@ -255,9 +258,10 @@ const Product = (props: any) => {
 
   const parentHasChild = async (parentValue: any, checkData: any) => {
     removeDuplicates(parentValue);
-    if (parentValue.state == 1) {
+    if (parentValue.checkState == 0) {
       checkData.push(parentValue);
     }
+
     if (parentValue.children && parentValue.children.length > 0) {
       childrenHasChild(parentValue, checkData);
     }
@@ -266,7 +270,7 @@ const Product = (props: any) => {
   const childrenHasChild = (parentValue: any, checkData: any) => {
     parentValue.children.forEach((children: any) => {
       removeDuplicates(children);
-      if (children.state == 1) {
+      if (children.checkState == 0) {
         checkData.push(children);
       }
       if (children.children && children.children.length > 0) {
@@ -488,6 +492,7 @@ const Product = (props: any) => {
                                             Name
                                           </FormLabel>
                                           <Col sm="8">
+                                            {console.log(checkData)}
                                             <FormControl
                                               type="text"
                                               name="name"
@@ -541,19 +546,31 @@ const Product = (props: any) => {
                                             Categories (at least 1):
                                           </FormLabel>
                                           <Col sm="8">
-                                            <DeniReactTreeView
+                                            <TreeView
                                               style={{
                                                 marginRight: "10px",
                                                 marginBottom: "10px",
                                               }}
-                                              //key={index}
-                                              autoLoad={true}
+                                              autoLoad={false}
+                                              lazyLoad={false}
                                               showCheckbox={true}
                                               showIcon={false}
                                               value={checkData}
                                               onCheckItem={onChangeTreeSelect}
                                               theme="classic"
                                               items={data}
+                                            />
+                                            <CheckboxTree
+                                              nodes={data}
+                                              checked={checked}
+                                              expanded={expanded}
+                                              onCheck={(checked, e) => {
+                                                setChecked(checked);
+                                                onChangeTreeSelect(e);
+                                              }}
+                                              onExpand={(expanded) =>
+                                                setExpanded(expanded)
+                                              }
                                             />
                                           </Col>
                                         </FormGroup>
