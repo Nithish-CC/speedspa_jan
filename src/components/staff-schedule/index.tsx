@@ -7,17 +7,17 @@ import resourceTimeGridPlugin from "@fullcalendar/resource-timegrid";
 import resourceTimelinePlugin from "@fullcalendar/resource-timeline";
 import listPlugin from "@fullcalendar/list";
 import moment from "moment";
-import PageHeader from "../../core/PageHeader";
-import DeleteModal from "../../core/DeleteModal";
-import { sorting, buildFilter } from "../../../utils/common";
-import { getAllStaff } from "../../../redux/actions/staffActions";
+import PageHeader from "../core/PageHeader";
+import DeleteModal from "../core/DeleteModal";
+import { sorting, buildFilter } from "../../utils/common";
+import { getAllStaff } from "../../redux/actions/staffActions";
 import {
   schedule,
   updateSchedule,
   deleteSchedule,
-} from "../../../redux/actions/scheduleActions";
+} from "../../redux/actions/scheduleActions";
 import _ from "lodash";
-import { getRootServiceCategory } from "../../../redux/actions/serviceActions";
+import { getRootServiceCategory } from "../../redux/actions/serviceActions";
 import { AnyObject } from "yup/lib/types";
 import TimePicker from "react-time-picker-input";
 import {

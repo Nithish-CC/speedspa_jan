@@ -329,3 +329,16 @@ body.mini-navbar .navbar-static-side {
 .ibox {
   margin-bottom: 0;
 }
+.deni-react-treeview-container {
+  width: auto !important;
+  height: auto !important;
+}
+
+@media (max-width: 768px) {
+  .mini-navbar .navbar-static-side {
+    display: block;
+    z-index: 2001;
+    position: absolute;
+    width: 70px;
+  }
+}

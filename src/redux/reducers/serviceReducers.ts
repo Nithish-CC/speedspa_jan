@@ -41,7 +41,7 @@ export default function serviceReducers(state = initialState, action: any) {
         ...state,
         orderDetails: _.orderBy(
           action.payload.data,
-          ["appTimeStart"],
+          [(client) => client.appTimeStart.toUpperCase()],
           ["desc"]
         ),
       };

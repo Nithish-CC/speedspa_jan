@@ -12,11 +12,25 @@ import PageHeader from "../../components/core/PageHeader";
 import Pagination from "react-js-pagination";
 import DeleteModal from "../core/DeleteModal";
 import _ from "lodash";
-import XLSX from 'xlsx'
+import XLSX from "xlsx";
 
 const Clients = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Clients");
+  const [buttons] = useState([
+    {
+      title: "Add Client",
+      url: "clients/addnew",
+    },
+    {
+      title: "Upload Clients",
+      url: "clients/upload",
+    },
+  ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("createdAt");
   const [activePage, setActivePage] = useState(1);
@@ -33,16 +47,6 @@ const Clients = (props: any) => {
     status: "",
   });
   const [initialParams] = useState({ ...params });
-  const [buttons] = useState([
-    {
-      title: "Add Client",
-      url: "clients/addnew",
-    },
-    {
-      title: "Upload Clients",
-      url: "clients/upload",
-    },
-  ]);
 
   //From Reducer
   const UI = useSelector((state: any) => state.UI);
@@ -150,7 +154,7 @@ const Clients = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -218,9 +222,8 @@ const Clients = (props: any) => {
                           style={{ marginBottom: "10px", textAlign: "right" }}
                         >
                           <button
-                            className="btn btn-sm btn-default"
+                            className="btn btn-sm btn-default fontWeight-600"
                             style={{
-                              fontWeight: "600",
                               marginBottom: "10px",
                               background: "#EFEFEF",
                               borderColor: "#dddddd",

@@ -35,7 +35,6 @@ import "tippy.js/dist/tippy.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const Client = (props: any) => {
-  
   //useState
 
   const [title, setTitle] = useState("New Client");
@@ -58,7 +57,7 @@ const Client = (props: any) => {
     firstName: "1",
     lastName: "1",
   });
-  
+
   const [disable, setDisable] = useState(false);
   const [error, setError] = useState(true);
   const [client, setClient] = useState({
@@ -110,7 +109,7 @@ const Client = (props: any) => {
   const allProductOrder = report.getproductPurchased;
   const allServiceOrder = service.orderDetails;
 
-  //For input
+  //For Month input
 
   const months = ["01", "03", "05", "07", "08", "10", "12"];
 
@@ -634,16 +633,16 @@ const Client = (props: any) => {
                                 style={{ marginBottom: "0" }}
                               >
                                 <div className="m-t-md">
-                                  <Row>
-                                    <Col md="12">
-                                      {UI.errors && UI.errors.message && (
+                                  {UI.errors && UI.errors.data.message && (
+                                    <Row>
+                                      <Col md="12">
                                         <div className="alert alert-danger">
                                           Can not save your data.{" "}
                                           {UI.errors.message}
                                         </div>
-                                      )}
-                                    </Col>
-                                  </Row>
+                                      </Col>
+                                    </Row>
+                                  )}
                                   <Row>
                                     <Col md="6">
                                       <FormGroup>
@@ -1748,11 +1747,19 @@ const Client = (props: any) => {
                                 </div>
                               </div>
                             </div>
-                            <div className="ibox float-e-margins">
+                            <div
+                              className="ibox float-e-margins"
+                              style={{ marginBottom: "25px" }}
+                            >
                               <div className="ibox-content no-border">
                                 <div className="row">
                                   <div className="col-md-8">
-                                    <FormGroup>
+                                    <FormGroup
+                                      style={{
+                                        marginLeft: "0",
+                                        marginRight: "0",
+                                      }}
+                                    >
                                       <div className="col-sm-9 col-sm-offset-3">
                                         <button
                                           className="btn btn-white"

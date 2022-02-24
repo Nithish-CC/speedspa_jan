@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { StateList } from "./../../utils/StateList";
 import { Formik } from "formik";
+import { Prompt } from "react-router";
+import { StateList } from "./../../utils/StateList";
 import { ColorCode } from "./../../utils/ColorCodeList";
 import { connect, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { Prompt } from "react-router";
 import {
   Form,
   Col,
@@ -32,20 +32,21 @@ import {
   addStaffCategory,
 } from "../../redux/actions/serviceActions";
 import "../../scss/style.scss";
+import "tippy.js/dist/tippy.css";
+import "react-toastify/dist/ReactToastify.css";
 import _ from "lodash";
 import * as yup from "yup";
 import Tippy from "@tippyjs/react";
-import "tippy.js/dist/tippy.css";
 import PageHeader from "../core/PageHeader";
 import NumberFormat from "react-number-format";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Staff = (props: any) => {
+  //useState
+
   const [errors, setErrors] = useState({} as Error);
   const [title, setTitle] = useState("New Staff");
-  const history = useHistory();
   const [resultFilterCategory, setResultFilterCategory] = useState<any[]>([]);
   const [selectedMultiOptions, setSelectedMultiOptions] = useState([]);
   const [selectedMultiParent, setSelectedMultiParent] = useState<any[]>([]);
@@ -53,14 +54,14 @@ const Staff = (props: any) => {
   const [serviceParentPercentage, setServiceParentPercentage] = useState<any[]>(
     []
   );
+  const [tempFilter, setTempFilter] = useState<any[]>([]);
   const [editedMultiParent, setEditedMultiParent] = useState<any[]>([]);
   const [selectedRole, setSelectedRole] = useState<any>([]);
   const [submitProfileCategoryId, setSubmitProfileCategoryId] = useState<any[]>(
     []
   );
+  const [pctService, setPctService] = useState({});
   const [serviceTemp, setServiceTemp] = useState({});
-  const [avatarImg, setAvatarImg] = useState("");
-  const [imgValKeys, setImgValKeys] = useState("");
   const [validationShape, setValidationShape] = useState({
     firstName: yup.string().required("First Name is required"),
     lastName: yup.string().required("Last Name is required"),
@@ -100,15 +101,6 @@ const Staff = (props: any) => {
       postal_code: yup.string().length(5),
     }),
   });
-  const [modal, setModal] = useState(false);
-  const [initialValidationShape] = useState({ ...validationShape });
-  const [pctService, setPctService] = useState({});
-  const [staffRoletype, setstaffRoletype] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const [passErrorMsg, setPassErrorMsg] = useState("");
-  let uniques = Array.from(new Set(selectedRole));
-  const [pass, setPass] = useState("");
-  const [tempFilter, setTempFilter] = useState<any[]>([]);
   const [staff, setStaff] = useState({
     color: "",
     countryCode: "+1",
@@ -140,6 +132,18 @@ const Staff = (props: any) => {
     retypePassword: "",
     changePassword: "",
   });
+  const [initialValidationShape] = useState({ ...validationShape });
+  const [pass, setPass] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [avatarImg, setAvatarImg] = useState("");
+  const [imgValKeys, setImgValKeys] = useState("");
+  const [passErrorMsg, setPassErrorMsg] = useState("");
+  const [staffRoletype, setstaffRoletype] = useState("");
+  const [modal, setModal] = useState(false);
+  const [formChanged, setFormChanged] = useState(false);
+  let uniques = Array.from(new Set(selectedRole));
+
+  //from reducer
 
   const UI = useSelector((state: any) => state.UI);
   const service = useSelector((state: any) => state.service);
@@ -148,12 +152,31 @@ const Staff = (props: any) => {
   const staffInfo = user.staffInfo;
   const allServiceData = service.getAllStaffResources;
   const allCategories = service.getRootServiceCategory;
+
+  //location
+
   const view = window.location.href.includes("view");
+  const Title = {
+    title: title,
+  };
+
+  //urlParams
+
   const urlParams = useParams();
   const id = urlParams.id;
+
+  //localStorage
+
   const bussinessId = localStorage.getItem("businessId");
   const basicFormSchema = yup.object().shape(validationShape);
   const newObj = serviceTemp || {};
+
+  //useHistory
+
+  const history = useHistory();
+
+  //useEffect
+
   useEffect(() => {
     handlePctOfSerivce();
     setstaffRoletype(staff.staffRoletype);
@@ -172,6 +195,7 @@ const Staff = (props: any) => {
   }, [resultFilterCategory, selectedMultiParent, selectedMultiOptions]);
 
   //Role and Service Error Message
+
   useEffect(() => {
     if (selectedMultiParent.length == 0) {
       setSelectedMultiOptions([]);
@@ -241,6 +265,7 @@ const Staff = (props: any) => {
       handleFinalDataOptions();
     }
   }, [selectedMultiOptions]);
+
   useEffect(() => {
     if (selectedMultiParent.length > 0 && allServices.length > 0) {
       filterData();
@@ -302,6 +327,8 @@ const Staff = (props: any) => {
     }
   };
 
+  //Error Toastification
+
   const notify = (data: any) => {
     toast.error(
       <div>
@@ -335,6 +362,7 @@ const Staff = (props: any) => {
   };
 
   //Updating Role and services , Removing the pre roles and services
+
   const handleFinalDataOptions = () => {
     const tempArr: any = [];
     selectedMultiParent.forEach((value: any) => {
@@ -359,11 +387,10 @@ const Staff = (props: any) => {
     });
   };
 
-  const [formChanged, setFormChanged] = useState(false);
-
-  const myForm = document.getElementById("Staff");
+  //Form Onbefore loading
 
   const onChangeHandler = () => {
+    let myForm = document.getElementById("Staff");
     if (myForm) {
       myForm.addEventListener("change", () => setFormChanged(true));
     }
@@ -373,6 +400,8 @@ const Staff = (props: any) => {
       }
     });
   };
+
+  //When form is submitted
 
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
@@ -510,10 +539,6 @@ const Staff = (props: any) => {
     }
   };
 
-  const handleCancel = (e: any) => {
-    props.history.push("/staff");
-  };
-
   const filterData = () => {
     const tempArr: any = [];
     selectedMultiParent.forEach((value: any) => {
@@ -643,7 +668,7 @@ const Staff = (props: any) => {
       />
       {user.authenticated && !UI.loading ? (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <Row>
             <Col lg="12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -718,7 +743,6 @@ const Staff = (props: any) => {
                                     Last Name
                                   </FormLabel>
                                   <Col sm="9">
-                                    {console.log(formChanged)}
                                     <FormControl
                                       type="text"
                                       name="lastName"
@@ -1533,45 +1557,58 @@ const Staff = (props: any) => {
                                     Staff Role
                                   </FormLabel>
                                   <Col sm="9">
-                                    <Form.Check
-                                      type="checkbox"
-                                      name="admin"
-                                      label="Admin"
-                                      value={selectedRole}
-                                      checked={selectedRole.includes("admin")}
-                                      onChange={(e) => {
-                                        handleRole(
-                                          e.target.name,
-                                          e.target.checked
-                                        );
-                                      }}
-                                    />
-                                    <Form.Check
-                                      type="checkbox"
-                                      name="support"
-                                      label="Support"
-                                      value={selectedRole}
-                                      checked={selectedRole.includes("support")}
-                                      onChange={(e) => {
-                                        handleRole(
-                                          e.target.name,
-                                          e.target.checked
-                                        );
-                                      }}
-                                    />
-                                    <Form.Check
-                                      type="checkbox"
-                                      name="stylist"
-                                      label="Stylist"
-                                      value={selectedRole}
-                                      checked={selectedRole.includes("stylist")}
-                                      onChange={(e) => {
-                                        handleRole(
-                                          e.target.name,
-                                          e.target.checked
-                                        );
-                                      }}
-                                    />
+                                    <span>
+                                      <input
+                                        type="checkbox"
+                                        name="admin"
+                                        value={selectedRole}
+                                        checked={selectedRole.includes("admin")}
+                                        onChange={(e) => {
+                                          handleRole(
+                                            e.target.name,
+                                            e.target.checked
+                                          );
+                                        }}
+                                      />{" "}
+                                      <label>Admin</label>
+                                    </span>
+                                    <br />
+                                    <span>
+                                      <input
+                                        type="checkbox"
+                                        name="support"
+                                        value={selectedRole}
+                                        checked={selectedRole.includes(
+                                          "support"
+                                        )}
+                                        onChange={(e) => {
+                                          handleRole(
+                                            e.target.name,
+                                            e.target.checked
+                                          );
+                                        }}
+                                      />{" "}
+                                      <label>Support</label>
+                                    </span>
+                                    <br />
+                                    <span>
+                                      <input
+                                        type="checkbox"
+                                        name="stylist"
+                                        value={selectedRole}
+                                        checked={selectedRole.includes(
+                                          "stylist"
+                                        )}
+                                        onChange={(e) => {
+                                          handleRole(
+                                            e.target.name,
+                                            e.target.checked
+                                          );
+                                        }}
+                                      />{" "}
+                                      <label>Stylist</label>
+                                    </span>
+                                    <br />
                                   </Col>
                                 </FormGroup>
                                 {selectedRole.includes("stylist") && (
@@ -2178,54 +2215,6 @@ const Staff = (props: any) => {
                                     />
                                   </Col>
                                 </FormGroup>
-                                {/* {selectedMultiParent &&
-                                selectedMultiParent.length ? (
-                                  <FormGroup>
-                                    <FormLabel className="col-sm-3 control-label">
-                                      Schedule color
-                                    </FormLabel>
-                                    <Col sm="9">
-                                      <FormControl
-                                        as="select"
-                                        name="color"
-                                        value={values.color}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        isInvalid={
-                                          errors.color && touched.color
-                                        }
-                                      >
-                                        <option value="white">--</option>
-                                        {ColorCode &&
-                                          ColorCode.length &&
-                                          ColorCode.map((value) => {
-                                            return (
-                                              <option
-                                                value={value.hex}
-                                                style={{
-                                                  background: value.rgb,
-                                                }}
-                                              >
-                                                {value.name}
-                                              </option>
-                                            );
-                                          })}
-                                      </FormControl>
-                                      <div
-                                        style={{
-                                          padding: "10px",
-                                          marginTop: "10px",
-                                          backgroundColor: values.color,
-                                          color: "#FFF",
-                                        }}
-                                      >
-                                        {values.firstName} {values.lastName}
-                                      </div>
-                                    </Col>
-                                  </FormGroup>
-                                ) : (
-                                  <React.Fragment></React.Fragment>
-                                )} */}
                                 <FormGroup>
                                   <FormLabel className="col-sm-3 control-label">
                                     Order{" "}
@@ -2306,31 +2295,7 @@ const Staff = (props: any) => {
                             </div>
                             {view && (
                               <React.Fragment>
-                                <div className="hr-line-dashed"></div>
-                                <div className="row">
-                                  {/* <div className="col-md-8">
-                                    <FormGroup>
-                                      <FormLabel className="col-sm-3 control-label">
-                                        % of Payout - Check
-                                      </FormLabel>
-                                      <Col sm="9">
-                                        <FormControl
-                                          type="number"
-                                          name="pctOfPayoutCheck"
-                                          value={values.pctOfPayoutCheck}
-                                          onChange={handleChange}
-                                          onBlur={handleBlur}
-                                          min="0"
-                                          max="100"
-                                          isInvalid={
-                                            errors.pctOfPayoutCheck &&
-                                            touched.pctOfPayoutCheck
-                                          }
-                                        />
-                                      </Col>
-                                    </FormGroup>
-                                  </div> */}
-                                </div>
+                                <div className="hr-line-dashed" />
                                 <div className="row">
                                   <div className="col-md-8">
                                     <FormGroup>
@@ -2399,6 +2364,7 @@ const Staff = (props: any) => {
                               pauseOnHover
                             />
                             <div className="hr-line-dashed" />
+
                             <Row>
                               <Col md="8">
                                 <FormGroup>
@@ -2406,7 +2372,9 @@ const Staff = (props: any) => {
                                     <Button
                                       variant="white"
                                       type="button"
-                                      onClick={(e) => handleCancel(e)}
+                                      onClick={() =>
+                                        props.history.push("/staff")
+                                      }
                                     >
                                       Cancel
                                     </Button>
@@ -2436,7 +2404,6 @@ const Staff = (props: any) => {
                                           values.email.includes(("@", ".")) &&
                                           staffRoletype &&
                                           staffRoletype.length &&
-                                          pass.length > 0 &&
                                           values.countryCode &&
                                           values.countryCode.length &&
                                           values.order > 0 &&
@@ -2449,8 +2416,8 @@ const Staff = (props: any) => {
                                             ? true
                                             : false) ||
                                             (staffRoletype == "salaried" &&
-                                            values.payrollAmountPaid.toString() >
-                                              0 &&
+                                            values.payrollAmountPaid.toString()
+                                              .length > 0 &&
                                             values.payrollAmountPaid > 0 &&
                                             values.salariedStaffType.length
                                               ? true
@@ -2461,7 +2428,8 @@ const Staff = (props: any) => {
                                           !(
                                             selectedMultiOptions &&
                                             selectedMultiOptions.length
-                                          ))
+                                          )) ||
+                                        (!view && !(pass.length > 0))
                                       }
                                     >
                                       Save Changes
@@ -2479,7 +2447,7 @@ const Staff = (props: any) => {
                     </Formik>
                   </div>
                 </div>
-              </div>              
+              </div>
             </Col>
           </Row>
         </React.Fragment>

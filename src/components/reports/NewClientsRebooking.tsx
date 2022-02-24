@@ -11,6 +11,9 @@ import XLSX from "xlsx";
 const NewClientsRebooking = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("New Clients: Rebookings");
+  const Title = {
+    title: title,
+  };
   const [field, setField] = useState("");
   const [orderBy, setOrderBy] = useState(true);
   const [dropdownMonth, setDropdownMonth] = useState(6);
@@ -140,7 +143,7 @@ const NewClientsRebooking = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <Row>
             <Col lg="12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -173,13 +176,12 @@ const NewClientsRebooking = (props: any) => {
                         <Col sm="12" className="text-right">
                           <Button
                             size="sm"
-                            className="btn-default"
+                            className="btn-default fontWeight-600 "
                             onClick={(e) => printContent(e)}
                             style={{
                               marginBottom: "10px",
                               background: "#EFEFEF",
                               borderColor: "#dddddd",
-                              fontWeight: "600",
                             }}
                             name="clientReportPrintDiv"
                             id="printBtn"
@@ -189,10 +191,9 @@ const NewClientsRebooking = (props: any) => {
                           &nbsp;
                           <Button
                             size="sm"
-                            className="btn-default"
+                            className="btn-default fontWeight-600 "
                             style={{
                               marginBottom: "10px",
-                              fontWeight: "600",
                               background: "#EFEFEF",
                               borderColor: "#dddddd",
                             }}

@@ -41,6 +41,9 @@ import _ from "lodash";
 const ServiceOrder = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title, setTitle] = useState("New Order");
+  const Title = {
+    title: title,
+  };
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
   const product = useSelector((state: any) => state.product);
@@ -312,7 +315,7 @@ const ServiceOrder = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <Formik
             initialValues={{ ...productOrder }}
             //validationSchema={basicFormSchema}
@@ -426,7 +429,7 @@ const ServiceOrder = (props: any) => {
                                             className="form-control"
                                             name="cardNumber"
                                             value={cardNumber}
-                                            maxlength="16"
+                                            max="16"
                                             onChange={(e) =>
                                               setCardNumber(e.target.value)
                                             }
@@ -726,7 +729,7 @@ const ServiceOrder = (props: any) => {
                                                   }
                                                   disabled
                                                 />
-                                              </td>                                              
+                                              </td>
                                               <td className="text-right">
                                                 <Button
                                                   className="btn btn-success center-block"

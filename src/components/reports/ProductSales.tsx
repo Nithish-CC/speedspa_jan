@@ -15,6 +15,9 @@ import XLSX from "xlsx";
 const ProductSales = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Product Sales");
+  const Title = {
+    title: title,
+  };
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("inverntoryValue");
   const [params, setParams] = useState({
@@ -192,7 +195,7 @@ const ProductSales = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -216,6 +219,7 @@ const ProductSales = (props: any) => {
                                       .utc()
                                       .format(),
                                     end_time: params.end_time,
+                                    businessId: params.businessId,
                                   });
                                 }}
                                 format="yyyy-MM-dd"
@@ -246,6 +250,7 @@ const ProductSales = (props: any) => {
                                       .endOf("day")
                                       .utc()
                                       .format(),
+                                    businessId: params.businessId,
                                   });
                                 }}
                                 views={["year", "month", "date"]}
@@ -364,10 +369,9 @@ const ProductSales = (props: any) => {
                         ng-if="vm.filteredReports.length"
                       >
                         <button
-                          className="btn btn-sm btn-default"
+                          className="btn btn-sm btn-default fontWeight-600"
                           style={{
                             marginBottom: "10px",
-                            fontWeight: "600",
                             background: "#EFEFEF",
                             borderColor: "#dddddd",
                           }}
@@ -379,10 +383,9 @@ const ProductSales = (props: any) => {
                         </button>
                         &nbsp;
                         <button
-                          className="btn btn-sm btn-default"
+                          className="btn btn-sm btn-default fontWeight-600"
                           style={{
                             marginBottom: "10px",
-                            fontWeight: "600",
                             background: "#EFEFEF",
                             borderColor: "#dddddd",
                           }}

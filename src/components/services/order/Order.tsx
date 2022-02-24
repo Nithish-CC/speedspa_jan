@@ -23,17 +23,22 @@ import DateFnsUtils from "@date-io/date-fns";
 const ServiceOrders = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Service Orders");
-  const [orderBy, setOrderBy] = useState(false);
-  const [showCalendar, setShowCalendar] = useState(false);
-  const [field, setField] = useState("appTimeStart");
-  const [activePage, setActivePage] = useState(1);
-  const [perPage] = useState(10);
   const [buttons] = useState([
     {
       title: "Add Appointment",
       url: "/schedule/add-appointment",
     },
   ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
+  const [orderBy, setOrderBy] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [field, setField] = useState("appTimeStart");
+  const [activePage, setActivePage] = useState(1);
+  const [perPage] = useState(10);
+
   const [getproductOrders, setGetProductOrders] = useState<any[]>([]);
   const [staffVal, setStaffVal] = useState("all");
   const [statusVal, setStatusVal] = useState("all");
@@ -88,8 +93,6 @@ const ServiceOrders = (props: any) => {
     tempFliterData();
   }, [allOrder, statusVal, staffVal]);
 
-  console.log(getproductOrders);
-
   const getAllStaff = () => {
     var data: any = {
       filter: {
@@ -114,7 +117,8 @@ const ServiceOrders = (props: any) => {
         .add(0, "day")
         .startOf("day")
         .subtract(1, "milliseconds")
-    );
+    );    
+
     start.setTime(start.getTime() - start.getTimezoneOffset() * 60 * 1000);
     let startDate = start.toISOString();
     let end = new Date(
@@ -148,14 +152,6 @@ const ServiceOrders = (props: any) => {
       id: order.id,
       name: order.clientName,
       arr: order,
-    });
-  };
-
-  const futureAppoinmentPopup = (order: any, index: any) => {
-    setModalPopup({
-      deleteModal: !modalPopup.deleteModal,
-      id: order.id,
-      name: order.clientName,
     });
   };
 
@@ -310,7 +306,7 @@ const ServiceOrders = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

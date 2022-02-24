@@ -43,8 +43,8 @@ import Insrtuctions from "./components/Insrtuctions";
 import Schedule from "./components/schedule/index";
 import AddSchedule from "./components/schedule/AddSchedule/AddSchedule";
 /* Staff Schedule */
-import StaffSchedule from "./components/staff-schedule/StaffSchedule";
-import ScheduleStaff from "./components/staff-schedule/add-staff-schedule/index";
+import StaffSchedule from "./components/staff-schedule/add-staff-schedule/StaffSchedule";
+import ScheduleStaff from "./components/staff-schedule/index";
 import LeavePageModal from "./components/core/LeavePageModal";
 
 const Routes = () => {

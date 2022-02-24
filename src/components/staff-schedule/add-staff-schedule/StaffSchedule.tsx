@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { sorting, buildFilter } from "./../../utils/common";
-import { getAllStaff } from "../../redux/actions/staffActions";
-import { addSchedule } from "../../redux/actions/scheduleActions";
+import { sorting, buildFilter } from "../../../utils/common";
+import { getAllStaff } from "../../../redux/actions/staffActions";
+import { addSchedule } from "../../../redux/actions/scheduleActions";
 import _ from "lodash";
 import moment from "moment";
-import PageHeader from "../core/PageHeader";
+import PageHeader from "../../core/PageHeader";
 import { ToastContainer, toast } from "react-toastify";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 import { Formik } from "formik";
@@ -31,7 +31,9 @@ import "tippy.js/dist/tippy.css";
 
 const StaffSchedule = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
-  const [title, setTitle] = useState("New Staff Schedule");
+  const Title = {
+    title: "New Staff Schedule",
+  };
   const history = useHistory();
   const user = useSelector((state: any) => state.user);
   const [validationShape, setValidationShape] = useState({});
@@ -224,7 +226,7 @@ const StaffSchedule = (props: any) => {
       />
       {user.authenticated && !UI.loading ? (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           {UI.errors && (
             <div className="row">
               <div className="col-sm-12">

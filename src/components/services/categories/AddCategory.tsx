@@ -106,16 +106,20 @@ const ServiceCategory = (props: any) => {
       delete values.parentId;
     }
     if (view) {
-      props.updateServiceCategory(values, (success: any, data: any) => {
-        if (success) {
-          setFormChanged(false);
-          history.push("/services/categories/");
-        } else {
-          notify(data);
+      props.updateServiceCategory(
+        values,
+        history,
+        (success: any, data: any) => {
+          if (success) {
+            setFormChanged(false);
+            history.push("/services/categories/");
+          } else {
+            notify(data);
+          }
         }
-      });
+      );
     } else {
-      props.addServiceCategory(values, (success: any, data: any) => {
+      props.addServiceCategory(values, history, (success: any, data: any) => {
         if (success) {
           setFormChanged(false);
           history.push("/services/categories/");

@@ -70,7 +70,7 @@ const SideMenu = (props: any) => {
                     <strong className="font-bold">
                       {props.user.countryCode} {props.user.phoneNumber}
                     </strong>
-                  </span>                  
+                  </span>
                   {props.user.roles === undefined ? (
                     <React.Fragment></React.Fragment>
                   ) : (
