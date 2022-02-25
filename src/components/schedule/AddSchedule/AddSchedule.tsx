@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { connect, useSelector } from "react-redux";
 import moment from "moment";
 import { Prompt } from "react-router";
-import { sorting, buildFilter } from "../../../utils/common";
+import { buildFilter } from "../../../utils/common";
 import { useHistory, useParams } from "react-router-dom";
 import _ from "lodash";
 import PageHeader from "../../core/PageHeader";
@@ -47,6 +47,9 @@ import DateFnsUtils from "@date-io/date-fns";
 
 const AddSchedule = (props: any) => {
   const [title] = useState("New Appointment");
+  const Title = {
+    title: title,
+  };
   const [modal, setModal] = useState(false);
   const [errors, setErrors] = useState({} as Error);
   const view = window.location.href.includes("view");
@@ -65,8 +68,8 @@ const AddSchedule = (props: any) => {
   const appointment = schedule.appointment;
   const appointmentOrder = schedule.appointmentOrder;
   const history = useHistory();
-  const searchInput = useRef();
-  const [changeStaff, setchangeStaff] = useState({ name: "", value: "" });
+  const searchInput = useRef<any>();
+  const [changeStaff, setchangeStaff] = useState<any>({ name: "", value: "" });
   const [options, setOptions] = useState<any[]>([]);
   const [customer, setCustomer] = useState<any[]>([]);
   const [changeCustomer, setchangeCustomer] = useState({ name: "", value: 0 });
@@ -316,7 +319,7 @@ const AddSchedule = (props: any) => {
 
   const handleSubmit = (values: any) => {
     const i = startDate.toISOString().split("T")[0] + " " + value;
-    let setDate = startDate.toISOString().split("T")[0];    
+    let setDate = startDate.toISOString().split("T")[0];
     let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${value}:00Z`;
     let check = {
       checkFreeTime: 1,
@@ -578,7 +581,7 @@ const AddSchedule = (props: any) => {
       />
       {user.authenticated && !UI.loading ? (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <Formik
             initialValues={{ ...addSchedule }}
             //validationSchema={basicFormSchema}

@@ -27,7 +27,6 @@ import {
   getRootServiceCategory,
   getAllService,
   updateStaffServiceResource,
-  addServiceCategory,
   getAllStaffResources,
   addStaffCategory,
 } from "../../redux/actions/serviceActions";
@@ -2466,7 +2465,6 @@ const mapActionsToProps = {
   getAllService,
   updateStaffServiceResource,
   addResourceServices,
-  addServiceCategory,
   getAllStaffResources,
   addStaffCategory,
   updateResourceServices,

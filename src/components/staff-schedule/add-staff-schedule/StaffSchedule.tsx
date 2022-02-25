@@ -117,8 +117,7 @@ const StaffSchedule = (props: any) => {
 
       props.addSchedule(staffSchedule, (success: any, data: any) => {
         if (success && timeError) {
-          setFormChanged(false);
-          console.log("@");
+          setFormChanged(false);          
           history.push("/staff-schedule");
         } else {
           notify(data);
@@ -293,8 +292,7 @@ const StaffSchedule = (props: any) => {
                                         ? {}
                                         : { border: "1px solid #ed5565" }
                                     }
-                                  >
-                                    {console.log(formChanged)}
+                                  >                                    
                                     <option value="">-- Select Staff --</option>
                                     <optgroup label="Staff">
                                       {_.orderBy(
@@ -656,8 +654,7 @@ const StaffSchedule = (props: any) => {
                                     />
                                   </div>
                                 </div>
-                              </FormGroup>
-                              {console.log(endTime)}
+                              </FormGroup>                              
                               <div className="hr-line-dashed" />
                               <Row>
                                 <Col md="8">

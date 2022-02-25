@@ -203,8 +203,7 @@ const Product = (props: any) => {
         }
       });
     } else {
-      props.addProductProduct(values, (success: any, data: any) => {
-        console.log(data);
+      props.addProductProduct(values, (success: any, data: any) => {        
         if (success) {
           setFormChanged(false);
           history.push("/products/");
@@ -1194,8 +1193,7 @@ const Product = (props: any) => {
                                         </Row>
                                       </div>
                                     </div>
-                                  </div>
-                                  {console.log(values)}
+                                  </div>                                  
                                   <div
                                     className="ibox float-e-margins"
                                     key="vm.activeTab == 1 || vm.activeTab == 2 || vm.activeTab == 3"

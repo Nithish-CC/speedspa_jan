@@ -642,8 +642,7 @@ const ProductOrder = (props: any) => {
           >
             {({ values, errors, touched, handleBlur, handleSubmit }) => {
               return (
-                <React.Fragment>
-                  {console.log(formChanged)}
+                <React.Fragment>                  
                   {view &&
                     ProductOrderView &&
                     ProductOrderView.items &&

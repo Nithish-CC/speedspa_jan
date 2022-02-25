@@ -455,7 +455,7 @@ const Service = (props: any) => {
       values.topLevel = checkedTopLevel;
       values.requiredAddOns = checkedAddonsRequired;
       values.businessId = bussinessId;
-      props.addServiceOfService(values, (success: any, data: any) => {
+      props.addServiceOfService(values, history, (success: any, data: any) => {
         if (success) {
           setFormChanged(false);
           history.push("/services");
@@ -1129,7 +1129,7 @@ const Service = (props: any) => {
                                         </FormGroup>
                                       </Col>
                                     </Row>
-                                    <div class="hr-line-dashed"></div>
+                                    <div className="hr-line-dashed"></div>
                                     <Row>
                                       <Col md="8">
                                         <FormGroup>

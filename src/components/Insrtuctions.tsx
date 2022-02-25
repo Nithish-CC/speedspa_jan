@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PageHeader from "../components/core/PageHeader";
+import ModalBody from "react-bootstrap/ModalBody";
 import "../scss/style.scss";
 
-const Instructions = () => {  
+const Instructions = () => {
   const [title] = useState("Instructional Videos");
+  const Title = { title: title };
   const [videos] = useState([
     {
       title: "Add Client",
@@ -125,7 +127,7 @@ const Instructions = () => {
             </g>
           </svg>
         </span>
-        <div
+        <ModalBody
           style={{ textAlign: "center", width: "772px", height: "579px" }}
           className="guidez3rdpjs-modal-content"
         >
@@ -137,7 +139,7 @@ const Instructions = () => {
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           ></iframe>
-        </div>
+        </ModalBody>
       </div>
     );
   };
@@ -146,7 +148,7 @@ const Instructions = () => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...title} />
           {modalPopup.deleteModal && (
             <ModalWithGrid modalPopup={modalPopup} closeModal={closeModal} />
           )}

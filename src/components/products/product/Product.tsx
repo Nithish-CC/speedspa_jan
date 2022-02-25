@@ -176,8 +176,7 @@ const Products = (props: any) => {
       setOrderBy(!orderBy);
     } else {
       setOrderBy(true);
-      setField(key);
-      console.log(key);
+      setField(key);      
     }
     sorting(allProducts, key, orderBy);
   };

@@ -78,16 +78,20 @@ const Addcategories = (props: any) => {
       delete values.parentId;
     }
     if (view) {
-      props.updateProductCategory(values, (success: any, data: any) => {
-        if (success) {
-          setFormChanged(false);
-          history.push("/products/categories/");
-        } else {
-          notify(data);
+      props.updateProductCategory(
+        values,
+        history,
+        (success: any, data: any) => {
+          if (success) {
+            setFormChanged(false);
+            history.push("/products/categories/");
+          } else {
+            notify(data);
+          }
         }
-      });
+      );
     } else {
-      props.addProductCategory(values, (success: any, data: any) => {
+      props.addProductCategory(values, history, (success: any, data: any) => {
         if (success) {
           setFormChanged(false);
           history.push("/products/categories/");

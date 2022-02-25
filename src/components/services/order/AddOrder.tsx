@@ -162,8 +162,7 @@ const ServiceOrder = (props: any) => {
   };
 
   //TO GET SELECTED SERVICE
-  const handleChangeService = (...args: any) => {
-    console.log(args);
+  const handleChangeService = (...args: any) => {    
     setServiceSelected(args[1]);
   };
 

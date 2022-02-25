@@ -37,7 +37,7 @@ const ClientReport = (props: any) => {
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
   const report = useSelector((state: any) => state.report);
-  const clientReportFetch = report.reportClientReport;
+  const clientReportFetch = report.reportClientReport;  
 
   useEffect(() => {
     getAllClients();

@@ -40,9 +40,9 @@ const ThirtyDaySanpshot = (props: any) => {
               <div className="wrapper wrapper-content animated fadeInRight">
                 <div className="row">
                   {/* total customers */}
-                  <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
-                    <div class="ibox float-e-margins m-b-none">
-                        <div class="ibox-content customer_analysis_content">                
+                  <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
+                    <div className="ibox float-e-margins m-b-none">
+                        <div className="ibox-content customer_analysis_content">                
                         <i
                           className="fa fa-users"
                           style={{ fontSize: "4.5rem" }}

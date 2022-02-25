@@ -20,6 +20,7 @@ import Tooltips from "../core/Tooltips";
 import PageHeader from "../core/PageHeader";
 import _ from "lodash";
 import "../../scss/style.scss";
+import "@fullcalendar/resource-timeline/main.css";
 
 const Schedule = (props: any) => {
   //useState
@@ -27,6 +28,16 @@ const Schedule = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [loading, setLoading] = useState(false);
   const [title] = useState("Schedule");
+  const [buttons] = useState([
+    {
+      title: "Add Appointment",
+      url: "schedule/add-appointment",
+    },
+  ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
   const businessId = localStorage.getItem("businessId");
   const hostName = localStorage.getItem("businessUrl");
   const [date, setDate] = useState("");
@@ -48,13 +59,6 @@ const Schedule = (props: any) => {
     status: "",
     role: "all",
   });
-
-  const [buttons] = useState([
-    {
-      title: "Add Appointment",
-      url: "schedule/add-appointment",
-    },
-  ]);
 
   const [toggle, setToggle] = useState({
     stylist: true,
@@ -78,14 +82,19 @@ const Schedule = (props: any) => {
   //To fetch date on load
   let dates = {
     loaded: {
-      start: new Date(moment().startOf("month").subtract(1, "milliseconds")),
-      end: new Date(moment().endOf("month").add(1, "milliseconds")),
+      start: new Date(
+        moment().startOf("month").subtract(1, "milliseconds").toDate()
+      ),
+      end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
     },
     toload: {
-      start: new Date(moment().startOf("month").subtract(1, "milliseconds")),
-      end: new Date(moment().endOf("month").add(1, "milliseconds")),
+      start: new Date(
+        moment().startOf("month").subtract(1, "milliseconds").toDate()
+      ),
+      end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
     },
-  };
+  };  
+
   //useEffect
 
   useEffect(() => {
@@ -246,9 +255,6 @@ const Schedule = (props: any) => {
     intervalEnd.setTime(
       intervalEnd.getTime() + intervalEnd.getTimezoneOffset() * 60 * 1000
     );
-    intervalEnd = new Date(
-      moment(intervalEnd).startOf("day").subtract(1, "milliseconds")
-    );
     var intervalStart = new Date();
     intervalStart.setTime(
       intervalStart.getTime() + intervalStart.getTimezoneOffset() * 60 * 1000
@@ -256,25 +262,37 @@ const Schedule = (props: any) => {
 
     if (dates.loaded.end >= intervalStart) {
       dates.toload.start = new Date(
-        moment(intervalEnd).startOf("month").subtract(1, "milliseconds")
+        moment(intervalEnd)
+          .startOf("month")
+          .subtract(1, "milliseconds")
+          .toDate()
       );
       dates.toload.end = new Date(
-        moment(intervalEnd).endOf("month").add(1, "milliseconds")
+        moment(intervalEnd).endOf("month").add(1, "milliseconds").toDate()
       );
       dates.loaded.end = new Date(
-        moment(intervalEnd).endOf("month").add(1, "milliseconds")
+        moment(intervalEnd).endOf("month").add(1, "milliseconds").toDate()
       );
       //timeSlots(dates.toload.start, dates.toload.end);
     }
     if (intervalStart <= dates.loaded.start) {
       dates.toload.start = new Date(
-        moment(dates.loaded.start).startOf("month").subtract(1, "milliseconds")
+        moment(dates.loaded.start)
+          .startOf("month")
+          .subtract(1, "milliseconds")
+          .toDate()
       );
       dates.toload.end = new Date(
-        moment(dates.loaded.start).endOf("month").add(1, "milliseconds")
+        moment(dates.loaded.start)
+          .endOf("month")
+          .add(1, "milliseconds")
+          .toDate()
       );
       dates.loaded.start = new Date(
-        moment(dates.loaded.start).startOf("month").subtract(1, "milliseconds")
+        moment(dates.loaded.start)
+          .startOf("month")
+          .subtract(1, "milliseconds")
+          .toDate()
       );
       //timeSlots(dates.toload.start, dates.toload.end);
     }
@@ -351,6 +369,7 @@ const Schedule = (props: any) => {
         values.startTime = values.timeStart;
         values.endTime = values.timeEnd;
         values.allDay = false;
+        values.rendering = "background";
         tempArr.push(values);
       }
     });
@@ -361,7 +380,7 @@ const Schedule = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading ? (
         <div>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -401,7 +420,7 @@ const Schedule = (props: any) => {
                           height={500}
                           timeZone="UTC"
                           schedulerLicenseKey="0116820732-fcs-1622120977"
-                          initialView="resourceTimeline"
+                          initialView="resourceTimelineDay"
                           resourceGroupField="building"
                           resources={_.orderBy(
                             resourseDataVal,
@@ -421,7 +440,7 @@ const Schedule = (props: any) => {
                             left: "today,prev,next",
                             center: "title",
                             right:
-                              "dayGridMonth,timeGridWeek,resourceTimeGridDay,listDay,resourceTimeline",
+                              "dayGridMonth,timeGridWeek,resourceTimeGridDay,listDay,resourceTimelineDay",
                           }}
                           views={{
                             dayGridMonth: {
@@ -627,27 +646,29 @@ const Schedule = (props: any) => {
                               {allStaff &&
                                 allStaff.length &&
                                 _.orderBy(allStaff, ["displayName"]).map(
-                                  (values: any, index: any) => {
+                                  (values: any) => {
                                     return (
                                       <>
-                                        {values.roles.includes("support") && (
-                                          <Button
-                                            className="btn btn-primary m-t-xs m-b-xs text-truncate"
-                                            style={{
-                                              width: "100%",
-                                              maxWidth: "400px",
-                                              backgroundColor: `${values.color}`,
-                                              borderColor: `${values.color}`,
-                                            }}
-                                            onClick={(e: any) =>
-                                              setStaffSelected(e.target.value)
-                                            }
-                                            value={values.id}
-                                          >
-                                            {/* {getRole(values,index)} */}
-                                            {values.name}
-                                          </Button>
-                                        )}
+                                        {values.roles.includes("support") &&
+                                          !values.roles.includes("admin") &&
+                                          !values.roles.includes("stylist") && (
+                                            <Button
+                                              className="btn btn-primary m-t-xs m-b-xs text-truncate"
+                                              style={{
+                                                width: "100%",
+                                                maxWidth: "400px",
+                                                backgroundColor: `${values.color}`,
+                                                borderColor: `${values.color}`,
+                                              }}
+                                              onClick={(e: any) =>
+                                                setStaffSelected(e.target.value)
+                                              }
+                                              value={values.id}
+                                            >
+                                              {/* {getRole(values,index)} */}
+                                              {values.name}
+                                            </Button>
+                                          )}
                                       </>
                                     );
                                   }

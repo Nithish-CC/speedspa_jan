@@ -116,8 +116,7 @@ const Messages = (props: any) => {
   const myForm = document.getElementById("Messages");
 
   const onChangeHandler = () => {
-    if (myForm) {
-      console.log("!");
+    if (myForm) {      
       myForm.addEventListener("change", () => setFormChanged(true));
     }
     window.addEventListener("beforeunload", (event) => {
@@ -253,8 +252,7 @@ const Messages = (props: any) => {
                               </div>
                             </div>
                           </div>
-                        )}
-                        {console.log(formChanged)}
+                        )}                        
                         <div className="form-group">
                           <label className="col-md-2 col-sm-3 col-xs-4 control-label">
                             Type
