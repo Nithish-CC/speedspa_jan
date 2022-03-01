@@ -130,9 +130,18 @@ const ScheduleStaff = (props: any) => {
   const schedules = () => {
     let start = date;
     let end = moment(date).endOf("month").toISOString();
+
+    let i =
+      moment(end).utc().format().split("T")[0] +
+      " " +
+      moment(end).format("HH:mm");
+    let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${moment(end).format(
+      "HH:mm"
+    )}:00Z`;
+
     var data: any = {
       timeStart: {
-        $lte: end,
+        $lte: setDateTime,
         $gt: start,
       },
     };

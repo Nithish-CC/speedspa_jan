@@ -317,9 +317,9 @@ const AddSchedule = (props: any) => {
     return str.join("&");
   };
 
-  const handleSubmit = (values: any) => {
-    const i = startDate.toISOString().split("T")[0] + " " + value;
-    let setDate = startDate.toISOString().split("T")[0];
+  const handleSubmit = (values: any) => {           
+    const i = moment(startDate).utc().format().split("T")[0] + " " + value;
+
     let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${value}:00Z`;
     let check = {
       checkFreeTime: 1,
@@ -359,6 +359,7 @@ const AddSchedule = (props: any) => {
       props.deleteAppointment(id, params);
       props.addAppointments(values, queryString, (success: any, data: any) => {
         if (success) {
+          setFormChanged(false);
           history.push("/schedule");
         } else {
           notify(data);
@@ -367,6 +368,7 @@ const AddSchedule = (props: any) => {
     } else {
       props.addAppointments(values, queryString, (success: any, data: any) => {
         if (success) {
+          setFormChanged(false);
           history.push("/schedule");
         } else {
           notify(data);

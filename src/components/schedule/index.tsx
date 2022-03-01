@@ -75,9 +75,24 @@ const Schedule = (props: any) => {
 
   const schedule = useSelector((state: any) => state.schedule);
   const totalSlots = schedule.totalSlots;
+  const staffschedules = schedule.schedules;
   const user = useSelector((state: any) => state.user);
   const allStaff = user.allStaffDropdown;
   const UI = useSelector((state: any) => state.UI);
+
+  // useEffect(() => {
+  //   handleMinimalNavbar();
+  // }, []);
+  // const handleMinimalNavbar = () => {
+  //   var body = document.getElementsByClassName("fc-timeline-events");
+  //   var bodyArr = Object.entries(body);
+
+  //   bodyArr.map((element: any) => {
+  //     console.log(element[1]);
+  //     return;
+  //   });
+  //   // body.classList.toggle("mini-navbar");
+  // };
 
   //To fetch date on load
   let dates = {
@@ -93,7 +108,7 @@ const Schedule = (props: any) => {
       ),
       end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
     },
-  };  
+  };
 
   //useEffect
 
@@ -136,10 +151,17 @@ const Schedule = (props: any) => {
   const schedules = () => {
     let start = date;
     let end = moment(date).endOf("month").toISOString();
+    let i =
+      moment(end).utc().format().split("T")[0] +
+      " " +
+      moment(end).format("HH:mm");
+    let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${moment(end).format(
+      "HH:mm"
+    )}:00Z`;    
 
     var data: any = {
       timeStart: {
-        $lte: end,
+        $lte: setDateTime,
         $gt: start,
       },
     };
@@ -427,7 +449,7 @@ const Schedule = (props: any) => {
                             ["building"],
                             ["desc"]
                           )}
-                          eventOverlap={false}
+                          eventOverlap={true}
                           buttonText={{
                             today: "Today",
                             month: "Month",

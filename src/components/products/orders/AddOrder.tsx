@@ -514,7 +514,7 @@ const ProductOrder = (props: any) => {
         props.addProductOrder(values, (success: any, data: any) => {
           if (success) {
             setFormChanged(false);
-            history.push(`/products/orders/view/${id}`);
+            props.history.push(`/products/orders/view/${id}`);
           } else {
             notify(data);
           }
@@ -642,7 +642,7 @@ const ProductOrder = (props: any) => {
           >
             {({ values, errors, touched, handleBlur, handleSubmit }) => {
               return (
-                <React.Fragment>                  
+                <React.Fragment>
                   {view &&
                     ProductOrderView &&
                     ProductOrderView.items &&

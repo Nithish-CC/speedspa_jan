@@ -13,6 +13,7 @@ import {
   Row,
   Col,
   FormControl,
+  FormGroup,
   FormLabel,
 } from "react-bootstrap";
 import "../../../scss/style.scss";
@@ -85,13 +86,15 @@ const Settings = (props: any) => {
                     <Form onSubmit={handleSubmit}>
                       <Row>
                         <Col sm="4">
-                          <FormLabel>Product Limit</FormLabel>
-                          <FormControl
-                            type="number"
-                            name="productLowLimit"
-                            value={values.productLowLimit}
-                            onChange={handleChange}
-                          />
+                          <FormGroup style={{ marginTop: "10px" }}>
+                            <FormLabel>Product Limit</FormLabel>
+                            <FormControl
+                              type="number"
+                              name="productLowLimit"
+                              value={values.productLowLimit}
+                              onChange={handleChange}
+                            />
+                          </FormGroup>
                         </Col>
                       </Row>
                       <Row>

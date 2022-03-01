@@ -97,6 +97,9 @@ const StaffSchedule = (props: any) => {
     props.getAllStaff(query);
   };
 
+  console.log(moment(endDate).format("YYYY-MM-DD"));
+  console.log("1");
+
   const handleSubmit = (values: any) => {
     setOnSubmit(true);
     if (
@@ -110,14 +113,14 @@ const StaffSchedule = (props: any) => {
       staffSchedule.period = repeat;
       staffSchedule.repeatingEndDate = moment(endDate).format("YYYY-MM-DD");
       staffSchedule.repeatingStartDate = moment(startDate).format("YYYY-MM-DD");
-      staffSchedule.repeatingEndTime = moment(endTime, "hh:mm").format("LT");
-      staffSchedule.repeatingStartTime = moment(startTime, "hh:mm").format(
+      staffSchedule.repeatingEndTime = moment(endTime, "HH:mm").format("LT");
+      staffSchedule.repeatingStartTime = moment(startTime, "HH:mm").format(
         "LT"
       );
 
       props.addSchedule(staffSchedule, (success: any, data: any) => {
         if (success && timeError) {
-          setFormChanged(false);          
+          setFormChanged(false);
           history.push("/staff-schedule");
         } else {
           notify(data);
@@ -292,7 +295,7 @@ const StaffSchedule = (props: any) => {
                                         ? {}
                                         : { border: "1px solid #ed5565" }
                                     }
-                                  >                                    
+                                  >
                                     <option value="">-- Select Staff --</option>
                                     <optgroup label="Staff">
                                       {_.orderBy(
@@ -654,7 +657,7 @@ const StaffSchedule = (props: any) => {
                                     />
                                   </div>
                                 </div>
-                              </FormGroup>                              
+                              </FormGroup>
                               <div className="hr-line-dashed" />
                               <Row>
                                 <Col md="8">

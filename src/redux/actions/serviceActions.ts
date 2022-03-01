@@ -371,16 +371,17 @@ export const addStaffCategory =
 
 //update staff resource
 export const updateStaffServiceResource =
-  (params: any, history: any, props: any) => (dispatch: any) => {
+  (params: any, history: any, callback: any) => (dispatch: any) => {
     dispatch({ type: BUTTON_LOADING });
     axios
       .patch(`categories/${params.id}`, params)
       .then((res) => {
         history.push("/staff");
-
+        callback(true, res.data.id);
         dispatch({ type: LOADING_CLEAR });
       })
       .catch((err) => {
+        callback(false, err.response.data.message);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data,

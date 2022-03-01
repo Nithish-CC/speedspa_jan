@@ -132,7 +132,7 @@ const Staffs = (props: any) => {
       setField(key);
     }
     sorting(allStaff, key, orderBy);
-  };  
+  };
 
   const deletePopup = (staff: any, index: any) => {
     setModalPopup({
@@ -166,6 +166,13 @@ const Staffs = (props: any) => {
         }) + 1
       ) {
         roleName.push("Admin");
+      }
+      if (
+        _.findIndex(value.roles, function (role) {
+          return role == "support";
+        }) + 1
+      ) {
+        roleName.push("Support");
       }
       if (
         _.findIndex(value.roles, function (role) {
@@ -203,7 +210,7 @@ const Staffs = (props: any) => {
       value.uniques = uniques.join(", ");
     } else {
       value.uniques = "Support";
-    }    
+    }
     return value.uniques;
   };
 
@@ -365,7 +372,7 @@ const Staffs = (props: any) => {
                                     <td>
                                       {staff.firstName} {staff.lastName}
                                     </td>
-                                    <td>{staff.email || "-"}</td>
+                                    <td>{staff.email || "-"}</td>                                    
                                     <td>{getRole(staff, index)}</td>
                                     <td className="text-center">
                                       {moment(staff.createdAt).format(

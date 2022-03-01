@@ -991,7 +991,8 @@ const Service = (props: any) => {
                                               }
                                               style={
                                                 values.priority &&
-                                                values.priority.length
+                                                values.priority.toString()
+                                                  .length
                                                   ? {}
                                                   : {
                                                       border:
@@ -1476,7 +1477,9 @@ const Service = (props: any) => {
                                                   values.name &&
                                                   values.name.length &&
                                                   values.price > 0.2 &&
-                                                  values.priority > 0 &&
+                                                  values.priority &&
+                                                  values.priority.toString()
+                                                    .length &&
                                                   values.categoryId &&
                                                   values.categoryId.length
                                                 )

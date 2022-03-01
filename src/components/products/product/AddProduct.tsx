@@ -194,19 +194,23 @@ const Product = (props: any) => {
     values.price = values.price * 100;
     values.images = checkDataUrl;
     if (view) {
-      props.getProductProductUpdate(values, (success: any, data: any) => {
-        if (success) {
-          setFormChanged(false);
-          history.push("/products/");
-        } else {
-          notify(data);
+      props.getProductProductUpdate(
+        values,
+        history,
+        (success: any, data: any) => {
+          if (success) {
+            setFormChanged(false);
+            history.push("/products");
+          } else {
+            notify(data);
+          }
         }
-      });
+      );
     } else {
-      props.addProductProduct(values, (success: any, data: any) => {        
+      props.addProductProduct(values, history, (success: any, data: any) => {
         if (success) {
           setFormChanged(false);
-          history.push("/products/");
+          history.push("/products");
         } else {
           notify(data);
         }
@@ -549,6 +553,7 @@ const Product = (props: any) => {
                                               />
                                             </Col>
                                           </FormGroup>
+                                          {console.log(checkData)}
                                           <FormGroup>
                                             <FormLabel className="col-sm-4 control-label">
                                               Categories (at least 1):
@@ -1193,7 +1198,7 @@ const Product = (props: any) => {
                                         </Row>
                                       </div>
                                     </div>
-                                  </div>                                  
+                                  </div>
                                   <div
                                     className="ibox float-e-margins"
                                     key="vm.activeTab == 1 || vm.activeTab == 2 || vm.activeTab == 3"

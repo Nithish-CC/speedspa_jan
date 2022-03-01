@@ -75,7 +75,6 @@ export const updateClient = (params: any, props: any) => (dispatch: any) => {
       dispatch({ type: LOADING_CLEAR });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data,

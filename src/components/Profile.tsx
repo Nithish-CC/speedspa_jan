@@ -21,7 +21,6 @@ import "react-toastify/dist/ReactToastify.css";
 import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Profile = () => {
-  
   //useState
   const [profile, setProfile] = useState({
     firstName: "",
@@ -107,7 +106,7 @@ const Profile = () => {
     if (myForm) {
       myForm.addEventListener("change", () => setFormChanged(true));
     }
-    if(myForm2){
+    if (myForm2) {
       myForm2.addEventListener("change", () => setFormChanged(true));
     }
     window.addEventListener("beforeunload", (event) => {
@@ -335,7 +334,9 @@ const Profile = () => {
                               <FormControl
                                 type="text"
                                 name="address.line1"
-                                value={profile.address.line1}
+                                value={
+                                  profile.address ? profile.address.line1 : ""
+                                }
                                 onChange={(e: any) => {
                                   setProfile({
                                     ...profile,
@@ -346,6 +347,7 @@ const Profile = () => {
                                   });
                                 }}
                                 style={
+                                  profile.address &&
                                   profile.address.line1 &&
                                   profile.address.line1.length
                                     ? {}
@@ -362,7 +364,11 @@ const Profile = () => {
                               <FormControl
                                 type="text"
                                 name="address.line2"
-                                value={profile.address.line2}
+                                value={
+                                  profile.address && profile.address.line2
+                                    ? profile.address.line2
+                                    : ""
+                                }
                                 onChange={(e: any) => {
                                   setProfile({
                                     ...profile,
@@ -381,7 +387,11 @@ const Profile = () => {
                               <FormControl
                                 type="text"
                                 name="address.city"
-                                value={profile.address.city}
+                                value={
+                                  profile.address && profile.address.city
+                                    ? profile.address.city
+                                    : ""
+                                }
                                 onChange={(e: any) => {
                                   setProfile({
                                     ...profile,
@@ -392,6 +402,7 @@ const Profile = () => {
                                   });
                                 }}
                                 style={
+                                  profile.address &&
                                   profile.address.city &&
                                   profile.address.city.length
                                     ? {}
@@ -406,7 +417,11 @@ const Profile = () => {
                               <FormControl
                                 as="select"
                                 name="address.state"
-                                value={profile.address.state}
+                                value={
+                                  profile.address && profile.address.state
+                                    ? profile.address.state
+                                    : ""
+                                }
                                 onChange={(e: any) => {
                                   setProfile({
                                     ...profile,
@@ -449,7 +464,11 @@ const Profile = () => {
                               <FormControl
                                 type="text"
                                 name="address.postal_code"
-                                value={profile.address.postal_code}
+                                value={
+                                  profile.address && profile.address.postal_code
+                                    ? profile.address.postal_code
+                                    : ""
+                                }
                                 onChange={(e: any) => {
                                   setProfile({
                                     ...profile,
@@ -460,6 +479,7 @@ const Profile = () => {
                                   });
                                 }}
                                 style={
+                                  profile.address &&
                                   profile.address.postal_code &&
                                   profile.address.postal_code.toString()
                                     .length >= 5
@@ -472,7 +492,7 @@ const Profile = () => {
                         </Col>
                       </Row>
                       <div className="hr-line-dashed"></div>
-                      <Row>
+                      <div className="row">
                         <div className="col-md-8">
                           <div className="form-group">
                             <div className="col-sm-9 col-sm-offset-3">
@@ -519,7 +539,7 @@ const Profile = () => {
                             </div>
                           </div>
                         </div>
-                      </Row>
+                      </div>
                     </Form>
                   </div>
                 </div>
@@ -566,6 +586,11 @@ const Profile = () => {
                                 name="password"
                                 value={password.password}
                                 onChange={handlePasswordChange}
+                                style={
+                                  password.password && password.password.length
+                                    ? {}
+                                    : { border: "1px solid #ed5565" }
+                                }
                               />
                             </Col>
                           </FormGroup>
@@ -581,6 +606,12 @@ const Profile = () => {
                                 name="passwordRep"
                                 value={password.passwordRep}
                                 onChange={handlePasswordChange}
+                                style={
+                                  password.passwordRep &&
+                                  password.passwordRep.length
+                                    ? {}
+                                    : { border: "1px solid #ed5565" }
+                                }
                               />
                             </Col>
                           </FormGroup>
@@ -590,7 +621,7 @@ const Profile = () => {
                       <Row>
                         <Col md={8}>
                           <div className="form-group">
-                            <Col sm={9} sm-offset={3}>
+                            <div className="col-sm-9 col-sm-offset-3">
                               <button className="btn btn-white" type="button">
                                 Cancel
                               </button>
@@ -611,7 +642,7 @@ const Profile = () => {
                                 Save Changes
                                 {/* <i className='fa fa-spinner fa-spin' data-ng-show='vm.savingPass' /> */}
                               </button>
-                            </Col>
+                            </div>
                           </div>
                         </Col>
                       </Row>

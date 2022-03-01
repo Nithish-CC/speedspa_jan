@@ -8,14 +8,13 @@ import {
 } from "../../../redux/actions/productAction";
 import { sorting, buildFilter } from "../../../utils/common";
 import { Link } from "react-router-dom";
-import Pagination from "react-js-pagination";
 import DeleteModal from "../../core/DeleteModal";
 import _ from "lodash";
 
 const Products = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Products");
-  const [orderBy, setOrderBy] = useState(false);
+  const [orderBy, setOrderBy] = useState(true);
   const [field, setField] = useState("name");
   const [perPage] = useState(10);
   const [buttons] = useState([
@@ -176,7 +175,7 @@ const Products = (props: any) => {
       setOrderBy(!orderBy);
     } else {
       setOrderBy(true);
-      setField(key);      
+      setField(key);
     }
     sorting(allProducts, key, orderBy);
   };

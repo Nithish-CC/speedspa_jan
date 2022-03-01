@@ -23,7 +23,9 @@ const ThirtyDaySanpshot = (props: any) => {
 
   const getThirtyDaySnapshot = () => {
     const params = {
-      begin_time: moment.utc(moment().subtract(1, "month").add(1, "day").startOf("day")).format(),
+      begin_time: moment
+        .utc(moment().subtract(1, "month").add(1, "day").startOf("day"))
+        .format(),
       end_time: moment.utc(moment().subtract(1, "day").endOf("day")).format(),
       businessId: localStorage.businessId,
     };
@@ -42,7 +44,10 @@ const ThirtyDaySanpshot = (props: any) => {
                   {/* total customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                        <div className="ibox-content customer_analysis_content">                
+                      <div
+                        className="ibox-content customer_analysis_content"
+                        style={{ marginBottom: "0" }}
+                      >
                         <i
                           className="fa fa-users"
                           style={{ fontSize: "4.5rem" }}
@@ -58,7 +63,10 @@ const ThirtyDaySanpshot = (props: any) => {
                   {/* new customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content">
+                      <div
+                        className="ibox-content customer_analysis_content"
+                        style={{ marginBottom: "0" }}
+                      >
                         <i
                           className="fa fa-user-plus"
                           style={{ fontSize: "4.5rem" }}
@@ -74,7 +82,10 @@ const ThirtyDaySanpshot = (props: any) => {
                   {/* returning customers */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content">
+                      <div
+                        className="ibox-content customer_analysis_content"
+                        style={{ marginBottom: "0" }}
+                      >
                         <i
                           className="fa fa-user"
                           style={{ fontSize: "4.5rem" }}
@@ -90,7 +101,10 @@ const ThirtyDaySanpshot = (props: any) => {
                   {/* average $ per visit */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content">
+                      <div
+                        className="ibox-content customer_analysis_content"
+                        style={{ marginBottom: "0" }}
+                      >
                         <span className="customer_analysis_count">
                           {"\u0024"}
                           {thirtyDaySnapshot.averageAmount.toFixed(2)}
@@ -102,7 +116,10 @@ const ThirtyDaySanpshot = (props: any) => {
                   {/* average visit per customer */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content">
+                      <div
+                        className="ibox-content customer_analysis_content"
+                        style={{ marginBottom: "0" }}
+                      >
                         <i
                           className="fa fa-user"
                           style={{ fontSize: "4.5rem" }}
@@ -118,7 +135,10 @@ const ThirtyDaySanpshot = (props: any) => {
                   {/* % of rebooking */}
                   <div className="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 customer_analysis">
                     <div className="ibox float-e-margins m-b-none">
-                      <div className="ibox-content customer_analysis_content">
+                      <div
+                        className="ibox-content customer_analysis_content"
+                        style={{ marginBottom: "0" }}
+                      >
                         <span className="customer_analysis_count">
                           {thirtyDaySnapshot.averagePreBooking}
                         </span>

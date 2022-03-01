@@ -216,10 +216,9 @@ const ServiceCategory = (props: any) => {
                                       onBlur={handleBlur}
                                       isInvalid={errors.name && touched.name}
                                       style={
-                                        values.name == "" ||
-                                        values.name == undefined
-                                          ? { border: "1px solid #ed5565" }
-                                          : {}
+                                        values.name && values.name.length
+                                          ? {}
+                                          : { border: "1px solid #ed5565" }
                                       }
                                     />
                                   </Col>
@@ -262,7 +261,7 @@ const ServiceCategory = (props: any) => {
                                               },
                                             };
                                             setParams({
-                                              ...params,
+                                              ...values,
                                               [event.target.name]:
                                                 e.target.value,
                                             });
@@ -448,12 +447,17 @@ const ServiceCategory = (props: any) => {
                                       type="submit"
                                       disabled={
                                         !(
-                                          values.name &&
-                                          values.name.length &&
-                                          values.description &&
-                                          values.description.length &&
-                                          values.seats > 0 &&
-                                          values.seats.toString().length
+                                          (values.name &&
+                                            values.name.length &&
+                                            values.seats > 0 &&
+                                            values.seats.toString().length) ||
+                                          (values.parentId &&
+                                            values.parentId.length &&
+                                            values.description &&
+                                            values.description.length) ||
+                                          (checkBoxValue &&
+                                            values.seats > 0 &&
+                                            values.seats.toString().length)
                                         )
                                       }
                                     >
@@ -462,6 +466,7 @@ const ServiceCategory = (props: any) => {
                                         <i className="fa fa-spinner fa-spin"></i>
                                       )}
                                     </Button>
+                                    {console.log(checkBoxValue)}
                                     <ToastContainer
                                       position="bottom-right"
                                       autoClose={5000}

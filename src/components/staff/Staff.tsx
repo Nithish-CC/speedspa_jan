@@ -431,7 +431,6 @@ const Staff = (props: any) => {
         avatarImg != "" ? (values.avatar = imgValKeys) : (values.avatar = "");
         values.roles = uniques;
         values.pctOfServiceSales = pctService;
-        alert(values.roles);
 
         props.updateClient(values);
 
@@ -464,7 +463,17 @@ const Staff = (props: any) => {
             id: element,
             resourcesIds: resourcesIds,
           };
-          props.updateStaffServiceResource(params, history);
+          props.updateStaffServiceResource(
+            params,
+            history,
+            (success: any, data: any) => {
+              if (success) {
+                setFormChanged(false);
+              } else {
+                notify(data);
+              }
+            }
+          );
         });
 
         values.profileCategoryId.forEach((element: any) => {
@@ -486,7 +495,17 @@ const Staff = (props: any) => {
             id: element,
             resourcesIds: resourcesIds,
           };
-          props.updateStaffServiceResource(params, history);
+          props.updateStaffServiceResource(
+            params,
+            history,
+            (success: any, data: any) => {
+              if (success) {
+                setFormChanged(false);
+              } else {
+                notify(data);
+              }
+            }
+          );
         });
       }
     } else {
@@ -504,6 +523,7 @@ const Staff = (props: any) => {
             props.addResourceServices(params);
           }
           if (success) {
+            setFormChanged(false);
             history.push("/staff");
           } else {
             notify(data);
@@ -1599,6 +1619,7 @@ const Staff = (props: any) => {
                                           "stylist"
                                         )}
                                         onChange={(e) => {
+                                          console.log(e);
                                           handleRole(
                                             e.target.name,
                                             e.target.checked
