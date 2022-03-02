@@ -46,7 +46,8 @@ export const schedule = (params: any) => (dispatch: any) => {
     });
 };
 
-export const addSchedule = (params: any, callback: any) => (dispatch: any) => {
+export const addSchedule = (params: any, callback: any) => (dispatch: any) => {  
+
   dispatch({ type: BUTTON_LOADING });
   axios
     .post(`/resources/schedules/generate`, params)

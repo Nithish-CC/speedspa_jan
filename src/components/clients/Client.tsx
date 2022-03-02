@@ -413,6 +413,7 @@ const Client = (props: any) => {
         >
           <i title="View" className="far fa-eye"></i>
         </Link>
+        &nbsp;&nbsp;
       </td>
     );
   };
@@ -1567,7 +1568,9 @@ const Client = (props: any) => {
                                               type="email"
                                               name="email"
                                               value={values.email}
-                                              isInvalid={errors.email}
+                                              isInvalid={
+                                                errors.email && touched.email
+                                              }
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                             />
@@ -1780,7 +1783,6 @@ const Client = (props: any) => {
                                           <FormLabel className="col-sm-4 control-label">
                                             Notes{" "}
                                             <Tippy
-                                              theme={"success"}
                                               maxWidth="225px"
                                               content={
                                                 <div>
@@ -2192,7 +2194,7 @@ const Client = (props: any) => {
                                                             className="far fa-edit"
                                                           ></i>
                                                         </Link>
-                                                        &nbsp;
+                                                        &nbsp;&nbsp;&nbsp;
                                                         <a
                                                           style={{
                                                             cursor: "pointer",
@@ -2227,6 +2229,7 @@ const Client = (props: any) => {
                                                             className="far fa-eye"
                                                           ></i>
                                                         </Link>
+                                                        &nbsp;&nbsp;
                                                       </React.Fragment>
                                                     )}
                                                   </React.Fragment>
@@ -2571,7 +2574,7 @@ const Client = (props: any) => {
                                                         )
                                                       }
                                                     ></i>
-                                                    &nbsp;
+                                                    &nbsp;&nbsp;&nbsp;
                                                     <a
                                                       style={{
                                                         cursor: "pointer",

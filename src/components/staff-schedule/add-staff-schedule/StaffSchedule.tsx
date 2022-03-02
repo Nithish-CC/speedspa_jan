@@ -438,7 +438,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="1"
+                                        value="0"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}
@@ -450,7 +450,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="2"
+                                        value="1"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}
@@ -462,7 +462,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="3"
+                                        value="2"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}
@@ -474,7 +474,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="4"
+                                        value="3"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}
@@ -486,7 +486,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="5"
+                                        value="4"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}
@@ -498,7 +498,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="6"
+                                        value="5"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}
@@ -510,7 +510,7 @@ const StaffSchedule = (props: any) => {
                                       <input
                                         type="checkbox"
                                         name="repeats"
-                                        value="7"
+                                        value="6"
                                         onClick={(e) => {
                                           weeklyRepeat(e);
                                         }}

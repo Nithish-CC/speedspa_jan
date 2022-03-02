@@ -367,7 +367,7 @@ const ServiceCategory = (props: any) => {
                                       Seats{" "}
                                       <Tippy
                                         theme={"success"}
-                                        maxWidth="225px"
+                                        maxWidth="250px"
                                         content={
                                           <div>
                                             <p>
@@ -381,9 +381,8 @@ const ServiceCategory = (props: any) => {
                                             </p>
                                             <p>
                                               For example: only having one
-                                              HydraFacial machine under the Face
-                                              / Facials Parent Category or one
-                                              room to do waxing.{" "}
+                                              HydraFacial machine under the Face / Facials Parent Category or one
+                                              room to do waxing.
                                             </p>
                                           </div>
                                         }
@@ -395,6 +394,7 @@ const ServiceCategory = (props: any) => {
                                       <FormControl
                                         type="number"
                                         name="seats"
+                                        min={1}
                                         value={values.seats}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -402,10 +402,9 @@ const ServiceCategory = (props: any) => {
                                           errors.seats && touched.seats
                                         }
                                         style={
-                                          values.seats.toString() == "" ||
-                                          values.seats == undefined
-                                            ? { border: "1px solid #ed5565" }
-                                            : {}
+                                          values.seats >= 1
+                                            ? {}
+                                            : { border: "1px solid #ed5565" }
                                         }
                                       />
                                     </Col>

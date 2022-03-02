@@ -221,7 +221,7 @@ const Staff = (props: any) => {
     };
     props.getAllService(params);
     if (view) {
-      setTitle("Category View/Edit");
+      
       setTimeout(() => {
         props.getStaffDetails(id, params);
       }, 800);

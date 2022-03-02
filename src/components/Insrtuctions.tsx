@@ -148,7 +148,7 @@ const Instructions = () => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader {...title} />
+          <PageHeader {...Title} />
           {modalPopup.deleteModal && (
             <ModalWithGrid modalPopup={modalPopup} closeModal={closeModal} />
           )}

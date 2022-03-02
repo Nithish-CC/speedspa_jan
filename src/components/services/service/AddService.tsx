@@ -95,7 +95,7 @@ const Service = (props: any) => {
   // Form Validation
   const [validationShape] = useState({
     name: yup.string().required("Name is required"),
-    priority: yup.number().max(1).required("Priority is required"),
+    priority: yup.number().required("Priority is required"),
     categoryId: yup.string().required("Category id is required"),
   });
 
@@ -918,7 +918,7 @@ const Service = (props: any) => {
                                             <FormControl
                                               type="number"
                                               name="price"
-                                              value={values.price / 100}
+                                              value={values.price}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                             />
@@ -1051,17 +1051,19 @@ const Service = (props: any) => {
                                             </Tippy>
                                           </FormLabel>
                                           <Col sm="9">
-                                            <input
-                                              type="checkbox"
-                                              name="topLevel"
-                                              checked={checkedTopLevel}
-                                              onBlur={handleBlur}
-                                              onChange={(e) => {
-                                                setCheckedTopLevel(
-                                                  !checkedTopLevel
-                                                );
-                                              }}
-                                            />
+                                            <div className="m-t-xs">
+                                              <input
+                                                type="checkbox"
+                                                name="topLevel"
+                                                checked={checkedTopLevel}
+                                                onBlur={handleBlur}
+                                                onChange={(e) => {
+                                                  setCheckedTopLevel(
+                                                    !checkedTopLevel
+                                                  );
+                                                }}
+                                              />
+                                            </div>
                                           </Col>
                                         </FormGroup>
                                         <FormGroup>
@@ -1086,17 +1088,19 @@ const Service = (props: any) => {
                                             </Tippy>
                                           </FormLabel>
                                           <Col sm="9">
-                                            <input
-                                              type="checkbox"
-                                              name="requiredAddOns"
-                                              checked={checkedAddonsRequired}
-                                              onBlur={handleBlur}
-                                              onChange={() => {
-                                                setCheckedAddonsRequired(
-                                                  !checkedAddonsRequired
-                                                );
-                                              }}
-                                            />
+                                            <div className="m-t-xs">
+                                              <input
+                                                type="checkbox"
+                                                name="requiredAddOns"
+                                                checked={checkedAddonsRequired}
+                                                onBlur={handleBlur}
+                                                onChange={() => {
+                                                  setCheckedAddonsRequired(
+                                                    !checkedAddonsRequired
+                                                  );
+                                                }}
+                                              />
+                                            </div>
                                           </Col>
                                         </FormGroup>
                                         <FormGroup>
@@ -1526,7 +1530,10 @@ const Service = (props: any) => {
                             role="tabpanel"
                             aria-labelledby="Staff-tab"
                           >
-                            <div className="ibox float-e-margins m-b-none">
+                            <div
+                              className="ibox float-e-margins m-b-none"
+                              style={{ marginBottom: "0px" }}
+                            >
                               <div className="ibox-content no-border">
                                 <div className="m-t-md"></div>
                                 <Form

@@ -317,10 +317,11 @@ const AddSchedule = (props: any) => {
     return str.join("&");
   };
 
-  const handleSubmit = (values: any) => {           
+  const handleSubmit = (values: any) => {
     const i = moment(startDate).utc().format().split("T")[0] + " " + value;
 
-    let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${value}:00Z`;
+    let setDateTime = `${moment(startDate).format("YYYY-MM-DD")}T${value}:00Z`;
+    console.log(setDateTime);
     let check = {
       checkFreeTime: 1,
       checkResourceSchedule: 1,

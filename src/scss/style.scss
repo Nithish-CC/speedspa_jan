@@ -144,7 +144,9 @@ input.select-search__input {
   > .tippy-arrow::before {
   color: #5abb9e;
 }
-
+.tippy-content {
+  padding: 5px 0 !important;
+}
 .form-control.is-valid,
 .form-control.is-invalid {
   background-image: none;
@@ -322,13 +324,6 @@ body.mini-navbar .navbar-static-side {
   font-weight: 600;
 }
 
-.ibox-content {
-  margin-bottom: 10px;
-}
-
-.ibox {
-  margin-bottom: 0;
-}
 .deni-react-treeview-container {
   width: auto !important;
   height: auto !important;
@@ -343,6 +338,6 @@ body.mini-navbar .navbar-static-side {
   }
 }
 
-.fc .fc-timeline-lane-frame {
-  background-color: #b3b3b3;
+.form-control:focus {
+  border-color: #1ab394 !important;
 }
