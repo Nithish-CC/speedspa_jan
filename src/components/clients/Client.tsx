@@ -38,6 +38,9 @@ const Client = (props: any) => {
   //useState
 
   const [title, setTitle] = useState("New Client");
+  const Title = {
+    title: title,
+  };
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("");
   const [bookingOrderBy, setBookingOrderBy] = useState(false);
@@ -168,8 +171,8 @@ const Client = (props: any) => {
     if (view && Object.keys(clientInfo).length !== 0) {
       setClient(clientInfo);
       setDisable(true);
-      dob.day = moment(clientInfo.dob).format("DD");
-      dob.month = moment(clientInfo.dob).format("MM");
+      dob.day = clientInfo.dob ? moment(clientInfo.dob).format("DD") : "";
+      dob.month = clientInfo.dob ? moment(clientInfo.dob).format("MM") : "";
     }
   }, [clientInfo]);
 
@@ -306,8 +309,54 @@ const Client = (props: any) => {
   const handleSubmit = (values: any) => {
     values.businessId = bussinessId;
     values.dob = new Date(dob.month + "/" + dob.day + "/");
+    if (values.dob == "Invalid Date") {
+      delete values.dob;
+    }
+
+    if (values.address) {
+      if (
+        (!values.address.line1 || values.address.line1.length == 0) &&
+        (!values.address.line2 || values.address.line2.length == 0) &&
+        (!values.address.city || values.address.city.length == 0) &&
+        (!values.address.state || values.address.state.length == 0) &&
+        (!values.address.postal_code || values.address.postal_code.length == 0)
+      )
+        delete values.address;
+      else {
+        if (!values.address.line1 || values.address.line1.length == 0)
+          delete values.address.line1;
+        if (!values.address.line2 || values.address.line2.length == 0)
+          delete values.address.line2;
+        if (!values.address.city || values.address.city.length == 0)
+          delete values.address.city;
+        if (!values.address.state || values.address.state.length == 0)
+          delete values.address.state;
+        if (
+          !values.address.postal_code ||
+          values.address.postal_code.length == 0
+        )
+          delete values.address.postal_code;
+      }
+    }
+
+    if (!values.email || values.email.length == 0) delete values.email;
+    if (!values.password || values.password.length == 0) delete values.password;
+    if (!values.status || values.status.length == 0) delete values.status;
+    if (!values.gender || values.gender.length == 0) delete values.gender;
+
     if (view) {
-      props.updateClient(values);
+      if (values.gender == "") {
+        values.gender = clientInfo.gender;
+      }
+      props.updateClient(values, (success: any, data: any) => {
+        if (success) {
+          setFormChanged(false);
+          history.push("/clients");
+        } else {
+          notify(data);
+        }
+      });
+      props.history.push("/Clients");
     } else {
       props.addClient(values, (success: any, data: any) => {
         if (success) {
@@ -463,7 +512,7 @@ const Client = (props: any) => {
     firstName: yup.string().required("First Name is required"),
     lastName: yup.string().required("Last Name is required"),
     phoneNumber: yup.string().required("Phone Number is required"),
-    email: yup.string().email("Email is invalid").required("Email is required"),
+    email: yup.string().email("Email is invalid"),
     address: yup.object().shape({
       postal_code: yup.string().length(5),
     }),
@@ -530,7 +579,7 @@ const Client = (props: any) => {
       />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -1518,9 +1567,7 @@ const Client = (props: any) => {
                                               type="email"
                                               name="email"
                                               value={values.email}
-                                              isInvalid={
-                                                errors.email && touched.email
-                                              }
+                                              isInvalid={errors.email}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                             />
@@ -1577,7 +1624,7 @@ const Client = (props: any) => {
                                               onChange={handleChange}
                                               onBlur={handleBlur}
                                             >
-                                              <option value="">Gender</option>
+                                              <option>Gender</option>
                                               <option
                                                 selected={
                                                   values.gender === "male"
@@ -1791,7 +1838,7 @@ const Client = (props: any) => {
                                         &nbsp;
                                         <button
                                           className="btn btn-primary"
-                                          type="submit"
+                                          onClick={() => handleSubmit()}
                                           disabled={
                                             !(
                                               values.firstName &&
@@ -1904,8 +1951,6 @@ const Client = (props: any) => {
                             </div>
                             <div className="col-md-12">
                               <div className="hr-line-dashed"></div>
-                            </div>
-                            <div className="col-md-12">
                               <div className="table-responsive">
                                 <table className="table table-bordered table-striped table-hover dataTables-example">
                                   <thead>
@@ -2054,93 +2099,77 @@ const Client = (props: any) => {
                                                 <td>
                                                   ${order.total.toFixed(2)}
                                                 </td>
-                                                <td>
+                                                <td className="text-center">
                                                   {order.status === "paid" ? (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-primary"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Paid
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-primary"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Paid
+                                                    </span>
                                                   ) : order.status ===
                                                     "created" ? (
-                                                    <center>
-                                                      {" "}
-                                                      <span
-                                                        className="btn btn-xs btn-primary"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Created
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-primary"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Created
+                                                    </span>
                                                   ) : order.status ==
                                                       "canceled" &&
                                                     order.noShow == true ? (
-                                                    <center>
-                                                      <span
-                                                        className=" btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        No Show
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className=" btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      No Show
+                                                    </span>
                                                   ) : order.status ===
                                                     "canceled" ? (
-                                                    <center>
-                                                      {" "}
-                                                      <span
-                                                        className="btn btn-xs btn-danger"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Cancelled
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-danger"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Cancelled
+                                                    </span>
                                                   ) : order.status ===
                                                     "refund" ? (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-danger"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Refund
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-danger"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Refund
+                                                    </span>
                                                   ) : order.status ===
                                                     "voided" ? (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Voided
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Voided
+                                                    </span>
                                                   ) : order.status ===
                                                     "extra_service_request" ? (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Requested
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Requested
+                                                    </span>
                                                   ) : (
                                                     <></>
                                                   )}
@@ -2163,7 +2192,7 @@ const Client = (props: any) => {
                                                             className="far fa-edit"
                                                           ></i>
                                                         </Link>
-                                                        &nbsp;&nbsp;&nbsp;
+                                                        &nbsp;
                                                         <a
                                                           style={{
                                                             cursor: "pointer",
@@ -2448,7 +2477,7 @@ const Client = (props: any) => {
                                                     value.total.toFixed(2)
                                                   )}
                                                 </td>
-                                                <td>
+                                                <td className="text-center">
                                                   {value.status == "paid" && (
                                                     <span
                                                       className="btn btn-xs btn-primary"
@@ -2461,68 +2490,57 @@ const Client = (props: any) => {
                                                   )}
                                                   {value.status ==
                                                     "created" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-success"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Created
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-success"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Created
+                                                    </span>
                                                   )}
 
                                                   {value.status ==
                                                     "canceled" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-danger"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Cancelled
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-danger"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Cancelled
+                                                    </span>
                                                   )}
                                                   {value.status == "refund" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-danger"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Refund
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-danger"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Refund
+                                                    </span>
                                                   )}
                                                   {value.status == "voided" && (
-                                                    <center>
-                                                      {" "}
-                                                      <span
-                                                        className="btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Voided
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Voided
+                                                    </span>
                                                   )}
                                                   {value.status ==
                                                     "extra_service_request" && (
-                                                    <center>
-                                                      <span
-                                                        className="btn btn-xs btn-warning"
-                                                        style={{
-                                                          width: "80px",
-                                                        }}
-                                                      >
-                                                        Requested
-                                                      </span>
-                                                    </center>
+                                                    <span
+                                                      className="btn btn-xs btn-warning"
+                                                      style={{
+                                                        width: "80px",
+                                                      }}
+                                                    >
+                                                      Requested
+                                                    </span>
                                                   )}
                                                 </td>
                                                 {value.status == "canceled" ? (
@@ -2544,20 +2562,16 @@ const Client = (props: any) => {
                                                 )}
                                                 {value.status == "created" && (
                                                   <td className="text-center">
-                                                    <Link
-                                                      style={{
-                                                        cursor: "pointer",
-                                                        color: "#2a6954",
-                                                      }}
-                                                      key={index}
-                                                      to={`/products/orders/view/${value.id}`}
-                                                    >
-                                                      <i
-                                                        title="View | Edit"
-                                                        className="far fa-edit"
-                                                      ></i>
-                                                    </Link>
-                                                    &nbsp;&nbsp;&nbsp;
+                                                    <i
+                                                      title="View | Edit"
+                                                      className="far fa-edit"
+                                                      onClick={() =>
+                                                        history.push(
+                                                          `/products/orders/view/${value.id}`
+                                                        )
+                                                      }
+                                                    ></i>
+                                                    &nbsp;
                                                     <a
                                                       style={{
                                                         cursor: "pointer",
@@ -2684,6 +2698,7 @@ const Client = (props: any) => {
                                       <th className="text-center">Last View</th>
                                     </tr>
                                   </thead>
+                                  <tbody></tbody>
                                   <tbody>
                                     <tr className="text-center">
                                       <td colSpan={7}>No Devices Found</td>

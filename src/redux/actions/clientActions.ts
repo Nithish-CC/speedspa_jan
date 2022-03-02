@@ -50,7 +50,7 @@ export const addClient = (params: any, callback: any) => (dispatch: any) => {
       callback(true, id);
       dispatch({ type: LOADING_CLEAR });
     })
-    .catch((err) => {      
+    .catch((err) => {
       callback(false, err.response.data.message);
       dispatch({
         type: SET_ERRORS,
@@ -60,15 +60,16 @@ export const addClient = (params: any, callback: any) => (dispatch: any) => {
     });
 };
 
-export const updateClient = (params: any, history: any) => (dispatch: any) => {
+export const updateClient = (params: any, callback: any) => (dispatch: any) => {
   dispatch({ type: BUTTON_LOADING });
   axios
     .patch(`users/${params.id}`, params)
     .then((res) => {
-      history.push("/Clients");
+      callback(true, res.data.id);
       dispatch({ type: LOADING_CLEAR });
     })
     .catch((err) => {
+      callback(false, err.response.data.message);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data,

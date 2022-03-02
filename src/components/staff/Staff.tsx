@@ -1619,7 +1619,6 @@ const Staff = (props: any) => {
                                           "stylist"
                                         )}
                                         onChange={(e) => {
-                                          console.log(e);
                                           handleRole(
                                             e.target.name,
                                             e.target.checked
@@ -1902,7 +1901,9 @@ const Staff = (props: any) => {
                                           : { border: "1px solid #ed5565" }
                                       }
                                     >
-                                      <option />
+                                      {staffRoletype === "" && (
+                                        <option value=""></option>
+                                      )}
                                       <option
                                         selected={
                                           staffRoletype == "hourly"
@@ -2190,8 +2191,12 @@ const Staff = (props: any) => {
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                     >
-                                      <option value=""></option>
-                                      <option value="">-- Choose State</option>
+                                      {values.address.state === "" && (
+                                        <option value=""></option>
+                                      )}
+                                      <option value="choose State">
+                                        -- Choose State
+                                      </option>
                                       {StateList.map((e, index) => (
                                         <option
                                           key={index}

@@ -67,7 +67,7 @@ export const addStaff = (params: any, callback: any) => (dispatch: any) => {
     });
 };
 
-export const updateClient = (params: any, props: any) => (dispatch: any) => {
+export const updateClient = (params: any) => (dispatch: any) => {
   dispatch({ type: BUTTON_LOADING });
   axios
     .patch(`users/${params.id}`, params)

@@ -95,10 +95,7 @@ const StaffSchedule = (props: any) => {
     query.text = "";
     query.businessId = localStorage.businessId;
     props.getAllStaff(query);
-  };
-
-  console.log(moment(endDate).format("YYYY-MM-DD"));
-  console.log("1");
+  };  
 
   const handleSubmit = (values: any) => {
     setOnSubmit(true);

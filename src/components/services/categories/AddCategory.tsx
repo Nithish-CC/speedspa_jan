@@ -29,6 +29,9 @@ import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 const ServiceCategory = (props: any) => {
   const [title, setTitle] = useState("New Category");
   const history = useHistory();
+  const Title = {
+    title: title,
+  };
   const [checkBoxValue, setCheckBoxValue] = useState(false);
   const [params, setParams] = useState({
     name: "",
@@ -171,7 +174,7 @@ const ServiceCategory = (props: any) => {
       />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -466,7 +469,6 @@ const ServiceCategory = (props: any) => {
                                         <i className="fa fa-spinner fa-spin"></i>
                                       )}
                                     </Button>
-                                    {console.log(checkBoxValue)}
                                     <ToastContainer
                                       position="bottom-right"
                                       autoClose={5000}

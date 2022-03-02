@@ -552,8 +552,7 @@ const Product = (props: any) => {
                                                 }
                                               />
                                             </Col>
-                                          </FormGroup>
-                                          {console.log(checkData)}
+                                          </FormGroup>                                          
                                           <FormGroup>
                                             <FormLabel className="col-sm-4 control-label">
                                               Categories (at least 1):
