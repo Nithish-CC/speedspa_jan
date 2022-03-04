@@ -46,7 +46,7 @@ export const schedule = (params: any) => (dispatch: any) => {
     });
 };
 
-export const addSchedule = (params: any, callback: any) => (dispatch: any) => {  
+export const addSchedule = (params: any, callback: any) => (dispatch: any) => {
 
   dispatch({ type: BUTTON_LOADING });
   axios
@@ -63,6 +63,10 @@ export const addSchedule = (params: any, callback: any) => (dispatch: any) => {
       });
       dispatch({ type: LOADING_CLEAR });
     });
+};
+
+export const repeatAppoinment = (params: any) => (dispatch: any) => {
+  axios.post("/repeat/appointments", params);
 };
 
 export const updateSchedule = (id: any, params: any) => (dispatch: any) => {

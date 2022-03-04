@@ -674,7 +674,6 @@ const Client = (props: any) => {
                               onChange={onChangeHandler}
                               id="clients"
                               className="form-horizontal"
-                              noValidate
                               autoComplete="off"
                               onSubmit={handleSubmit}
                             >
@@ -721,6 +720,7 @@ const Client = (props: any) => {
                                                     }
                                               }
                                               disabled={disable}
+                                              required
                                             />
                                           </Col>
                                         </FormGroup>
@@ -749,6 +749,7 @@ const Client = (props: any) => {
                                                         "1px solid #ed5565",
                                                     }
                                               }
+                                              required
                                             />
                                           </Col>
                                         </FormGroup>
@@ -871,6 +872,7 @@ const Client = (props: any) => {
                                                         "1px solid #ed5565",
                                                     }
                                               }
+                                              required
                                             >
                                               <option value="">Select</option>
                                               <option value="+1">
@@ -1556,6 +1558,7 @@ const Client = (props: any) => {
                                                     }
                                                   : {}
                                               }
+                                              required
                                             />
                                           </Col>
                                         </FormGroup>

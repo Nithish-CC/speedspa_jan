@@ -221,7 +221,6 @@ const Staff = (props: any) => {
     };
     props.getAllService(params);
     if (view) {
-      
       setTimeout(() => {
         props.getStaffDetails(id, params);
       }, 800);
@@ -516,9 +515,9 @@ const Staff = (props: any) => {
           if (success) {
             const params: any = {
               businessId: bussinessId,
-              resourceId: id,
+              resourceId: data,
               servicesIds: values.serviceIds,
-              _id: id,
+              _id: data,
             };
             props.addResourceServices(params);
           }
@@ -715,7 +714,6 @@ const Staff = (props: any) => {
                             id="Staff"
                             onChange={onChangeHandler}
                             className="form-horizontal"
-                            noValidate
                             autoComplete="off"
                             onSubmit={handleSubmit}
                           >
@@ -754,6 +752,7 @@ const Staff = (props: any) => {
                                           ? {}
                                           : { border: "1px solid #ed5565" }
                                       }
+                                      required
                                     />
                                   </Col>
                                 </FormGroup>
@@ -1738,17 +1737,16 @@ const Staff = (props: any) => {
                                                 })
                                             )}
                                         </FormControl>
-                                        <Button
-                                          className="btn-primary"
-                                          type="button"
+                                        <button
                                           style={{ marginTop: "20px" }}
+                                          className="btn btn-primary"
                                           onClick={selectAllItems}
                                         >
+                                          {" "}
                                           Select All
-                                        </Button>
+                                        </button>
                                         &nbsp;
                                         <button
-                                          type="button"
                                           className="btn btn-primary"
                                           style={{ marginTop: "20px" }}
                                           onClick={unSelectAllItems}
@@ -1825,7 +1823,6 @@ const Staff = (props: any) => {
                                       >
                                         <button
                                           className="btn btn-danger btn-remove-staffAvatar"
-                                          type="button"
                                           onClick={() => {
                                             setAvatarImg("");
                                           }}

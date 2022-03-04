@@ -97,16 +97,12 @@ const Schedule = (props: any) => {
   //To fetch date on load
   let dates = {
     loaded: {
-      start: new Date(
-        moment().startOf("month").subtract(1, "milliseconds").toDate()
-      ),
-      end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
+      start: new Date(moment().startOf("month").subtract(1, "milliseconds")),
+      end: new Date(moment().endOf("month").add(1, "milliseconds")),
     },
     toload: {
-      start: new Date(
-        moment().startOf("month").subtract(1, "milliseconds").toDate()
-      ),
-      end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
+      start: new Date(moment().startOf("month").subtract(1, "milliseconds")),
+      end: new Date(moment().endOf("month").add(1, "milliseconds")),
     },
   };
 
@@ -157,7 +153,7 @@ const Schedule = (props: any) => {
       moment(end).format("HH:mm");
     let setDateTime = `${moment(i).format("YYYY-MM-DD")}T${moment(end).format(
       "HH:mm"
-    )}:00Z`;    
+    )}:00Z`;
 
     var data: any = {
       timeStart: {
@@ -284,37 +280,25 @@ const Schedule = (props: any) => {
 
     if (dates.loaded.end >= intervalStart) {
       dates.toload.start = new Date(
-        moment(intervalEnd)
-          .startOf("month")
-          .subtract(1, "milliseconds")
-          .toDate()
+        moment(intervalEnd).startOf("month").subtract(1, "milliseconds")
       );
       dates.toload.end = new Date(
-        moment(intervalEnd).endOf("month").add(1, "milliseconds").toDate()
+        moment(intervalEnd).endOf("month").add(1, "milliseconds")
       );
       dates.loaded.end = new Date(
-        moment(intervalEnd).endOf("month").add(1, "milliseconds").toDate()
+        moment(intervalEnd).endOf("month").add(1, "milliseconds")
       );
       //timeSlots(dates.toload.start, dates.toload.end);
     }
     if (intervalStart <= dates.loaded.start) {
       dates.toload.start = new Date(
-        moment(dates.loaded.start)
-          .startOf("month")
-          .subtract(1, "milliseconds")
-          .toDate()
+        moment(dates.loaded.start).startOf("month").subtract(1, "milliseconds")
       );
       dates.toload.end = new Date(
-        moment(dates.loaded.start)
-          .endOf("month")
-          .add(1, "milliseconds")
-          .toDate()
+        moment(dates.loaded.start).endOf("month").add(1, "milliseconds")
       );
       dates.loaded.start = new Date(
-        moment(dates.loaded.start)
-          .startOf("month")
-          .subtract(1, "milliseconds")
-          .toDate()
+        moment(dates.loaded.start).startOf("month").subtract(1, "milliseconds")
       );
       //timeSlots(dates.toload.start, dates.toload.end);
     }
@@ -380,19 +364,21 @@ const Schedule = (props: any) => {
         const title = _.filter(
           resourseDataVal,
           (resourseDataVal) => resourseDataVal.id === values.resourceId
-        );
-        values.title = values.serviceName + " [" + values.clientName + "]";
-        values.description = "description" + key;
-        values.backgroundColor = title[0].eventColor;
-        values.eventColor = title[0].eventColor;
-        values.start = values.timeStart;
-        values.end = values.timeEnd;
-        values.startDate = values.timeStart;
-        values.startTime = values.timeStart;
-        values.endTime = values.timeEnd;
-        values.allDay = false;
-        values.rendering = "background";
-        tempArr.push(values);
+        );        
+        if (title[0]) {
+          values.title = values.serviceName + " [" + values.clientName + "]";
+          values.description = "description" + key;
+          values.backgroundColor = title[0].eventColor;
+          values.eventColor = title[0].eventColor;
+          values.start = values.timeStart;
+          values.end = values.timeEnd;
+          values.startDate = values.timeStart;
+          values.startTime = values.timeStart;
+          values.endTime = values.timeEnd;
+          values.allDay = false; 
+          values.rendering = "background";
+          tempArr.push(values);
+        }
       }
     });
     setCalenderDates(tempArr);
@@ -437,9 +423,7 @@ const Schedule = (props: any) => {
                                 .utc()
                                 .format()
                             );
-                          }}
-                          contentHeight={600}
-                          height={500}
+                          }}                                                    
                           timeZone="UTC"
                           schedulerLicenseKey="0116820732-fcs-1622120977"
                           initialView="resourceTimelineDay"

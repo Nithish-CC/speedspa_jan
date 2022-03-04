@@ -21,10 +21,10 @@ import {
   getAppointment,
   getAppointmentOrder,
   deleteAppointment,
+  repeatAppoinment,
 } from "../../../redux/actions/scheduleActions";
 import { Formik } from "formik";
 import SelectSearch from "react-select-search";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker-input";
 import {
@@ -345,8 +345,30 @@ const AddSchedule = (props: any) => {
     values.resourceId = String(changeStaff.value);
     values.services = [staffMainService[0]];
     values.timeStart = setDateTime;
-
     repeatAppointments(values);
+
+    const repeatArr = {
+      businessId: businessId,
+      categoryId: serviceCategoryId,
+      clientId: String(changeCustomer.value),
+      createdBy: {
+        email: localUser.email,
+        id: localUser.id,
+        name: localUser.firstName + " " + localUser.lastName,
+        firstName: localUser.firstName,
+        lastName: localUser.lastName,
+      },
+      repeat: weeklyRepeat,
+      repeatEndDate: yearEndDate,
+      repeatRefId: randomStr,
+      resourceId: String(changeStaff.value),
+      services: [staffMainService[0]],
+      timeStart: setDateTime,
+    };
+    if (weeklyRepeat) {
+      props.repeatAppoinment(repeatArr);
+    }
+
     if (view) {
       let params = {
         businessId: localStorage.getItem("businessId"),
@@ -862,29 +884,31 @@ const AddSchedule = (props: any) => {
                                 </div>
                               </div>
                             </div>
-                            <FormGroup style={{ marginBottom: "20px" }}>
-                              <Col sm="6">
-                                <FormLabel
-                                  className="control-label"
-                                  style={{ marginBottom: "10px" }}
-                                >
-                                  Repeat
-                                </FormLabel>
-                                <FormControl
-                                  as="select"
-                                  name="Repeat"
-                                  onChange={(e: any) => {
-                                    setWeeklyRepeat(e.target.value);
-                                  }}
-                                >
-                                  <option value="">None</option>
-                                  <option value="7">Weekly</option>
-                                  <option value="28">Every 4 weeks</option>
-                                  <option value="35">Every 5 weeks</option>
-                                  <option value="42">Every 6 weeks</option>
-                                </FormControl>
-                              </Col>
-                            </FormGroup>
+                            {!view && (
+                              <FormGroup style={{ marginBottom: "20px" }}>
+                                <Col sm="6">
+                                  <FormLabel
+                                    className="control-label"
+                                    style={{ marginBottom: "10px" }}
+                                  >
+                                    Repeat
+                                  </FormLabel>
+                                  <FormControl
+                                    as="select"
+                                    name="Repeat"
+                                    onChange={(e: any) => {
+                                      setWeeklyRepeat(e.target.value);
+                                    }}
+                                  >
+                                    <option value="">None</option>
+                                    <option value="7">Weekly</option>
+                                    <option value="28">Every 4 weeks</option>
+                                    <option value="35">Every 5 weeks</option>
+                                    <option value="42">Every 6 weeks</option>
+                                  </FormControl>
+                                </Col>
+                              </FormGroup>
+                            )}
                             <ToastContainer
                               position="bottom-right"
                               autoClose={2000}
@@ -994,6 +1018,7 @@ const mapActionsToProps = {
   addAppointments,
   getAppointment,
   getAppointmentOrder,
+  repeatAppoinment,
   deleteAppointment,
 };
 
