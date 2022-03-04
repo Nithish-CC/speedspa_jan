@@ -65,6 +65,16 @@ const ScheduleStaff = (props: any) => {
     startDate: "",
     endDate: "",
   });
+  const [buttons] = useState([
+    {
+      title: "Add New Staff Schedule Item",
+      url: "/staff-schedule/add-staff-schedule",
+    },
+  ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
   const [initialModalPopup] = useState({ ...modalPopup });
   const allCategories = useSelector(
     (state: any) => state.service.categoryDetails
@@ -89,22 +99,20 @@ const ScheduleStaff = (props: any) => {
   const [deleteData, setDeleteData] = useState({});
   const [calenderDates, setCalenderDates] = useState<any[]>([]);
   const [staffSelected, setStaffSelected] = useState("all");
-  const [buttons] = useState([
-    {
-      title: "Add New Staff Schedule Item",
-      url: "/staff-schedule/add-staff-schedule",
-    },
-  ]);
 
   //To fetch date on load
   let dates = {
     loaded: {
-      start: new Date(moment().startOf("month").subtract(1, "milliseconds")),
-      end: new Date(moment().endOf("month").add(1, "milliseconds")),
+      start: new Date(
+        moment().startOf("month").subtract(1, "milliseconds").toDate()
+      ),
+      end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
     },
     toload: {
-      start: new Date(moment().startOf("month").subtract(1, "milliseconds")),
-      end: new Date(moment().endOf("month").add(1, "milliseconds")),
+      start: new Date(
+        moment().startOf("month").subtract(1, "milliseconds").toDate()
+      ),
+      end: new Date(moment().endOf("month").add(1, "milliseconds").toDate()),
     },
   };
 
@@ -262,7 +270,7 @@ const ScheduleStaff = (props: any) => {
       intervalEnd.getTime() + intervalEnd.getTimezoneOffset() * 60 * 1000
     );
     intervalEnd = new Date(
-      moment(intervalEnd).startOf("day").subtract(1, "milliseconds")
+      moment(intervalEnd).startOf("day").subtract(1, "milliseconds").toDate()
     );
     var intervalStart = new Date();
     intervalStart.setTime(
@@ -271,25 +279,37 @@ const ScheduleStaff = (props: any) => {
 
     if (dates.loaded.end >= intervalStart) {
       dates.toload.start = new Date(
-        moment(intervalEnd).startOf("month").subtract(1, "milliseconds")
+        moment(intervalEnd)
+          .startOf("month")
+          .subtract(1, "milliseconds")
+          .toDate()
       );
       dates.toload.end = new Date(
-        moment(intervalEnd).endOf("month").add(1, "milliseconds")
+        moment(intervalEnd).endOf("month").add(1, "milliseconds").toDate()
       );
       dates.loaded.end = new Date(
-        moment(intervalEnd).endOf("month").add(1, "milliseconds")
+        moment(intervalEnd).endOf("month").add(1, "milliseconds").toDate()
       );
       timeSlots(dates.toload.start, dates.toload.end);
     }
     if (intervalStart <= dates.loaded.start) {
       dates.toload.start = new Date(
-        moment(dates.loaded.start).startOf("month").subtract(1, "milliseconds")
+        moment(dates.loaded.start)
+          .startOf("month")
+          .subtract(1, "milliseconds")
+          .toDate()
       );
       dates.toload.end = new Date(
-        moment(dates.loaded.start).endOf("month").add(1, "milliseconds")
+        moment(dates.loaded.start)
+          .endOf("month")
+          .add(1, "milliseconds")
+          .toDate()
       );
       dates.loaded.start = new Date(
-        moment(dates.loaded.start).startOf("month").subtract(1, "milliseconds")
+        moment(dates.loaded.start)
+          .startOf("month")
+          .subtract(1, "milliseconds")
+          .toDate()
       );
       timeSlots(dates.toload.start, dates.toload.end);
     }
@@ -440,7 +460,7 @@ const ScheduleStaff = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading ? (
         <div>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

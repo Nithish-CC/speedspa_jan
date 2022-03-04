@@ -59,12 +59,12 @@ const Product = (props: any) => {
     metaTagDescription: "",
     metaTagKeywords: "",
     metaTagTitle: "",
-    minQuantity: 1,
+    minQuantity: 0,
     opinion: "",
     model: "",
     name: "",
     price: 0.2,
-    quantity: 0,
+    quantity: 1,
     sortOrder: 0,
     taxClass: "",
     excludeInvCalc: false,
@@ -552,7 +552,7 @@ const Product = (props: any) => {
                                                 }
                                               />
                                             </Col>
-                                          </FormGroup>                                          
+                                          </FormGroup>
                                           <FormGroup>
                                             <FormLabel className="col-sm-4 control-label">
                                               Categories (at least 1):
@@ -677,7 +677,10 @@ const Product = (props: any) => {
                                               Should we EXCLUDE this product
                                               from the inventory dollar count?
                                             </FormLabel>
-                                            <Col sm="8">
+                                            <Col
+                                              sm="8"
+                                              style={{ padding: "7px 15px" }}
+                                            >
                                               <input
                                                 type="checkbox"
                                                 name="excludeInvCalc"
@@ -692,68 +695,60 @@ const Product = (props: any) => {
                                       </Row>
                                     </div>
                                   </div>
-                                  <div
-                                    className="ibox float-e-margins"
-                                    key="vm.activeTab == 1 || vm.activeTab == 2 || vm.activeTab == 3"
-                                  >
-                                    <div className="ibox-content">
-                                      <div className="row">
-                                        <div className="col-md-8">
-                                          <div className="form-group">
-                                            <div className="col-sm-9 col-sm-offset-3">
-                                              <Button
-                                                variant="white"
-                                                type="button"
-                                                onClick={() =>
-                                                  props.history.push(
-                                                    "/products"
-                                                  )
-                                                }
-                                              >
-                                                Cancel
-                                              </Button>
-                                              &nbsp;
-                                              <button
-                                                className="btn btn-primary"
-                                                type="submit"
-                                                disabled={
-                                                  !(
-                                                    values.name &&
-                                                    values.name.length &&
-                                                    checkData &&
-                                                    checkData.length &&
-                                                    values.caption &&
-                                                    values.caption.length &&
-                                                    values.price >= 0.2 &&
-                                                    values.description &&
-                                                    values.description.length
-                                                  )
-                                                }
-                                              >
-                                                Save Changes
-                                                {UI.buttonLoading && (
-                                                  <i className="fa fa-spinner fa-spin"></i>
-                                                )}
-                                              </button>
-                                              <ToastContainer
-                                                position="bottom-right"
-                                                autoClose={5000}
-                                                hideProgressBar={true}
-                                                newestOnTop={true}
-                                                closeOnClick
-                                                rtl={false}
-                                                toastStyle={{
-                                                  backgroundColor: "#ED5565",
-                                                  color: "#fff",
-                                                  fontSize: "13px",
-                                                }}
-                                                closeButton={false}
-                                                pauseOnFocusLoss
-                                                draggable
-                                                pauseOnHover
-                                              />
-                                            </div>
-                                          </div>
+                                  <div className="hr-line-dashed"></div>
+                                  <div className="row">
+                                    <div className="col-md-8">
+                                      <div className="form-group">
+                                        <div className="col-sm-9 col-sm-offset-4">
+                                          <Button
+                                            variant="white"
+                                            type="button"
+                                            onClick={() =>
+                                              props.history.push("/products")
+                                            }
+                                          >
+                                            Cancel
+                                          </Button>
+                                          &nbsp;
+                                          <button
+                                            className="btn btn-primary"
+                                            type="submit"
+                                            disabled={
+                                              !(
+                                                values.name &&
+                                                values.name.length &&
+                                                checkData &&
+                                                checkData.length &&
+                                                values.caption &&
+                                                values.caption.length &&
+                                                values.price >= 0.2 &&
+                                                values.description &&
+                                                values.description.length
+                                              )
+                                            }
+                                          >
+                                            Save Changes
+                                            {UI.buttonLoading && (
+                                              <i className="fa fa-spinner fa-spin"></i>
+                                            )}
+                                          </button>
+                                          <ToastContainer
+                                            position="bottom-right"
+                                            autoClose={5000}
+                                            hideProgressBar={true}
+                                            newestOnTop={true}
+                                            closeOnClick
+                                            rtl={false}
+                                            toastStyle={{
+                                              backgroundColor: "#ED5565",
+                                              color: "#fff",
+                                              fontSize: "13px",
+                                            }}
+                                            closeButton={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                          />
                                         </div>
                                       </div>
                                     </div>
@@ -773,189 +768,184 @@ const Product = (props: any) => {
                                   autoComplete="off"
                                   onSubmit={handleSubmit}
                                 >
-                                  <div className="ibox float-e-margins m-b-none">
-                                    <div className="ibox-content no-border">
-                                      <div className="m-t-md">
+                                  {UI.errors && UI.errors.message && (
+                                    <div className="ibox float-e-margins m-b-none">
+                                      <div className="ibox-content no-border">
                                         <Row>
                                           <Col md="8">
-                                            {UI.errors && UI.errors.message && (
-                                              <div className="text-danger m-t-md m-b-md">
-                                                Can not save your data.{" "}
-                                                {UI.errors.message}
-                                              </div>
-                                            )}
-                                          </Col>
-                                        </Row>
-                                        <Row>
-                                          <Col md="8">
-                                            {view && (
-                                              <FormGroup>
-                                                <FormLabel className="col-sm-4 control-label">
-                                                  ID
-                                                </FormLabel>
-                                                <Col sm="8">
-                                                  <FormControl
-                                                    type="text"
-                                                    name="id"
-                                                    value={values.id}
-                                                    disabled
-                                                  />
-                                                </Col>
-                                              </FormGroup>
-                                            )}
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Model
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <FormControl
-                                                  type="text"
-                                                  name="model"
-                                                  value={values.model}
-                                                  onChange={handleChange}
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Location
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <FormControl
-                                                  type="text"
-                                                  name="location"
-                                                  value={values.location}
-                                                  onChange={handleChange}
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Tax Class
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <FormControl
-                                                  type="text"
-                                                  name="taxClass"
-                                                  value={values.taxClass}
-                                                  onChange={handleChange}
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Quantity
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <FormControl
-                                                  type="number"
-                                                  name="quantity"
-                                                  value={values.quantity}
-                                                  onChange={handleChange}
-                                                  placeholder="quantity"
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Minimum Quantity
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <FormControl
-                                                  type="number"
-                                                  name="minQuantity"
-                                                  value={values.minQuantity}
-                                                  onChange={handleChange}
-                                                  placeholder="minQuantity"
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Sort Order
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <FormControl
-                                                  type="number"
-                                                  name="sortOrder"
-                                                  value={values.sortOrder}
-                                                  onChange={handleChange}
-                                                  placeholder="sortOrder"
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
-                                            <FormGroup>
-                                              <FormLabel className="col-sm-4 control-label">
-                                                Status (active if checked)
-                                              </FormLabel>
-                                              <Col sm="8">
-                                                <input
-                                                  type="checkbox"
-                                                  name="active"
-                                                  checked={active}
-                                                  onChange={() =>
-                                                    setActive(!active)
-                                                  }
-                                                  onBlur={handleBlur}
-                                                />
-                                              </Col>
-                                            </FormGroup>
+                                            <div className="text-danger m-t-md m-b-md">
+                                              Can not save your data.{" "}
+                                              {UI.errors.message}
+                                            </div>
                                           </Col>
                                         </Row>
                                       </div>
                                     </div>
+                                  )}
+                                  <div className="m-t-md ng-scope">
+                                    <Row>
+                                      <Col md="8">
+                                        {view && (
+                                          <FormGroup>
+                                            <FormLabel className="col-sm-4 control-label">
+                                              ID
+                                            </FormLabel>
+                                            <Col sm="8">
+                                              <FormControl
+                                                type="text"
+                                                name="id"
+                                                value={values.id}
+                                                disabled
+                                              />
+                                            </Col>
+                                          </FormGroup>
+                                        )}
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Model
+                                          </FormLabel>
+                                          <Col sm="8">
+                                            <FormControl
+                                              type="text"
+                                              name="model"
+                                              value={values.model}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Location
+                                          </FormLabel>
+                                          <Col sm="8">
+                                            <FormControl
+                                              type="text"
+                                              name="location"
+                                              value={values.location}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Tax Class
+                                          </FormLabel>
+                                          <Col sm="8">
+                                            <FormControl
+                                              type="text"
+                                              name="taxClass"
+                                              value={values.taxClass}
+                                              onChange={handleChange}
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Quantity
+                                          </FormLabel>
+                                          <Col sm="8">
+                                            <FormControl
+                                              type="number"
+                                              name="quantity"
+                                              value={values.quantity}
+                                              onChange={handleChange}
+                                              placeholder="quantity"
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Minimum Quantity
+                                          </FormLabel>
+                                          <Col sm="8">
+                                            <FormControl
+                                              type="number"
+                                              name="minQuantity"
+                                              value={values.minQuantity}
+                                              onChange={handleChange}
+                                              placeholder="minQuantity"
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Sort Order
+                                          </FormLabel>
+                                          <Col sm="8">
+                                            <FormControl
+                                              type="number"
+                                              name="sortOrder"
+                                              value={values.sortOrder}
+                                              onChange={handleChange}
+                                              placeholder="sortOrder"
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                        <FormGroup>
+                                          <FormLabel className="col-sm-4 control-label">
+                                            Status (active if checked)
+                                          </FormLabel>
+                                          <Col
+                                            sm="8"
+                                            style={{ padding: "7px 15px" }}
+                                          >
+                                            <input
+                                              type="checkbox"
+                                              name="active"
+                                              checked={active}
+                                              onChange={() =>
+                                                setActive(!active)
+                                              }
+                                              onBlur={handleBlur}
+                                            />
+                                          </Col>
+                                        </FormGroup>
+                                      </Col>
+                                    </Row>
                                   </div>
-                                  <div
-                                    className="ibox float-e-margins"
-                                    key="vm.activeTab == 1 || vm.activeTab == 2 || vm.activeTab == 3"
-                                  >
-                                    <div className="ibox-content">
-                                      <div className="row">
-                                        <div className="col-md-8">
-                                          <div className="form-group">
-                                            <div className="col-sm-9 col-sm-offset-3">
-                                              <Button
-                                                variant="white"
-                                                type="button"
-                                                onClick={() =>
-                                                  props.history.push(
-                                                    "/products"
-                                                  )
-                                                }
-                                              >
-                                                Cancel
-                                              </Button>
-                                              &nbsp;
-                                              <button
-                                                className="btn btn-primary"
-                                                type="submit"
-                                                disabled={
-                                                  !(
-                                                    values.name &&
-                                                    values.name.length &&
-                                                    checkData &&
-                                                    checkData.length &&
-                                                    values.caption &&
-                                                    values.caption.length &&
-                                                    values.price >= 0.2 &&
-                                                    values.description &&
-                                                    values.description.length
-                                                  )
-                                                }
-                                              >
-                                                Save Changes
-                                                {UI.buttonLoading && (
-                                                  <i className="fa fa-spinner fa-spin"></i>
-                                                )}
-                                              </button>
-                                            </div>
-                                          </div>
+                                  <div className="hr-line-dashed"></div>
+                                  <div className="row">
+                                    <div className="col-md-8">
+                                      <div className="form-group">
+                                        <div className="col-sm-9 col-sm-offset-4">
+                                          <Button
+                                            variant="white"
+                                            type="button"
+                                            onClick={() =>
+                                              props.history.push("/products")
+                                            }
+                                          >
+                                            Cancel
+                                          </Button>
+                                          &nbsp;
+                                          <button
+                                            className="btn btn-primary"
+                                            type="submit"
+                                            disabled={
+                                              !(
+                                                values.name &&
+                                                values.name.length &&
+                                                checkData &&
+                                                checkData.length &&
+                                                values.caption &&
+                                                values.caption.length &&
+                                                values.price >= 0.2 &&
+                                                values.description &&
+                                                values.description.length
+                                              )
+                                            }
+                                          >
+                                            Save Changes
+                                            {UI.buttonLoading && (
+                                              <i className="fa fa-spinner fa-spin"></i>
+                                            )}
+                                          </button>
                                         </div>
                                       </div>
                                     </div>
@@ -975,265 +965,239 @@ const Product = (props: any) => {
                                   autoComplete="off"
                                   onSubmit={handleSubmit}
                                 >
-                                  <div className="ibox float-e-margins m-b-none">
-                                    <div className="ibox-content no-border">
-                                      <div className="m-t-md">
-                                        <Row>
-                                          <Col sm="12">
-                                            <div className="row">
-                                              <div className="col-md-6">
-                                                <table className="table table-striped table-bordered table-hover dataTables-example">
-                                                  <thead>
-                                                    <tr>
-                                                      <th
-                                                        style={{
-                                                          textAlign: "center",
-                                                        }}
-                                                      >
-                                                        Image preview
-                                                      </th>
-                                                      <th
-                                                        style={{
-                                                          display: "none",
-                                                        }}
-                                                      >
-                                                        Image url
-                                                      </th>
-                                                      <th
-                                                        style={{
-                                                          textAlign: "center",
-                                                        }}
-                                                      >
-                                                        Sort order
-                                                      </th>
-                                                      <th
-                                                        style={{
-                                                          textAlign: "center",
-                                                        }}
-                                                      >
-                                                        Actions
-                                                      </th>
-                                                    </tr>
-                                                  </thead>
-                                                  <tbody>
-                                                    {imageSortUrl &&
-                                                    imageSortUrl.length ? (
-                                                      imageSortUrl.map(
-                                                        (
-                                                          url: any,
-                                                          key: any
-                                                        ) => {
-                                                          return (
-                                                            <tr>
-                                                              <td
-                                                                style={{
-                                                                  textAlign:
-                                                                    "center",
-                                                                }}
-                                                              >
-                                                                <img
-                                                                  id={`image_${key}`}
-                                                                  border="0"
-                                                                  align=""
-                                                                  width="200"
-                                                                  height="200"
-                                                                  style={{
-                                                                    width:
-                                                                      "100px",
-                                                                    height:
-                                                                      "auto",
-                                                                  }}
-                                                                  src={
-                                                                    url.image
-                                                                  }
-                                                                />
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  display:
-                                                                    "none",
-                                                                }}
-                                                              >
-                                                                <input
-                                                                  type="text"
-                                                                  className="form-control"
-                                                                  disabled
-                                                                />
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "100px",
-                                                                  textAlign:
-                                                                    "center",
-                                                                }}
-                                                              >
-                                                                <input
-                                                                  type="number"
-                                                                  className="form-control"
-                                                                  name={`image_${key}`}
-                                                                  value={
-                                                                    url.index
-                                                                  }
-                                                                  onChange={(
-                                                                    e: any
-                                                                  ) =>
-                                                                    imgSortView(
-                                                                      e,
-                                                                      key
-                                                                    )
-                                                                  }
-                                                                />
-                                                              </td>
-                                                              <td
-                                                                style={{
-                                                                  width:
-                                                                    "100px",
-                                                                  textAlign:
-                                                                    "center",
-                                                                }}
-                                                              >
-                                                                <button
-                                                                  className="btn btn-white"
-                                                                  type="button"
-                                                                  onClick={(
-                                                                    e
-                                                                  ) =>
-                                                                    handleRemoveImage(
-                                                                      key
-                                                                    )
-                                                                  }
-                                                                >
-                                                                  <i className="fa fa-trash" />
-                                                                </button>
-                                                              </td>
-                                                            </tr>
-                                                          );
-                                                        }
-                                                      )
-                                                    ) : (
-                                                      <React.Fragment></React.Fragment>
-                                                    )}
-                                                  </tbody>
-                                                </table>
-
-                                                {imageButtonHandle ==
-                                                  "image upload" && (
-                                                  <div className="form-group">
-                                                    <div className="col-sm-6">
-                                                      <input
-                                                        type="file"
-                                                        className="form-control"
-                                                        id="fileToUpload"
-                                                        onChange={(event) => {
-                                                          //setImageToUpload(event.target.files);
-                                                          imageToUploadUrl =
-                                                            event.target.files;
-                                                        }}
-                                                      />
-                                                    </div>
-                                                    <div className="col-sm-6 text-right">
-                                                      <button
-                                                        className="btn btn-white"
-                                                        type="button"
-                                                        onClick={(event) =>
-                                                          uploadFileImage(
-                                                            imageToUploadUrl
-                                                          )
-                                                        }
-                                                      >
-                                                        Upload image
-                                                        {UI.buttonLoading && (
-                                                          <React.Fragment>
-                                                            <i className="fa fa-spinner fa-spin"></i>
-                                                          </React.Fragment>
-                                                        )}
-                                                        {!UI.buttonLoading &&
-                                                          stopLoading ==
-                                                            "no loading" &&
-                                                          setImageButtonHandle(
-                                                            "Click Add"
-                                                          )}
-                                                      </button>
-                                                      &nbsp;
-                                                      <button
-                                                        className="btn btn-white"
-                                                        type="button"
-                                                        onClick={(e: any) => {
-                                                          setImageButtonHandle(
-                                                            "Click Add"
-                                                          );
-                                                        }}
-                                                      >
-                                                        Cancel
-                                                      </button>
-                                                    </div>
-                                                  </div>
-                                                )}
-                                                {imageButtonHandle ==
-                                                  "Click Add" && (
-                                                  <div className="form-group">
-                                                    <div className="col-sm-12 text-right">
-                                                      <button
-                                                        className="btn btn-white"
-                                                        type="button"
-                                                        onClick={() => {
-                                                          setImageButtonHandle(
-                                                            "image upload"
-                                                          );
-                                                          setStopLoading(
-                                                            "loading"
-                                                          );
-                                                        }}
-                                                      >
-                                                        Add image
-                                                      </button>
-                                                    </div>
-                                                  </div>
-                                                )}
-                                              </div>
-                                            </div>
-                                          </Col>
-                                        </Row>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="ibox float-e-margins"
-                                    key="vm.activeTab == 1 || vm.activeTab == 2 || vm.activeTab == 3"
-                                  >
-                                    <div className="ibox-content">
-                                      <div className="row">
-                                        <div className="col-md-8">
-                                          <div className="form-group">
-                                            <div className="col-sm-9 col-sm-offset-3">
-                                              <button
-                                                className="btn btn-primary"
-                                                type="submit"
-                                                onClick={(e) => {
-                                                  Sortable(imageSortUrl);
-                                                  setButtonSubmit("submit");
-                                                }}
-                                                disabled={
-                                                  !(
-                                                    values.name &&
-                                                    values.name.length &&
-                                                    values.caption &&
-                                                    values.caption.length &&
-                                                    values.price >= 0.2 &&
-                                                    values.description &&
-                                                    values.description.length
+                                  <div className="m-t-md">
+                                    <Row>
+                                      <Col sm="12">
+                                        <div className="row">
+                                          <div className="col-md-6">
+                                            <table className="table table-striped table-bordered table-hover dataTables-example">
+                                              <thead>
+                                                <tr>
+                                                  <th
+                                                    style={{
+                                                      textAlign: "center",
+                                                    }}
+                                                  >
+                                                    Image preview
+                                                  </th>
+                                                  <th
+                                                    style={{
+                                                      display: "none",
+                                                    }}
+                                                  >
+                                                    Image url
+                                                  </th>
+                                                  <th
+                                                    style={{
+                                                      textAlign: "center",
+                                                    }}
+                                                  >
+                                                    Sort order
+                                                  </th>
+                                                  <th
+                                                    style={{
+                                                      textAlign: "center",
+                                                    }}
+                                                  >
+                                                    Actions
+                                                  </th>
+                                                </tr>
+                                              </thead>
+                                              <tbody>
+                                                {imageSortUrl &&
+                                                imageSortUrl.length ? (
+                                                  imageSortUrl.map(
+                                                    (url: any, key: any) => {
+                                                      return (
+                                                        <tr>
+                                                          <td
+                                                            style={{
+                                                              textAlign:
+                                                                "center",
+                                                            }}
+                                                          >
+                                                            <img
+                                                              id={`image_${key}`}
+                                                              border="0"
+                                                              align=""
+                                                              width="200"
+                                                              height="200"
+                                                              style={{
+                                                                width: "100px",
+                                                                height: "auto",
+                                                              }}
+                                                              src={url.image}
+                                                            />
+                                                          </td>
+                                                          <td
+                                                            style={{
+                                                              display: "none",
+                                                            }}
+                                                          >
+                                                            <input
+                                                              type="text"
+                                                              className="form-control"
+                                                              disabled
+                                                            />
+                                                          </td>
+                                                          <td
+                                                            style={{
+                                                              width: "100px",
+                                                              textAlign:
+                                                                "center",
+                                                            }}
+                                                          >
+                                                            <input
+                                                              type="number"
+                                                              className="form-control"
+                                                              name={`image_${key}`}
+                                                              value={url.index}
+                                                              onChange={(
+                                                                e: any
+                                                              ) =>
+                                                                imgSortView(
+                                                                  e,
+                                                                  key
+                                                                )
+                                                              }
+                                                            />
+                                                          </td>
+                                                          <td
+                                                            style={{
+                                                              width: "100px",
+                                                              textAlign:
+                                                                "center",
+                                                            }}
+                                                          >
+                                                            <button
+                                                              className="btn btn-white"
+                                                              type="button"
+                                                              onClick={(e) =>
+                                                                handleRemoveImage(
+                                                                  key
+                                                                )
+                                                              }
+                                                            >
+                                                              <i className="fa fa-trash" />
+                                                            </button>
+                                                          </td>
+                                                        </tr>
+                                                      );
+                                                    }
                                                   )
-                                                }
-                                              >
-                                                Save Changes
-                                                {UI.buttonLoading &&
-                                                  buttonSubmit == "submit" && (
-                                                    <i className="fa fa-spinner fa-spin"></i>
-                                                  )}
-                                              </button>
-                                            </div>
+                                                ) : (
+                                                  <React.Fragment></React.Fragment>
+                                                )}
+                                              </tbody>
+                                            </table>
+
+                                            {imageButtonHandle ==
+                                              "image upload" && (
+                                              <div className="form-group">
+                                                <div className="col-sm-6">
+                                                  <input
+                                                    type="file"
+                                                    className="form-control"
+                                                    id="fileToUpload"
+                                                    onChange={(event) => {
+                                                      //setImageToUpload(event.target.files);
+                                                      imageToUploadUrl =
+                                                        event.target.files;
+                                                    }}
+                                                  />
+                                                </div>
+                                                <div className="col-sm-6 text-right">
+                                                  <button
+                                                    className="btn btn-white"
+                                                    type="button"
+                                                    onClick={(event) =>
+                                                      uploadFileImage(
+                                                        imageToUploadUrl
+                                                      )
+                                                    }
+                                                  >
+                                                    Upload image
+                                                    {UI.buttonLoading && (
+                                                      <React.Fragment>
+                                                        <i className="fa fa-spinner fa-spin"></i>
+                                                      </React.Fragment>
+                                                    )}
+                                                    {!UI.buttonLoading &&
+                                                      stopLoading ==
+                                                        "no loading" &&
+                                                      setImageButtonHandle(
+                                                        "Click Add"
+                                                      )}
+                                                  </button>
+                                                  &nbsp;
+                                                  <button
+                                                    className="btn btn-white"
+                                                    type="button"
+                                                    onClick={(e: any) => {
+                                                      setImageButtonHandle(
+                                                        "Click Add"
+                                                      );
+                                                    }}
+                                                  >
+                                                    Cancel
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            )}
+                                            {imageButtonHandle ==
+                                              "Click Add" && (
+                                              <div className="form-group">
+                                                <div className="col-sm-12 text-right">
+                                                  <button
+                                                    className="btn btn-white"
+                                                    type="button"
+                                                    onClick={() => {
+                                                      setImageButtonHandle(
+                                                        "image upload"
+                                                      );
+                                                      setStopLoading("loading");
+                                                    }}
+                                                  >
+                                                    Add image
+                                                  </button>
+                                                </div>
+                                              </div>
+                                            )}
                                           </div>
+                                        </div>
+                                      </Col>
+                                    </Row>
+                                  </div>
+                                  <div className="hr-line-dashed"></div>
+                                  <div className="row">
+                                    <div className="col-md-8">
+                                      <div className="form-group">
+                                        <div className="col-sm-9 col-sm-offset-4">
+                                          <button
+                                            className="btn btn-primary"
+                                            type="submit"
+                                            onClick={(e) => {
+                                              Sortable(imageSortUrl);
+                                              setButtonSubmit("submit");
+                                            }}
+                                            disabled={
+                                              !(
+                                                values.name &&
+                                                values.name.length &&
+                                                values.caption &&
+                                                values.caption.length &&
+                                                values.price >= 0.2 &&
+                                                values.description &&
+                                                values.description.length
+                                              )
+                                            }
+                                          >
+                                            Save Changes
+                                            {UI.buttonLoading &&
+                                              buttonSubmit == "submit" && (
+                                                <i className="fa fa-spinner fa-spin"></i>
+                                              )}
+                                          </button>
                                         </div>
                                       </div>
                                     </div>

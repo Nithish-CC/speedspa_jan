@@ -15,6 +15,9 @@ import DateFnsUtils from "@date-io/date-fns";
 const StaffBokkingAnalysis = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Staff Booking Analysis");
+  const Title = {
+    title: title,
+  };
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("totalCount");
   const [params, setParams] = useState({
@@ -313,7 +316,7 @@ const StaffBokkingAnalysis = (props: any) => {
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <ModalWithGrid modalPopup={modalPopup} closeModal={closeModal} />
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

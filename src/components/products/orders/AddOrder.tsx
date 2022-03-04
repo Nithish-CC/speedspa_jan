@@ -120,6 +120,10 @@ const ProductOrder = (props: any) => {
 
   const myForm = document.getElementById("order");
 
+  const Title = {
+    title: title,
+  };
+
   const onChangeHandler = () => {
     if (myForm) {
       myForm.addEventListener("change", () => setFormChanged(true));
@@ -625,7 +629,7 @@ const ProductOrder = (props: any) => {
       />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           {UI.errors && (
             <div className="row">
               <div className="col-sm-12">
@@ -1289,7 +1293,7 @@ const ProductOrder = (props: any) => {
                                       </FormGroup>
                                       <FormGroup>
                                         <FormLabel className="col-sm-3 control-label">
-                                          Date & Time
+                                          Date{"&"}Time
                                         </FormLabel>
                                         <Col sm="9">
                                           <input

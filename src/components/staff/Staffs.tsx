@@ -54,6 +54,10 @@ const Staffs = (props: any) => {
     role: "all",
   });
   const [initialParams] = useState({ ...params });
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
 
   //From Reducer
   const UI = useSelector((state: any) => state.UI);
@@ -218,7 +222,7 @@ const Staffs = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -372,7 +376,7 @@ const Staffs = (props: any) => {
                                     <td>
                                       {staff.firstName} {staff.lastName}
                                     </td>
-                                    <td>{staff.email || "-"}</td>                                    
+                                    <td>{staff.email || "-"}</td>
                                     <td>{getRole(staff, index)}</td>
                                     <td className="text-center">
                                       {moment(staff.createdAt).format(

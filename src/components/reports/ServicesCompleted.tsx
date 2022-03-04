@@ -14,6 +14,9 @@ import DateFnsUtils from "@date-io/date-fns";
 const ServicesCompleted = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Services Completed");
+  const Title = {
+    title: title,
+  };
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("serviceAmountCompleted");
   const [params, setParams] = useState({
@@ -79,7 +82,7 @@ const ServicesCompleted = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

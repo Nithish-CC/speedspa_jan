@@ -24,6 +24,9 @@ import GppMaybeRoundedIcon from "@mui/icons-material/GppMaybeRounded";
 
 const Addcategories = (props: any) => {
   const [title, setTitle] = useState("New Category");
+  const Title = {
+    title: title,
+  };
   const history = useHistory();
   const [productCatergory, setproductCatergory] = useState({
     name: "",
@@ -136,7 +139,7 @@ const Addcategories = (props: any) => {
       />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

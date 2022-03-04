@@ -84,11 +84,9 @@ const NewClientsRebooking = (props: any) => {
           return report.length !== 0;
         });
         filters.sort((a: any, b: any) =>
-          a[0].client.firstName + a[0].client.lastName >
-          b[0].client.firstName + b[0].client.lastName
-            ? 1
-            : -1
+          a[0].client.createdAt < b[0].client.createdAt ? 1 : -1
         );
+
         setReporting(filters);
       }
     });

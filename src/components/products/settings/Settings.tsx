@@ -21,6 +21,9 @@ import DoneIcon from "@mui/icons-material/Done";
 
 const Settings = (props: any) => {
   const [title] = useState("Product Settings");
+  const Title = {
+    title: title,
+  };
   const [errors, setErrors] = useState({} as Error);
   const [values, setValues] = useState({
     isPrimary: true,
@@ -77,7 +80,7 @@ const Settings = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

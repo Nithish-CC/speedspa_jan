@@ -18,18 +18,22 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 
 const ProductOrders = (props: any) => {
-  const [errors, setErrors] = useState({} as Error);  
+  const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Product Orders");
   const [orderBy, setOrderBy] = useState(true);
   const [field, setField] = useState("createdAt");
   const [activePage, setActivePage] = useState(1);
-  const [perPage] = useState(10);
+  const [perPage] = useState(10);  
   const [buttons] = useState([
     {
       title: "Add Order",
       url: "/products/orders/add-new",
     },
   ]);
+  const Title={
+    title:title,
+    buttons:buttons
+  }
   const [modalPopup, setModalPopup] = useState({
     deleteModal: false,
     id: "",
@@ -283,7 +287,7 @@ const ProductOrders = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

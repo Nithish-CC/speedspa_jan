@@ -9,6 +9,16 @@ import XLSX from 'xlsx'
 
 const Upload = (props: any) => {
 	const [title] = useState('Upload Clients')
+	const [buttons] = useState([
+		{
+			title: 'Download Sample',
+			callback: downloadSampleExcel
+		}
+	])
+	const Title={
+		title:title,
+		buttons:buttons
+	}
 	const history = useHistory()
 	const [uploadClients, setUploadClients] = useState({})
 	
@@ -46,12 +56,7 @@ const Upload = (props: any) => {
 		DownloadFile()
 	}
 
-	const [buttons] = useState([
-		{
-			title: 'Download Sample',
-			callback: downloadSampleExcel
-		}
-	])
+	
 
 	const UI = useSelector((state: any) => state.UI)
 	const user = useSelector((state: any) => state.user)
@@ -116,7 +121,7 @@ const Upload = (props: any) => {
 		<React.Fragment>
 			{user.authenticated && !UI.loading && (
 				<React.Fragment>
-					<PageHeader title={title} buttons={buttons} />
+					<PageHeader {...Title} />
 					<div className='row'>
 						<div className='col-lg-12'>
 							<div className='wrapper wrapper-content animated fadeInRight'>

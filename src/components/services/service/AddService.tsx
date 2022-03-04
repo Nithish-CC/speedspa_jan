@@ -66,6 +66,10 @@ const Service = (props: any) => {
     prices: 0,
   });
 
+  const Title = {
+    title: title,
+  };
+
   const [initialModalPopup] = useState({ ...modalPopup });
   const [submitButton, setSubmitButton] = useState("sub");
   const [staffData, setStaffData] = useState<any[]>([]);
@@ -629,7 +633,7 @@ const Service = (props: any) => {
       />
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
@@ -700,16 +704,16 @@ const Service = (props: any) => {
                               <div className="ibox float-e-margins m-b-none">
                                 <div className="ibox-content no-border">
                                   <div className="m-t-md">
-                                    <Row>
-                                      <Col md="8">
-                                        {UI.errors && UI.errors.message && (
+                                    {UI.errors && UI.errors.message && (
+                                      <Row>
+                                        <Col md="8">
                                           <div className="text-danger m-t-md m-b-md">
                                             Can not save your data.{" "}
                                             {UI.errors.message}
                                           </div>
-                                        )}
-                                      </Col>
-                                    </Row>
+                                        </Col>
+                                      </Row>
+                                    )}
                                     <Row>
                                       <Col md="8">
                                         <FormGroup>
@@ -717,7 +721,7 @@ const Service = (props: any) => {
                                             Name{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <p>
                                                   How do you want the service to
@@ -761,7 +765,7 @@ const Service = (props: any) => {
                                             Active Time{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <div>
                                                   <p>
@@ -809,7 +813,7 @@ const Service = (props: any) => {
                                             Processing Time{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <div>
                                                   <p>
@@ -860,7 +864,7 @@ const Service = (props: any) => {
                                             Active Time{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <div>
                                                   <p>
@@ -929,7 +933,7 @@ const Service = (props: any) => {
                                             Display Price{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <div>
                                                   <p>
@@ -959,7 +963,7 @@ const Service = (props: any) => {
                                             Priority (1 is the highest){" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <p>
                                                   If this service is a stand
@@ -1007,7 +1011,7 @@ const Service = (props: any) => {
                                             Sort order (min 0){" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <p>
                                                   This is the order you would
@@ -1038,7 +1042,7 @@ const Service = (props: any) => {
                                             Top level service{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <p>
                                                   Check “Top level service” if
@@ -1070,7 +1074,7 @@ const Service = (props: any) => {
                                           <FormLabel className="col-sm-3 control-label">
                                             AddOns are required{" "}
                                             <Tippy
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               theme="success"
                                               content={
                                                 <p>
@@ -1108,7 +1112,7 @@ const Service = (props: any) => {
                                             Description{" "}
                                             <Tippy
                                               theme="success"
-                                              maxWidth="225px"
+                                              maxWidth="210px"
                                               content={
                                                 <p>
                                                   Whatever you write shows up in
@@ -1128,7 +1132,7 @@ const Service = (props: any) => {
                                               value={values.description}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
-                                              style={{ height: "112px" }}
+                                              style={{ height: "134px" }}
                                             />
                                           </Col>
                                         </FormGroup>
@@ -1187,7 +1191,7 @@ const Service = (props: any) => {
                                           <FormLabel className="col-sm-2 control-label">
                                             Linked Services{" "}
                                             <Tippy
-                                              maxWidth="225px"
+                                              maxWidth="215px"
                                               theme="success"
                                               content={
                                                 <p>
@@ -1312,7 +1316,6 @@ const Service = (props: any) => {
                                                               />
                                                             </button>
                                                           )}
-                                                          &nbsp;
                                                           <button
                                                             className="btn btn-sm btn-primary"
                                                             type="button"
@@ -1329,129 +1332,124 @@ const Service = (props: any) => {
                                                           </button>
                                                         </Col>
                                                       </Row>
-                                                    </div>
-                                                    {/*Start of Second Plus Sign Addon*/}
-                                                    {value.type ===
-                                                      "addOns" && (
-                                                      <div className="row m-t-sm">
-                                                        {value.addonServiceIds.map(
-                                                          (
-                                                            addonsVal: any,
-                                                            addOnIndex: any
-                                                          ) => {
-                                                            return (
-                                                              <React.Fragment>
-                                                                <label className="col-sm-4 col-xs-3 col-xs-push-1 control-label">
-                                                                  <span>
-                                                                    Add On:
-                                                                  </span>
-                                                                </label>
-                                                                <div
-                                                                  className="col-sm-5 col-xs-5 col-xs-push-1"
-                                                                  style={{
-                                                                    paddingBottom:
-                                                                      "7px",
-                                                                  }}
-                                                                >
-                                                                  <FormControl
-                                                                    as="select"
-                                                                    name="servicesIds"
-                                                                    value={
-                                                                      addonsVal.id
-                                                                    }
-                                                                    onChange={(
-                                                                      e: any
-                                                                    ) => {
-                                                                      var event =
-                                                                        {
-                                                                          target:
-                                                                            {
-                                                                              name: "servicesIds",
-                                                                              value:
-                                                                                e,
-                                                                            },
-                                                                        };
-                                                                      handleAddOnChange(
-                                                                        e,
-                                                                        parentIndex,
-                                                                        addOnIndex
-                                                                      );
-                                                                    }}
-                                                                    onBlur={
-                                                                      handleBlur
-                                                                    }
-                                                                  >
-                                                                    <option value="">
-                                                                      -- Select
-                                                                      Service --
-                                                                    </option>
-                                                                    {allServices &&
-                                                                      allServices.length &&
-                                                                      allServices.map(
-                                                                        (
-                                                                          services: any,
-                                                                          index: any
-                                                                        ) => {
-                                                                          return (
-                                                                            <option
-                                                                              value={
-                                                                                services.id
-                                                                              }
-                                                                              key={
-                                                                                index
-                                                                              }
-                                                                            >
+                                                      {/*Start of Second Plus Sign Addon*/}
+                                                      {value.type ===
+                                                        "addOns" && (
+                                                        <div className="row m-t-sm">
+                                                          {value.addonServiceIds.map(
+                                                            (
+                                                              addonsVal: any,
+                                                              addOnIndex: any
+                                                            ) => {
+                                                              return (
+                                                                <React.Fragment>
+                                                                  <label className="col-sm-4 col-xs-3 col-xs-push-1 control-label">
+                                                                    <span>
+                                                                      Add On:
+                                                                    </span>
+                                                                  </label>
+                                                                  <div className="col-sm-5 col-xs-5 col-xs-push-1">
+                                                                    <FormControl
+                                                                      as="select"
+                                                                      name="servicesIds"
+                                                                      value={
+                                                                        addonsVal.id
+                                                                      }
+                                                                      onChange={(
+                                                                        e: any
+                                                                      ) => {
+                                                                        var event =
+                                                                          {
+                                                                            target:
                                                                               {
-                                                                                services.name
-                                                                              }
-                                                                            </option>
-                                                                          );
+                                                                                name: "servicesIds",
+                                                                                value:
+                                                                                  e,
+                                                                              },
+                                                                          };
+                                                                        handleAddOnChange(
+                                                                          e,
+                                                                          parentIndex,
+                                                                          addOnIndex
+                                                                        );
+                                                                      }}
+                                                                      onBlur={
+                                                                        handleBlur
+                                                                      }
+                                                                    >
+                                                                      <option value="">
+                                                                        --
+                                                                        Select
+                                                                        Service
+                                                                        --
+                                                                      </option>
+                                                                      {allServices &&
+                                                                        allServices.length &&
+                                                                        allServices.map(
+                                                                          (
+                                                                            services: any,
+                                                                            index: any
+                                                                          ) => {
+                                                                            return (
+                                                                              <option
+                                                                                value={
+                                                                                  services.id
+                                                                                }
+                                                                                key={
+                                                                                  index
+                                                                                }
+                                                                              >
+                                                                                {
+                                                                                  services.name
+                                                                                }
+                                                                              </option>
+                                                                            );
+                                                                          }
+                                                                        )}
+                                                                    </FormControl>
+                                                                  </div>
+                                                                  <div className="col-sm-2 col-xs-3 col-xs-push-1">
+                                                                    {addOnIndex !==
+                                                                      0 && (
+                                                                      <button
+                                                                        className="btn btn-xs btn-danger"
+                                                                        type="button"
+                                                                        onClick={() =>
+                                                                          removeAddOnService(
+                                                                            parentIndex,
+                                                                            addOnIndex
+                                                                          )
                                                                         }
-                                                                      )}
-                                                                  </FormControl>
-                                                                </div>
-                                                                <div className="col-sm-2 col-xs-3 col-xs-push-1">
-                                                                  {addOnIndex !==
-                                                                    0 && (
+                                                                      >
+                                                                        <i
+                                                                          className="fa fa-minus"
+                                                                          aria-hidden="true"
+                                                                        />
+                                                                      </button>
+                                                                    )}
                                                                     <button
-                                                                      className="btn btn-xs btn-danger"
+                                                                      className="btn btn-xs btn-primary"
                                                                       type="button"
                                                                       onClick={() =>
-                                                                        removeAddOnService(
+                                                                        addAddOnService(
                                                                           parentIndex,
                                                                           addOnIndex
                                                                         )
                                                                       }
                                                                     >
                                                                       <i
-                                                                        className="fa fa-minus"
+                                                                        className="fa fa-plus"
                                                                         aria-hidden="true"
                                                                       />
                                                                     </button>
-                                                                  )}
-                                                                  &nbsp;
-                                                                  <button
-                                                                    className="btn btn-xs btn-primary"
-                                                                    type="button"
-                                                                    onClick={() =>
-                                                                      addAddOnService(
-                                                                        parentIndex,
-                                                                        addOnIndex
-                                                                      )
-                                                                    }
-                                                                  >
-                                                                    <i
-                                                                      className="fa fa-plus"
-                                                                      aria-hidden="true"
-                                                                    />
-                                                                  </button>
-                                                                </div>
-                                                              </React.Fragment>
-                                                            );
-                                                          }
-                                                        )}
-                                                      </div>
-                                                    )}
+                                                                  </div>
+                                                                </React.Fragment>
+                                                              );
+                                                            }
+                                                          )}
+                                                        </div>
+                                                      )}
+                                                    </div>
                                                   </React.Fragment>
                                                 );
                                               }

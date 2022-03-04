@@ -7,6 +7,9 @@ import PageHeader from "../../components/core/PageHeader";
 const ThirtyDaySanpshot = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("30 Day Snapshot");
+  const Title = {
+    title: title,
+  };
 
   // From Reducer
   const UI = useSelector((state: any) => state.UI);
@@ -36,7 +39,7 @@ const ThirtyDaySanpshot = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div id="dashboard" className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

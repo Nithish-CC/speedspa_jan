@@ -23,6 +23,10 @@ const Products = (props: any) => {
       url: "products/add-new",
     },
   ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
   const [params, setParams] = useState({
     text: "",
     brand: "",
@@ -215,7 +219,7 @@ const Products = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

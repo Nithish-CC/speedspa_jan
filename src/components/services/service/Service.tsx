@@ -24,6 +24,10 @@ const Services = (props: any) => {
       url: "services/add-new/",
     },
   ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
   const [modalPopup, setModalPopup] = useState({
     deleteModal: false,
     id: "",
@@ -132,7 +136,7 @@ const Services = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

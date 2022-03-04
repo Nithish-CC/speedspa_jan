@@ -18,6 +18,9 @@ import XLSX from "xlsx";
 const ClientReport = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Client Report");
+  const Title = {
+    title: title,
+  };
   const [orderBy, setOrderBy] = useState(false);
   const [field, setField] = useState("totalGrossServiceRevenue");
   const [params, setParams] = useState({
@@ -37,7 +40,7 @@ const ClientReport = (props: any) => {
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
   const report = useSelector((state: any) => state.report);
-  const clientReportFetch = report.reportClientReport;  
+  const clientReportFetch = report.reportClientReport;
 
   useEffect(() => {
     getAllClients();
@@ -408,7 +411,7 @@ const ClientReport = (props: any) => {
       {user.authenticated && !UI.loading && (
         <React.Fragment>
           <ModalWithGrid modalPopup={modalPopup} closeModal={closeModal} />
-          <PageHeader title={title} />
+          <PageHeader {...Title} />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">

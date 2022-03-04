@@ -12,16 +12,20 @@ import DeleteModal from "../../core/DeleteModal";
 const ServiceCategorys = (props: any) => {
   const [errors, setErrors] = useState({} as Error);
   const [title] = useState("Service Categories");
-  const [orderBy, setOrderBy] = useState(false);
-  const [field, setField] = useState("createdAt");
-  const [activePage, setActivePage] = useState(1);
-  const [perPage] = useState(10);
   const [buttons] = useState([
     {
       title: "Add Category",
       url: "/services/categories/add-new",
     },
   ]);
+  const Title = {
+    title: title,
+    buttons: buttons,
+  };
+  const [orderBy, setOrderBy] = useState(false);
+  const [field, setField] = useState("createdAt");
+  const [activePage, setActivePage] = useState(1);
+  const [perPage] = useState(10);
 
   const UI = useSelector((state: any) => state.UI);
   const user = useSelector((state: any) => state.user);
@@ -77,7 +81,7 @@ const ServiceCategorys = (props: any) => {
     <React.Fragment>
       {user.authenticated && !UI.loading && (
         <React.Fragment>
-          <PageHeader title={title} buttons={buttons} />
+          <PageHeader />
           <div className="row">
             <div className="col-lg-12">
               <div className="wrapper wrapper-content animated fadeInRight">
